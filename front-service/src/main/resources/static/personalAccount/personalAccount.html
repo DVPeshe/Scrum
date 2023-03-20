@@ -1,0 +1,33 @@
+<div>
+    <p></p>
+    <h3>Анкета пользователя</h3>
+    <p></p>
+    <form novalidate ng-submit="functionUpdateUser()">
+        <div class="form-floating input-group-sm">
+            <label for="userUsername">Имя пользователя</label>
+            <input style="width: 40%;" type="text" disabled="true" class="form-control" id="userUsername"
+                   placeholder="Имя пользователя" ng-model="upUser.username">
+        </div>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <label for="userEmail">Ваш email</label>
+            <input style="width: 40%;" type="text" class="form-control" id="userEmail" placeholder="email"
+                   ng-model="upUser.email">
+        </div>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <label for="userPass">Новый пароль</label>
+            <input style="width: 40%;" type="password" class="form-control" id="userPass"
+                   placeholder="Введите новый пароль" ng-model="upUser.password">
+        </div>
+        <p></p>
+        <div class="form-floating input-group-sm">
+            <label for="userOldPass">Tекущий пароль</label>
+            <input style="width: 40%;" type="password" class="form-control" id="userOldPass"
+                   placeholder="Введите текущий пароль" ng-model="upUser.confirmPassword"/>
+            <label for="userOldPass">*Для отправки формы введите ваш текущий пароль (обязательное поле)</label>
+        </div>
+        <p></p>
+        <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Править данные</button>
+    </form>
+</div>

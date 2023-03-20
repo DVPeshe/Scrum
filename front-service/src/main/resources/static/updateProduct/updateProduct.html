@@ -1,0 +1,30 @@
+<div>
+    <p></p>
+    <h3>Обновление продукта</h3>
+    <p></p>
+    <form novalidate ng-submit="functionUpdateProduct()">
+        <label for="productTitle">Название продукта</label>
+        <div class="form-floating input-group-sm">
+            <input style="width: 40%;" type="text" class="form-control" id="productTitle"
+                   placeholder="Название продукта" ng-model="upProduct.title">
+        </div>
+        <p></p>
+        <label for="productPrice">Цена продукта</label>
+        <div class="form-floating input-group-sm">
+            <input style="width: 40%;" type="text" class="form-control" id="productPrice"
+                   placeholder="Введите цену на продукт" ng-model="upProduct.price">
+        </div>
+        <p></p>
+        <label for="productCategory">Категория продукта</label>
+        <div class="form-floating input-group-sm">
+            <select id="productCategory" style="width: 40%;" class="form-control" ng-model="upProduct.categoryTitle"
+                    ng-options="t for t in categoryList">
+                <option value="">Выберете категорию продукта</option>
+            </select>
+        </div>
+        <p></p>
+        <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Обновить продукт</button>
+        <p></p>
+        <button class="btn btn-outline-info btn-sm" ng-click="back()">Назад</button>
+    </form>
+</div>

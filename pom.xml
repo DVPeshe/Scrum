@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>core-service</module>
+        <module>cart-service</module>
+        <module>api</module>
+		<module>front-service</module>
+		<module>auth-service</module>
+        <module>gateway-service</module>
+    </modules>
+
+	<groupId>ru.vinogradov.mst.market</groupId>
+	<artifactId>mst-service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>mst-service</name>
+	<description>MstMarket Project</description>
+</project>
