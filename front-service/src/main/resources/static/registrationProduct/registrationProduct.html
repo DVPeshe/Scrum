@@ -1,0 +1,31 @@
+<div>
+    <p></p>
+    <h3>Создание продукта</h3>
+    <p></p>
+    <form novalidate ng-submit="functionRegistrationProduct()">
+        <label for="productTitle">Название продукта</label>
+        <div class="form-floating input-group-sm">
+            <input style="width: 40%;" type="text" class="form-control" id="productTitle"
+                   placeholder="Введите название продукта" ng-model="regproduct.title">
+        </div>
+        <p></p>
+        <label for="productPrice">Цена продукта</label>
+        <div class="form-floating input-group-sm">
+            <input style="width: 40%;" type="text" class="form-control" id="productPrice"
+                   placeholder="Введите цену на продукт" ng-model="regproduct.price">
+        </div>
+        <p></p>
+        <label for="productPrice">Выберите категорию продукта</label>
+        <div class="form-floating input-group-sm">
+            <select style="width: 40%;" class="form-control" ng-model="regproduct.categoryTitle"
+                    ng-options="t for t in categoryList">
+                <option value="">Категория продукта</option>
+            </select>
+        </div>
+        <p></p>
+        <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Зарегистрировать продукт
+        </button>
+        <p></p>
+        <button class="btn btn-outline-info btn-sm" ng-click="back()">Назад</button>
+    </form>
+</div>

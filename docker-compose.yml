@@ -1,0 +1,78 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:10
+    domainname: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-U", "postgres" ]
+      interval: 5s
+      timeout: 1s
+      retries: 2
+
+  flyway:
+    image: boxfuse/flyway
+    command: -url=jdbc:postgresql://postgres:5432/postgres -schemas=public -user=postgres -password=postgres -connectRetries=30 -baselineOnMigrate="true" migrate
+    volumes:
+      - ./flyway:/flyway/sql
+    depends_on:
+      - postgres
+    ports:
+      - "7500:7500"
+
+  redis:
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "6379:6379"
+
+  front-service:
+    image: front-service
+    build:
+      context: front-service/
+    ports:
+      - "3000:3000"
+
+  gateway-service:
+    image: gateway-service
+    build:
+      context: gateway-service/
+    ports:
+      - "5555:5555"
+
+  auth-service:
+    image: auth-service
+    build:
+      context: auth-service/
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+    depends_on:
+      - postgres
+    ports:
+      - "8187:8187"
+
+  core-service:
+    image: core-service
+    build:
+      context: core-service/
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+    depends_on:
+      - postgres
+    ports:
+      - "8189:8189"
+
+  cart-service:
+    image: cart-service
+    build:
+      context: cart-service/
+    depends_on:
+      - redis
+    ports:
+      - "8190:8190"
