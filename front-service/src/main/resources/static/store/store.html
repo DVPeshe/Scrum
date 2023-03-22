@@ -38,7 +38,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="p in productsPage.content">
-            <td>{{p.title}}</td>
+            <td data-ng-click="showInfoById(p.id)">{{p.title}}</td>
             <td>{{p.price}}</td>
             <td>{{p.categoryTitle}}</td>
             <td>

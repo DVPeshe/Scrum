@@ -1,4 +1,4 @@
-angular.module('market').controller('storeController', function ($scope, $http, $localStorage, $rootScope) {
+angular.module('market').controller('storeController', function ($scope, $http, $localStorage, $rootScope,$location,$routeParams) {
     $scope.loadProducts = function (page = 1) {
         $http({
             url: 'http://localhost:5555/core/api/v1/products',
@@ -18,6 +18,10 @@ angular.module('market').controller('storeController', function ($scope, $http, 
             $scope.generatePagesList($scope.productsPage.totalPages);
         });
     };
+
+    $scope.showInfoById= function (id) {
+           $location.path('/productCard').search('id=' + id);
+    }
 
     $scope.addToCart = function (id) {
         $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.mstMarketGuestCartId + '/add/' + id)

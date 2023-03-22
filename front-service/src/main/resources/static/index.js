@@ -54,6 +54,10 @@
                 templateUrl: 'personalAccount/personalAccount.html',
                 controller: 'personalAccountController'
             })
+            .when('/productCard', {
+                 templateUrl: 'productCard/productCard.html',
+                 controller: 'productCardController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
