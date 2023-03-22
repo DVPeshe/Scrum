@@ -51,5 +51,9 @@ angular.module('market').controller('productsController', function ($scope, $htt
         $location.path('/admin')
     }
 
+    $scope.showInfoById= function (id) {
+         $location.path('/productCard').search('id=' + id);
+    }
+
     $scope.loadProducts();
 });
