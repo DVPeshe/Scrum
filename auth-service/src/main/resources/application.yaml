@@ -9,10 +9,10 @@ spring:
     username: postgres
     password: postgres
 
-    jpa:
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.PostgreSQLDialect
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 #  datasource:
 #    driver-class-name: org.h2.Driver
 #    url: jdbc:h2:mem:market-auth;MODE=PostgreSQL

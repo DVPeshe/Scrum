@@ -9,10 +9,10 @@ spring:
     username: postgres
     password: postgres
 
-    jpa:
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.PostgreSQLDialect
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 #  datasource:
 #    driver-class-name: org.h2.Driver
 #    url: jdbc:h2:mem:market-core;MODE=PostgreSQL
@@ -30,8 +30,8 @@ spring:
 #        web-allow-others: false
 integrations:
   cart-service:
-    url: http://cart-service:8190/market-cart/
-#    url: http://localhost:8190/market-cart/
+#    url: http://cart-service:8190/market-cart/
+    url: http://localhost:8190/market-cart/
     connect-timeout: 500
     read-timeout: 10000
     write-timeout: 5000
