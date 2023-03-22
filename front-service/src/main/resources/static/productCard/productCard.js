@@ -4,6 +4,7 @@ angular.module('market').controller('productCardController', function ($scope,$h
 
  $scope.productId = $routeParams.id;
 
+//TODO функция получает с бэка всю необходимую информацию о продукте по его id -> отобразить эту информацию в productCard.html
  $scope.getProductById = function () {
          $http.get(contextPath + '/products/'+ $scope.productId)
             .then(function success(response) {
