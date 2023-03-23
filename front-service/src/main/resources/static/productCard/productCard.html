@@ -1,13 +1,16 @@
-<!doctype html>
-<head>
-    <meta charset="utf-8">
-</head>
-<body>
-<div class="container" ng-controller="productCardController">
-    <p></p>
-    <h3>Карточка продукта</h3>
-    <h3> c id = {{productId}}</h3>
-    <p></p>
+<div>
+    <h1>{{productCard.title}}</h1>
+    <h2 class="text-danger">{{productCard.price}} <span style="font-size: 0.7em">руб</span></h2>
+    <h2>Описание</h2>
+    <p>{{productCard.description}}</p>
+    <div>
+        <button class="btn btn-primary" ng-click="addToCart(productCard.id)"
+                ng-show="suchAProductAlreadyExists(productCard.id)">
+            Добавить в корзину
+        </button>
+        <button class="btn btn-secondary" ng-click="addToCart(productCard.id)"
+                ng-show="!suchAProductAlreadyExists(productCard.id)">
+            Добавить в корзину
+        </button>
     </div>
-</body>
-</html>
+</div>
