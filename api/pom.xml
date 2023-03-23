@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <artifactId>api</artifactId>
-    <groupId>ru.vinogradov.mst.market</groupId>
+    <groupId>ru.agile.scrum.mst.market</groupId>
     <version>0.0.1-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
 
