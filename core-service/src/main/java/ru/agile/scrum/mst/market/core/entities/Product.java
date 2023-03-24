@@ -36,6 +36,9 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
