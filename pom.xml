@@ -11,6 +11,7 @@
 		<module>front-service</module>
 		<module>auth-service</module>
         <module>gateway-service</module>
+		<module>favorite-service</module>
     </modules>
 
 	<groupId>ru.vinogradov.mst.market</groupId>

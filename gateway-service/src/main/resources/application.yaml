@@ -45,6 +45,16 @@ spring:
             - PrefixPath=/market-auth
             - JwtAuthFilter
             - OnlyAdminFilter
+        - id: favorite-service
+#          uri: http://favorite-service:8192
+          uri: http://localhost:8192
+          predicates:
+            - Path=/favorite/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/market-favorite
+            - JwtAuthFilter
+
 
 jwt:
   secret: h4f8093h4f983yhrt9834hr0934hf0hf493g493gf438rh438th34g34g
