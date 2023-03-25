@@ -48,7 +48,7 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>ru.vinogradov.mst.market</groupId>
+			<groupId>ru.agile.scrum.mst.market</groupId>
 			<artifactId>api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
