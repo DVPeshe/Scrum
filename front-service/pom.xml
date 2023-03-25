@@ -12,7 +12,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.vinogradov.mst.market</groupId>
+    <groupId>ru.agile.scrum.mst.market</groupId>
     <artifactId>front-service</artifactId>
 
     <properties>
