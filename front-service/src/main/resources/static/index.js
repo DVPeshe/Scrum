@@ -58,6 +58,10 @@
                  templateUrl: 'productCard/productCard.html',
                  controller: 'productCardController'
             })
+            .when('/favorite', {
+                templateUrl: 'favorite/favorite.html',
+                controller: 'favoriteController'
+            })
             .otherwise({
                 redirectTo: '/'
             });

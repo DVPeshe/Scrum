@@ -29,6 +29,12 @@ angular.module('market').controller('storeController', function ($scope, $http, 
                 $rootScope.currentCartUser = response.data;
             });
     }
+    $scope.addToFavorite = function (id) {
+        $http.get('http://localhost:5555/favorite/api/v1/favorite/' + $localStorage.mstMarketGuestCartId + '/add/' + id)
+            .then(function (response) {
+                $rootScope.currentFavoriteUser = response.data;
+            });
+    }
 
     $rootScope.suchAProductAlreadyExists = function (id) {
         if ($rootScope.currentCartUser) {

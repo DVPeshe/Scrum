@@ -1,0 +1,31 @@
+<div>
+    <p></p>
+    <h3>Избранное</h3>
+    <p></p>
+    <div ng-show="favorite.items.length > 0">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <td>Название</td>
+                <td>Цена</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="f in favorite.items">
+                <td data-ng-click="showInfoById(f.productId)">{{f.productTitle}}</td>
+                <td>{{f.price}}</td>
+                <td>
+                    <button class="btn btn-outline-warning btn-sm" ng-click="deleteFromFavorite(f.productId)">Удалить из
+                        избранного
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p></p>
+        <button type="button" class="btn btn-danger" ng-click="clearFavorite()">Очистить избранное</button>
+    </div>
+    <div ng-show="favorite.items.length == 0">
+        <p>В избранном ничего нет</p>
+    </div>
+</div>
