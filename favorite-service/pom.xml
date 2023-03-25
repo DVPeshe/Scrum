@@ -8,7 +8,7 @@
 		<version>2.6.6</version>
 		<relativePath/>
 	</parent>
-	<groupId>ru.vinogradov.mst.market</groupId>
+	<groupId>ru.agile.scrum.mst.market</groupId>
 	<artifactId>favorite-service</artifactId>
 
 	<name>favorite-service</name>
