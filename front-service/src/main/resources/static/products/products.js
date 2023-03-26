@@ -52,7 +52,8 @@ angular.module('market').controller('productsController', function ($scope, $htt
     }
 
     $scope.showInfoById= function (id) {
-         $location.path('/productCard').search('id=' + id);
+         const bov = 3;
+         $location.path('/productCard').search({id: id, flag: bov});
     }
 
     $scope.loadProducts();

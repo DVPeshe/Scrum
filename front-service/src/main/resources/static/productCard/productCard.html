@@ -3,7 +3,7 @@
     <h2 class="text-danger">{{productCard.price}} <span style="font-size: 0.7em">руб</span></h2>
     <h2>Описание</h2>
     <p>{{productCard.description}}</p>
-    <div>
+    <div ng-show="visibleAddCard()">
         <button class="btn btn-primary" ng-click="addToCart(productCard.id)"
                 ng-show="suchAProductAlreadyExists(productCard.id)">
             Добавить в корзину

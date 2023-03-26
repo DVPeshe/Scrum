@@ -24,7 +24,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="p in productsPage.content">
-                <td data-ng-click="showInfoById(p.id)">{{p.title}}</td>
+                <td><a id="link" data-ng-click="showInfoById(p.id)" href ng-click="">{{p.title}}</a></td>
                 <td>{{p.price}}</td>
                 <td>{{p.categoryTitle}}</td>
                 <td>
