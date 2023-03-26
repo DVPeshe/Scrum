@@ -28,4 +28,7 @@ public class ProductDto {
 
     @Schema(description = "Категория продукта", required = true, example = "Еда")
     private String categoryTitle;
+
+    @Schema(description = "Описание продукта", required = true, example = "Еда вкусная")
+    private String description;
 }

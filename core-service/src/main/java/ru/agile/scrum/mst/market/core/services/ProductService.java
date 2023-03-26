@@ -46,6 +46,9 @@ public class ProductService {
                     .orElseThrow(() -> new ResourceNotFoundException("Категория не найдена"));
             product.setCategory(category);
         }
+        if (productDto.getDescription() != null) {
+            product.setDescription(productDto.getDescription());
+        }
         productRepository.save(product);
     }
 
@@ -61,6 +64,7 @@ public class ProductService {
         product.setCategory(categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(
                 () -> new ResourceNotFoundException("Категория с названием: " +
                         productDto.getCategoryTitle() + " не найдена")));
+        product.setDescription((productDto.getDescription()));
         if (productRepository.existsByTitle(productDto.getTitle())) {
             throw new TheProductExistsException("Такой продукт уже существует");
         }
