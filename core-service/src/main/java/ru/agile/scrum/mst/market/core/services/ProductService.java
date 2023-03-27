@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.agile.scrum.mst.market.api.ProductCardDto;
 import ru.agile.scrum.mst.market.api.ProductDto;
 import ru.agile.scrum.mst.market.core.entities.Category;
 import ru.agile.scrum.mst.market.core.entities.Product;
@@ -33,35 +34,39 @@ public class ProductService {
     }
 
     @Transactional
-    public void updateProduct(ProductDto productDto) {
-        Product product = productRepository.getById(productDto.getId());
-        if (productDto.getTitle() != null) {
-            product.setTitle(productDto.getTitle());
+    public void updateProduct(ProductCardDto productCardDto) {
+        Product product = productRepository.getById(productCardDto.getId());
+        if (productCardDto.getTitle() != null) {
+            product.setTitle(productCardDto.getTitle());
         }
-        if (productDto.getPrice() != null) {
-            product.setPrice(productDto.getPrice());
+        if (productCardDto.getPrice() != null) {
+            product.setPrice(productCardDto.getPrice());
         }
-        if (productDto.getCategoryTitle() != null) {
-            Category category = categoryService.findByTitle(productDto.getCategoryTitle())
+        if (productCardDto.getCategoryTitle() != null) {
+            Category category = categoryService.findByTitle(productCardDto.getCategoryTitle())
                     .orElseThrow(() -> new ResourceNotFoundException("Категория не найдена"));
             product.setCategory(category);
+        }
+        if (productCardDto.getDescription() != null) {
+            product.setDescription(productCardDto.getDescription());
         }
         productRepository.save(product);
     }
 
-    public Product createNewProduct(ProductDto productDto) {
-        if (productDto.getTitle() == null || productDto.getCategoryTitle() == null
-                || productDto.getPrice() == null) {
+    public Product createNewProduct(ProductCardDto productCardDto) {
+        if (productCardDto.getTitle() == null || productCardDto.getCategoryTitle() == null
+                || productCardDto.getPrice() == null) {
             throw new FieldsNotNullException("Все поля формы должны быть заполнены");
         }
         Product product = new Product();
-        product.setTitle(productDto.getTitle());
-        product.setPrice(productDto.getPrice());
+        product.setTitle(productCardDto.getTitle());
+        product.setPrice(productCardDto.getPrice());
         product.setVisible(true);
-        product.setCategory(categoryService.findByTitle(productDto.getCategoryTitle()).orElseThrow(
+        product.setCategory(categoryService.findByTitle(productCardDto.getCategoryTitle()).orElseThrow(
                 () -> new ResourceNotFoundException("Категория с названием: " +
-                        productDto.getCategoryTitle() + " не найдена")));
-        if (productRepository.existsByTitle(productDto.getTitle())) {
+                        productCardDto.getCategoryTitle() + " не найдена")));
+        product.setDescription((productCardDto.getDescription()));
+        if (productRepository.existsByTitle(productCardDto.getTitle())) {
             throw new TheProductExistsException("Такой продукт уже существует");
         }
         productRepository.save(product);

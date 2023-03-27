@@ -1,4 +1,4 @@
-angular.module('market').controller('storeController', function ($scope, $http, $localStorage, $rootScope) {
+angular.module('market').controller('storeController', function ($scope, $http, $localStorage, $rootScope, $location, $routeParams) {
     $scope.loadProducts = function (page = 1) {
         $http({
             url: 'http://localhost:5555/core/api/v1/products',
@@ -19,14 +19,24 @@ angular.module('market').controller('storeController', function ($scope, $http, 
         });
     };
 
-    $scope.addToCart = function (id) {
+    $scope.showInfoById = function (id) {
+        $location.path('/productCard').search('id=' + id);
+    }
+
+    $rootScope.addToCart = function (id) {
         $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.mstMarketGuestCartId + '/add/' + id)
             .then(function (response) {
                 $rootScope.currentCartUser = response.data;
             });
     }
+    $scope.addToFavorite = function (id) {
+        $http.get('http://localhost:5555/favorite/api/v1/favorite/' + $localStorage.mstMarketGuestCartId + '/add/' + id)
+            .then(function (response) {
+                $rootScope.currentFavoriteUser = response.data;
+            });
+    }
 
-    $scope.suchAProductAlreadyExists = function (id) {
+    $rootScope.suchAProductAlreadyExists = function (id) {
         if ($rootScope.currentCartUser) {
             for (let i = 0; i < $rootScope.currentCartUser.items.length; i++) {
                 let product = $rootScope.currentCartUser.items[i];

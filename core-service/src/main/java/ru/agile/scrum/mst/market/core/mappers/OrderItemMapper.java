@@ -9,7 +9,7 @@ public class OrderItemMapper {
 
     public OrderItemDto mapOrderItemToOrderItemDto(OrderItem orderItem) {
         return OrderItemDto.builder()
-                .productId(orderItem.getId())
+                .productId(orderItem.getProduct().getId())
                 .productTitle(orderItem.getProduct().getTitle())
                 .quantity(orderItem.getQuantity())
                 .pricePerProduct(orderItem.getPricePerProduct())

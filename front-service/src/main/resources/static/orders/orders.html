@@ -27,7 +27,7 @@
                         </thead>
                         <tbody>
                         <tr ng-repeat="i in o.items">
-                            <td>{{i.productTitle}}</td>
+                            <td><a id="link" data-ng-click="showInfoById(i.productId)" href ng-click="">{{i.productTitle}}</a></td>
                             <td>{{i.quantity}}</td>
                             <td>{{i.price}}</td>
                         </tr>

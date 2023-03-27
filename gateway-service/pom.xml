@@ -11,7 +11,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>ru.vinogradov.mst.market</groupId>
+    <groupId>ru.agile.scrum.mst.market</groupId>
     <artifactId>gateway-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>gateway-service</name>

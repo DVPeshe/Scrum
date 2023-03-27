@@ -14,8 +14,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfig {
     @Bean
     public JedisConnectionFactory jedisConnectionFactory() {
-        return new JedisConnectionFactory(new RedisStandaloneConfiguration("redis", 6379));
-        //return new JedisConnectionFactory(new RedisStandaloneConfiguration("localhost", 6379));
+//        return new JedisConnectionFactory(new RedisStandaloneConfiguration("redis", 6379));
+        return new JedisConnectionFactory(new RedisStandaloneConfiguration("localhost", 6379));
     }
 
     @Bean

@@ -11,9 +11,10 @@
 		<module>front-service</module>
 		<module>auth-service</module>
         <module>gateway-service</module>
+		<module>favorite-service</module>
     </modules>
 
-	<groupId>ru.vinogradov.mst.market</groupId>
+	<groupId>ru.agile.scrum.mst.market</groupId>
 	<artifactId>mst-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>mst-service</name>

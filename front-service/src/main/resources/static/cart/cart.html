@@ -13,7 +13,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="ci in cart.items">
-                <td>{{ci.productTitle}}</td>
+                <td><a id="link" data-ng-click="showInfoById(ci.productId)" href ng-click="">{{ci.productTitle}}</a></td>
                 <td>
                     <button style="width: 15%;" type="button" class="btn btn-outline-info btn-sm"
                             ng-click="decrementQuantity(ci.productId)">-

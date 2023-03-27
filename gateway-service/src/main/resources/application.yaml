@@ -17,8 +17,8 @@ spring:
             allowedHeaders: "*"
       routes:
         - id: core-service
-          uri: http://core-service:8189
-#          uri: http://localhost:8189
+#          uri: http://core-service:8189
+          uri: http://localhost:8189
           predicates:
             - Path=/core/**
           filters:
@@ -27,8 +27,8 @@ spring:
             - JwtAuthFilter
             - OnlyAdminFilter
         - id: cart-service
-          uri: http://cart-service:8190
-#          uri: http://localhost:8190
+#          uri: http://cart-service:8190
+          uri: http://localhost:8190
           predicates:
             - Path=/cart/**
           filters:
@@ -36,8 +36,8 @@ spring:
             - PrefixPath=/market-cart
             - JwtAuthFilter
         - id: auth-service
-          uri: http://auth-service:8187
-#          uri: http://localhost:8187
+#          uri: http://auth-service:8187
+          uri: http://localhost:8187
           predicates:
             - Path=/auth/**
           filters:
@@ -45,6 +45,16 @@ spring:
             - PrefixPath=/market-auth
             - JwtAuthFilter
             - OnlyAdminFilter
+        - id: favorite-service
+#          uri: http://favorite-service:8192
+          uri: http://localhost:8192
+          predicates:
+            - Path=/favorite/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/market-favorite
+            - JwtAuthFilter
+
 
 jwt:
   secret: h4f8093h4f983yhrt9834hr0934hf0hf493g493gf438rh438th34g34g
