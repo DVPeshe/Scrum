@@ -12,7 +12,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="f in favorite.items">
-                <td data-ng-click="showInfoById(f.productId)">{{f.productTitle}}</td>
+                <td><a id="link" data-ng-click="showInfoById(f.productId)" href ng-click="">{{f.productTitle}}</a></td>
                 <td>{{f.price}}</td>
                 <td>
                     <button class="btn btn-outline-warning btn-sm" ng-click="deleteFromFavorite(f.productId)">Удалить из
