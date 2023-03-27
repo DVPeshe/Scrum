@@ -3,9 +3,9 @@ package ru.agile.scrum.mst.market.favorite.utils;
 import lombok.Data;
 import ru.agile.scrum.mst.market.api.ProductDto;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 public class Favorite {
@@ -18,7 +18,7 @@ public class Favorite {
 
     public void add(ProductDto p) {
         for (FavoriteItem item : items) {
-            if (item.getProductId().equals(p.getId())) {
+            if (Objects.equals(item.getProductId(), p.getId())) {
                 return;
 
             }
@@ -32,7 +32,6 @@ public class Favorite {
         if (items.removeIf(p -> p.getProductId().equals(productId))) {
         }
     }
-
 
 
     public void clear() {
