@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.agile.scrum.mst.market.api.ProductCardDto;
-import ru.agile.scrum.mst.market.api.ProductDto;
 import ru.agile.scrum.mst.market.core.entities.Category;
 import ru.agile.scrum.mst.market.core.entities.Product;
 import ru.agile.scrum.mst.market.core.repositories.ProductRepository;

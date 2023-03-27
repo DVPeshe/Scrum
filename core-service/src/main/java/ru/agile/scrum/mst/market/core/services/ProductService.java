@@ -8,7 +8,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agile.scrum.mst.market.api.ProductCardDto;
-import ru.agile.scrum.mst.market.api.ProductDto;
 import ru.agile.scrum.mst.market.core.entities.Category;
 import ru.agile.scrum.mst.market.core.entities.Product;
 import ru.agile.scrum.mst.market.core.exceptions.FieldsNotNullException;

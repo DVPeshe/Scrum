@@ -18,7 +18,7 @@ public class FavoriteController {
     private final FavoriteMapper favoriteMapper;
     private final SelectorId selectorId;
 
-    @GetMapping("/generate_id")
+    @GetMapping("/new-uuid")
     public StringResponse generateGuestFavoriteId() {
         return new StringResponse(UUID.randomUUID().toString());
     }
