@@ -75,7 +75,7 @@ public class ProductController {
     }
 
     @GetMapping("/forAdmin/getProduct")
-    public Page<ProductDto> getProductForAdmin(
+    public Page<ProductCardDto> getProductForAdmin(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "page_size", defaultValue = "5") Integer pageSize,
             @RequestParam(name = "title_part", required = false) String titlePart
@@ -87,7 +87,7 @@ public class ProductController {
         if (titlePart != null) {
             spec = spec.and(ProductsSpecifications.titleLike(titlePart));
         }
-        return productService.findAll(page - 1, pageSize, spec).map(productMapper::mapProductToProductDto);
+        return productService.findAll(page - 1, pageSize, spec).map(productCardMapper::mapProductToProductCardDto);
     }
 
     @Operation(
@@ -118,16 +118,16 @@ public class ProductController {
     )
     @PostMapping("/forAdmin/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> createNewProducts(@RequestBody ProductDto productDto) {
-        productService.createNewProduct(productDto);
-        StringResponse stringResponse = new StringResponse(String.format("Продукт %s успешно создан", productDto.getTitle()));
+    public ResponseEntity<?> createNewProducts(@RequestBody ProductCardDto productCardDto) {
+        productService.createNewProduct(productCardDto);
+        StringResponse stringResponse = new StringResponse(String.format("Продукт %s успешно создан", productCardDto.getTitle()));
         return ResponseEntity.ok(stringResponse);
     }
 
     @PostMapping("/forAdmin/updateProduct")
-    public ResponseEntity<?> updateDataProduct(@RequestBody ProductDto productDto) {
-        productService.updateProduct(productDto);
-        StringResponse stringResponse = new StringResponse(String.format("Продукт %s успешно обновлен", productDto.getTitle()));
+    public ResponseEntity<?> updateDataProduct(@RequestBody ProductCardDto productCardDto) {
+        productService.updateProduct(productCardDto);
+        StringResponse stringResponse = new StringResponse(String.format("Продукт %s успешно обновлен", productCardDto.getTitle()));
         return ResponseEntity.ok(stringResponse);
     }
 

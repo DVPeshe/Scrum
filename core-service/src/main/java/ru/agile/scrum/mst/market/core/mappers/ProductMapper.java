@@ -14,7 +14,6 @@ public class ProductMapper {
                 .price(product.getPrice())
                 .visible(product.isVisible())
                 .categoryTitle(product.getCategory().getTitle())
-                .description(product.getDescription())
                 .build();
     }
 }
