@@ -1,5 +1,5 @@
 angular.module('market').controller('updateProductController', function ($scope, $http, $location, $localStorage) {
-    $scope.upProduct = {id: null, title: null, price: null, categoryTitle: null};
+    $scope.upProduct = {id: null, title: null, price: null, categoryTitle: null, description: null};
     const contextPath = 'http://localhost:5555/core/api/v1';
 
     $scope.functionUpdateProduct = function () {
@@ -29,6 +29,7 @@ angular.module('market').controller('updateProductController', function ($scope,
         $scope.upProduct.title = $localStorage.updateProductData.title;
         $scope.upProduct.price = $localStorage.updateProductData.price;
         $scope.upProduct.categoryTitle = $localStorage.updateProductData.categoryTitle;
+        $scope.upProduct.description = $localStorage.updateProductData.description;
     }
     $scope.getDataProduct();
 });

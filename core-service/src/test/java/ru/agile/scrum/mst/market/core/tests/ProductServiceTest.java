@@ -7,6 +7,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import ru.agile.scrum.mst.market.api.ProductCardDto;
 import ru.agile.scrum.mst.market.api.ProductDto;
 import ru.agile.scrum.mst.market.core.entities.Category;
 import ru.agile.scrum.mst.market.core.entities.Product;
@@ -30,7 +31,7 @@ public class ProductServiceTest {
 
     @Test
     public void createOrderTest() {
-        ProductDto productDto = ProductDto.builder()
+        ProductCardDto productCardDto = ProductCardDto.builder()
                 .price(new BigDecimal(20))
                 .title("Milk")
                 .categoryTitle("other")
@@ -43,9 +44,9 @@ public class ProductServiceTest {
                 .build();
 
         Mockito.doReturn(Optional.of(category)).when(categoryService).findByTitle("other");
-        Mockito.doReturn(false).when(productRepository).existsByTitle(productDto.getTitle());
+        Mockito.doReturn(false).when(productRepository).existsByTitle(productCardDto.getTitle());
 
-        Product product = productService.createNewProduct(productDto);
+        Product product = productService.createNewProduct(productCardDto);
         Assertions.assertEquals(product.getTitle(), "Milk");
         Mockito.verify(productRepository, Mockito.times(1)).save(ArgumentMatchers.any());
     }
