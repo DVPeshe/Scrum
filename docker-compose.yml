@@ -85,3 +85,9 @@ services:
       - redis
     ports:
       - "8192:8192"
+  email-service:
+    image: email-service
+    build:
+      context: email-service/
+    ports:
+      - "8193:8193"
