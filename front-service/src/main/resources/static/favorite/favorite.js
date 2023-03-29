@@ -25,10 +25,9 @@ angular.module('market').controller('favoriteController',
         }
 
 
-
-        $scope.showInfoById= function (id) {
-            $location.path('/productCard').search('id=' + id);
-        }
+        // $scope.showInfoById= function (id) {
+        //     $location.path('/productCard').search('id=' + id);
+        // }
 
         $scope.loadFavorite();
 
