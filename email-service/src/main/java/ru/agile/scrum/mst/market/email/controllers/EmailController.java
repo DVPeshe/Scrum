@@ -13,8 +13,8 @@ public class EmailController {
 
     @PostMapping
     public void sendEmail(@RequestParam String eAddress){
-        String testMessageSubject = "testMessageSubject";
-        String testMessage = "testMessage";
+        String testMessageSubject = "Приветствуем вас в нашем магазине!";
+        String testMessage = "Приятных покупок!";
         emailService.sendEmail(eAddress,testMessageSubject, testMessage);
     }
 
