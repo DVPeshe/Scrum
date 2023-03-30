@@ -54,7 +54,15 @@ spring:
             - StripPrefix=1
             - PrefixPath=/market-favorite
             - JwtAuthFilter
-
+        - id: email-service
+#          uri: http://email-service:8193
+          uri: http://localhost:8193
+          predicates:
+            - Path=/email/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/market-email
+            - JwtAuthFilter
 
 jwt:
   secret: h4f8093h4f983yhrt9834hr0934hf0hf493g493gf438rh438th34g34g
