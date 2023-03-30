@@ -23,11 +23,17 @@ angular.module('market').controller('favoriteController',
                     $scope.loadFavorite();
                 });
         }
+        $rootScope.addToCart = function (id) {
+            $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.mstMarketGuestCartId + '/add/' + id)
+                .then(function (response) {
+                    $rootScope.currentCartUser = response.data;
+                });
+        }
 
 
-        // $scope.showInfoById= function (id) {
-        //     $location.path('/productCard').search('id=' + id);
-        // }
+        $scope.showInfoById= function (id) {
+            $location.path('/productCard').search('id=' + id);
+        }
 
         $scope.loadFavorite();
 

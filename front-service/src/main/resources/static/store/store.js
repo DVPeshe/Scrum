@@ -45,6 +45,12 @@ angular.module('market').controller('storeController', function ($scope, $http, 
         }
         return true;
     }
+    $scope.deleteFromFavorite = function (id) {
+        $http.get('http://localhost:5555/favorite/api/v1/favorite/' + $localStorage.mstMarketGuestCartId + '/delete/' + id)
+            .then(function (response) {
+                $scope.loadFavorite();
+            });
+    }
 
     $rootScope.inFavorite = function (id) {
         if ($rootScope.currentFavoriteUser) {
@@ -76,6 +82,13 @@ angular.module('market').controller('storeController', function ($scope, $http, 
             $scope.categoryList = response.data
         });
     }
+    $scope.loadFavorite = function () {
+        $http.get('http://localhost:5555/favorite/api/v1/favorite/' + $localStorage.mstMarketGuestCartId)
+            .then(function (response) {
+                $scope.favorite = response.data;
+                $rootScope.currentFavoriteUser = response.data;
+            });
+    };
 
 
     $scope.loadCart();
