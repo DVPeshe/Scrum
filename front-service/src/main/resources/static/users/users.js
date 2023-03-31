@@ -1,5 +1,5 @@
 angular.module('market').controller('usersController', function ($scope, $http, $location, $rootScope, $localStorage) {
-    const contextPath = 'http://localhost:5555/auth/api/v1/users/forAdmin';
+    const contextPath = 'http://localhost:5555/auth/api/v1/users';
 
     $scope.loadUsers = function (page = 1) {
         $scope.lastClick = page;

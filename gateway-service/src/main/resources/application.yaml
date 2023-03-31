@@ -25,7 +25,6 @@ spring:
             - StripPrefix=1
             - PrefixPath=/market-core
             - JwtAuthFilter
-            - OnlyAdminFilter
         - id: cart-service
 #          uri: http://cart-service:8190
           uri: http://localhost:8190
@@ -44,7 +43,6 @@ spring:
             - StripPrefix=1
             - PrefixPath=/market-auth
             - JwtAuthFilter
-            - OnlyAdminFilter
         - id: favorite-service
 #          uri: http://favorite-service:8192
           uri: http://localhost:8192
