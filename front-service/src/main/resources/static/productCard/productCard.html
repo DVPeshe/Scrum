@@ -1,10 +1,13 @@
 <div>
     <h1>{{productCard.title}}</h1>
     <h2 class="text-danger">{{productCard.price}} <span style="font-size: 0.7em">руб</span></h2>
+    <h2>Количество в наличии</h2>
+    <h2 class="text-danger">{{productCard.quantity}}</h2>
     <h2>Описание</h2>
     <p>{{productCard.description}}</p>
     <div ng-show="visibleAddCard()">
         <button class="btn btn-primary" ng-click="addToCart(productCard.id)"
+                ng-if="productCard.quantity != 0"
                 ng-show="suchAProductAlreadyExists(productCard.id)">
             Добавить в корзину
         </button>

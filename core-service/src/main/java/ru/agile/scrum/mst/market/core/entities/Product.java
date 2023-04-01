@@ -36,6 +36,9 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @Column(name = "quantity")
+    private int quantity;
+
     @Column(name = "description")
     private String description;
 
