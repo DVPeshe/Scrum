@@ -21,10 +21,14 @@
 
 Вставка аватаров для личного кабинета:
 1. выполнить docker-compose.yml
-2. docker cp ./images/bob.jpg scrum-postgres-1:/var/lib/postgresql/data
-3. docker cp ./images/john.jpg scrum-postgres-1:/var/lib/postgresql/data
-4. docker cp ./images/artur.jpg scrum-postgres-1:/var/lib/postgresql/data
-5. перезапустить flyway
+2. 
+docker cp ./images/bob.jpg scrum-postgres-1:/var/lib/postgresql/data
+
+docker cp ./images/john.jpg scrum-postgres-1:/var/lib/postgresql/data
+
+docker cp ./images/artur.jpg scrum-postgres-1:/var/lib/postgresql/data
+
+3. перезапустить flyway
 
 Использованные технологии:
 
