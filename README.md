@@ -19,6 +19,17 @@
 4. sudo docker-compose up -d
 5. Откыть в браузере http://localhost:3000/market-front
 
+Вставка аватаров для личного кабинета:
+1. выполнить docker-compose.yml
+2. 
+docker cp ./images/bob.jpg scrum-postgres-1:/var/lib/postgresql/data
+
+docker cp ./images/john.jpg scrum-postgres-1:/var/lib/postgresql/data
+
+docker cp ./images/artur.jpg scrum-postgres-1:/var/lib/postgresql/data
+
+3. перезапустить flyway
+
 Использованные технологии:
 
 * Java
