@@ -28,4 +28,7 @@ public class ProductDto {
 
     @Schema(description = "Категория продукта", required = true, example = "Еда")
     private String categoryTitle;
+
+    @Schema(description = "Количество на складе", required = true, example = "12")
+    private Integer quantity;
 }

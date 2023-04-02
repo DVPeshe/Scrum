@@ -1,6 +1,6 @@
 angular.module('market').controller('registrationProductController', function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:5555/core/api/v1';
-    $scope.regproduct = {title: null, price: null, categoryTitle: null, description: null};
+    $scope.regproduct = {title: null, price: null, categoryTitle: null, quantity: null, description: null};
 
     $scope.functionRegistrationProduct = function () {
         $http.post(contextPath + '/products/create', $scope.regproduct).then(function success(response) {

@@ -27,10 +27,11 @@ angular.module('market').controller('productsController', function ($scope, $htt
         $location.path('/registrationProduct');
     }
 
-    $scope.updateProduct = function (id, title, price, categoryTitle, description) {
+    $scope.updateProduct = function (id, title, price, categoryTitle, quantity, description) {
         $localStorage.updateProductData = {
             id: id, title: title, price: price,
             categoryTitle: categoryTitle,
+            quantity: quantity,
             description: description
         };
         $location.path('/updateProduct');
