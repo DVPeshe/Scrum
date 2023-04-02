@@ -57,7 +57,6 @@ public class UserService implements UserDetailsService {
     }
 
     public void createUser(User user) {
-        user.setRoles(List.of(roleService.getUserRole()));
         userRepository.save(user);
     }
 
@@ -85,6 +84,7 @@ public class UserService implements UserDetailsService {
         user.setUsername(registrationUserDto.getUsername());
         user.setPassword(passwordEncoder.encode(registrationUserDto.getPassword()));
         user.setAccess(true);
+        user.setRoles(roleService.getAllRoles());
         createUser(user);
     }
 
@@ -92,16 +92,9 @@ public class UserService implements UserDetailsService {
         return jwtTokenUtil.generateToken(userDetails);
     }
 
-    public Collection<Role> getRolesUser(String username) {
-        return userRepository.findByUsername(username).get().getRoles();
-    }
-
     public boolean getAccessAdmin(String username) {
         Collection<Role> rolesUser = userRepository.findByUsername(username).get().getRoles();
-        for (Role role : rolesUser) {
-            if (role.getName().equals("ROLE_ADMIN")) return true;
-        }
-        return false;
+        return rolesUser.size() > 1;
     }
 
     public Page<User> findAll(int page, int pageSize, Specification<User> specification) {

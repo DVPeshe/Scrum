@@ -14,6 +14,7 @@ public class ProductCardMapper {
                 .price(product.getPrice())
                 .visible(product.isVisible())
                 .categoryTitle(product.getCategory().getTitle())
+                .quantity(product.getQuantity())
                 .description(product.getDescription())
                 .imageId(product.getImageId())
                 .build();

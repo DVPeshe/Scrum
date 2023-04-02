@@ -34,6 +34,7 @@ public class ProductServiceTest {
                 .price(new BigDecimal(20))
                 .title("Milk")
                 .categoryTitle("other")
+                .quantity(3)
                 .id(50L)
                 .build();
 

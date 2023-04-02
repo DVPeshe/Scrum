@@ -1,6 +1,6 @@
 angular.module('market').controller('roleController', function ($scope, $http, $rootScope, $location, $localStorage) {
-    const contextPathUsers = 'http://localhost:5555/auth/api/v1/users/forAdmin';
-    const contextPathRoles = 'http://localhost:5555/auth/api/v1/roles/forAdmin';
+    const contextPathUsers = 'http://localhost:5555/auth/api/v1/users';
+    const contextPathRoles = 'http://localhost:5555/auth/api/v1/roles';
 
     $scope.editRole = function () {
         console.log($rootScope.edituser);
