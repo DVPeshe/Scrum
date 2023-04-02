@@ -32,6 +32,14 @@ services:
     ports:
       - "6379:6379"
 
+  mongo:
+    image: 'mongo:latest'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+
   front-service:
     image: front-service
     build:
