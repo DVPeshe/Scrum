@@ -33,4 +33,7 @@ public class ProductCardDto {
             example = "Итальянская конфета «Рафаэлло» состоит из двух тонких вафельных полусфер," +
                     " внутри которых находятся кокосовый крем и жареный миндальный орех, а сверху покрыта белой кокосовой стружкой.")
     private String description;
+
+    @Schema(description = "ID изображения продукта", required = true, example = "6426a26deadb6c2a4764b738")
+    private String imageId;
 }

@@ -28,4 +28,7 @@ public class ProductDto {
 
     @Schema(description = "Категория продукта", required = true, example = "Еда")
     private String categoryTitle;
+
+    @Schema(description = "ID изображения продукта", required = true, example = "6426a26deadb6c2a4764b738")
+    private String imageId;
 }

@@ -15,6 +15,7 @@ public class ProductCardMapper {
                 .visible(product.isVisible())
                 .categoryTitle(product.getCategory().getTitle())
                 .description(product.getDescription())
+                .imageId(product.getImageId())
                 .build();
     }
 }
