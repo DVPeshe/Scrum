@@ -26,9 +26,7 @@ import ru.agile.scrum.mst.market.auth.mappers.UserMapper;
 import ru.agile.scrum.mst.market.auth.repositories.UserRepository;
 import ru.agile.scrum.mst.market.auth.utils.JwtTokenUtil;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -84,7 +82,7 @@ public class UserService implements UserDetailsService {
         user.setUsername(registrationUserDto.getUsername());
         user.setPassword(passwordEncoder.encode(registrationUserDto.getPassword()));
         user.setAccess(true);
-        user.setRoles(roleService.getAllRoles());
+        user.setRoles(List.of(roleService.getUserRole()));
         createUser(user);
     }
 
@@ -114,10 +112,6 @@ public class UserService implements UserDetailsService {
             }
         }
         throw new IncorrectRoleUserException("Такой роли не существует!");
-    }
-
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
     }
 
     @Transactional
