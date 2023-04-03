@@ -25,7 +25,6 @@ spring:
             - StripPrefix=1
             - PrefixPath=/market-core
             - JwtAuthFilter
-            - OnlyAdminFilter
         - id: cart-service
 #          uri: http://cart-service:8190
           uri: http://localhost:8190
@@ -44,7 +43,6 @@ spring:
             - StripPrefix=1
             - PrefixPath=/market-auth
             - JwtAuthFilter
-            - OnlyAdminFilter
         - id: favorite-service
 #          uri: http://favorite-service:8192
           uri: http://localhost:8192
@@ -54,7 +52,24 @@ spring:
             - StripPrefix=1
             - PrefixPath=/market-favorite
             - JwtAuthFilter
-
+        - id: email-service
+#          uri: http://email-service:8193
+          uri: http://localhost:8193
+          predicates:
+            - Path=/email/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/market-email
+            - JwtAuthFilter
+        - id: image-service
+#          uri: http://image-service:8194
+          uri: http://localhost:8194
+          predicates:
+            - Path=/image/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/market-image
+            - JwtAuthFilter
 
 jwt:
   secret: h4f8093h4f983yhrt9834hr0934hf0hf493g493gf438rh438th34g34g

@@ -36,6 +36,9 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @Column(name = "quantity")
+    private int quantity;
+
     @Column(name = "description")
     private String description;
 
@@ -46,4 +49,7 @@ public class Product {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Column(name = "image_id")
+    private String imageId;
 }

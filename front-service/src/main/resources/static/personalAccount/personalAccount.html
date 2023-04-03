@@ -3,31 +3,45 @@
     <h3>Анкета пользователя</h3>
     <p></p>
     <form novalidate ng-submit="functionUpdateUser()">
-        <div class="form-floating input-group-sm">
-            <label for="userUsername">Имя пользователя</label>
-            <input style="width: 40%;" type="text" disabled="true" class="form-control" id="userUsername"
-                   placeholder="Имя пользователя" ng-model="upUser.username">
+        <div class="row">
+            <div class="col">
+                <div class="form-floating input-group-sm">
+                    <label for="userUsername">Имя пользователя</label>
+                    <input style="width: 80%;" type="text" disabled="true" class="form-control" id="userUsername"
+                           placeholder="Имя пользователя" ng-model="upUser.username">
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sm">
+                    <label for="userEmail">Ваш email</label>
+                    <input style="width: 80%;" type="text" class="form-control" id="userEmail" placeholder="email"
+                           ng-model="upUser.email">
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sm">
+                    <label for="userPass">Новый пароль</label>
+                    <input style="width: 80%;" type="password" class="form-control" id="userPass"
+                           placeholder="Введите новый пароль" ng-model="upUser.password">
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sm">
+                    <label for="userOldPass">Tекущий пароль</label>
+                    <input style="width: 80%;" type="password" class="form-control" id="userOldPass"
+                           placeholder="Введите текущий пароль" ng-model="upUser.confirmPassword"/>
+                    <label for="userOldPass">*Для отправки формы введите ваш текущий пароль (обязательное поле)</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="media">
+                    <img id="image" src="" class="mr-3" style="width: 118px; height: auto">
+                </div>
+                <label for="image_uploads" class="btn btn-outline-warning btn-sm">Выбрать аватар</label>
+                <input type="file" id="image_uploads" name="image_uploads" style="opacity: 0"
+                       accept="image/apng, image/bmp, image/gif, image/jpeg, image/pjpeg, image/png,
+                image/svg+xml, image/tiff, image/webp, image/x-icon">
+            </div>
         </div>
         <p></p>
-        <div class="form-floating input-group-sm">
-            <label for="userEmail">Ваш email</label>
-            <input style="width: 40%;" type="text" class="form-control" id="userEmail" placeholder="email"
-                   ng-model="upUser.email">
-        </div>
+        <button class="btn btn-outline-warning btn-sm" type="submit">Править данные</button>
         <p></p>
-        <div class="form-floating input-group-sm">
-            <label for="userPass">Новый пароль</label>
-            <input style="width: 40%;" type="password" class="form-control" id="userPass"
-                   placeholder="Введите новый пароль" ng-model="upUser.password">
-        </div>
-        <p></p>
-        <div class="form-floating input-group-sm">
-            <label for="userOldPass">Tекущий пароль</label>
-            <input style="width: 40%;" type="password" class="form-control" id="userOldPass"
-                   placeholder="Введите текущий пароль" ng-model="upUser.confirmPassword"/>
-            <label for="userOldPass">*Для отправки формы введите ваш текущий пароль (обязательное поле)</label>
-        </div>
-        <p></p>
-        <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Править данные</button>
     </form>
 </div>

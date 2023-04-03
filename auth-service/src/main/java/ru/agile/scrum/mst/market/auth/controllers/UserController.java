@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.agile.scrum.mst.market.api.RegistrationUserDto;
 import ru.agile.scrum.mst.market.api.StringResponse;
@@ -20,7 +21,8 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
 
-    @GetMapping("/forAdmin/listUsers")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping("/listUsers")
     public Page<UserDto> getAllUsers(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "page_size", defaultValue = "5") Integer pageSize,
@@ -36,14 +38,16 @@ public class UserController {
         return userService.findAll(page - 1, pageSize, spec).map(userMapper::mapUserToUserDto);
     }
 
-    @PostMapping("/forAdmin/roleEdit")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping("/roleEdit")
     public ResponseEntity<?> roleEdit(@RequestBody UserDto userDto) {
         userService.roleEdit(userDto);
         StringResponse stringResponse = new StringResponse("Права пользователя изменены");
         return ResponseEntity.ok(stringResponse);
     }
 
-    @PostMapping("/forAdmin/banUser/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PostMapping("/banUser/{id}")
     public void banUser(@PathVariable Long id, @RequestParam(name = "access") Boolean access) {
         userService.updateAccessUser(id, access);
     }

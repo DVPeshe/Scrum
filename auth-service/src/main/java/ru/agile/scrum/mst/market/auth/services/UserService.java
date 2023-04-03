@@ -26,9 +26,7 @@ import ru.agile.scrum.mst.market.auth.mappers.UserMapper;
 import ru.agile.scrum.mst.market.auth.repositories.UserRepository;
 import ru.agile.scrum.mst.market.auth.utils.JwtTokenUtil;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,7 +55,6 @@ public class UserService implements UserDetailsService {
     }
 
     public void createUser(User user) {
-        user.setRoles(List.of(roleService.getUserRole()));
         userRepository.save(user);
     }
 
@@ -85,6 +82,7 @@ public class UserService implements UserDetailsService {
         user.setUsername(registrationUserDto.getUsername());
         user.setPassword(passwordEncoder.encode(registrationUserDto.getPassword()));
         user.setAccess(true);
+        user.setRoles(List.of(roleService.getUserRole()));
         createUser(user);
     }
 
@@ -92,16 +90,9 @@ public class UserService implements UserDetailsService {
         return jwtTokenUtil.generateToken(userDetails);
     }
 
-    public Collection<Role> getRolesUser(String username) {
-        return userRepository.findByUsername(username).get().getRoles();
-    }
-
     public boolean getAccessAdmin(String username) {
         Collection<Role> rolesUser = userRepository.findByUsername(username).get().getRoles();
-        for (Role role : rolesUser) {
-            if (role.getName().equals("ROLE_ADMIN")) return true;
-        }
-        return false;
+        return rolesUser.size() > 1;
     }
 
     public Page<User> findAll(int page, int pageSize, Specification<User> specification) {
@@ -121,10 +112,6 @@ public class UserService implements UserDetailsService {
             }
         }
         throw new IncorrectRoleUserException("Такой роли не существует!");
-    }
-
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
     }
 
     @Transactional

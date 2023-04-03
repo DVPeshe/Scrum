@@ -29,8 +29,14 @@ public class ProductCardDto {
     @Schema(description = "Категория продукта", required = true, example = "Еда")
     private String categoryTitle;
 
+    @Schema(description = "Количество на складе", required = true, example = "12")
+    private Integer quantity;
+
     @Schema(description = "Описание продукта", required = true,
             example = "Итальянская конфета «Рафаэлло» состоит из двух тонких вафельных полусфер," +
                     " внутри которых находятся кокосовый крем и жареный миндальный орех, а сверху покрыта белой кокосовой стружкой.")
     private String description;
+
+    @Schema(description = "ID изображения продукта", required = true, example = "6426a26deadb6c2a4764b738")
+    private String imageId;
 }

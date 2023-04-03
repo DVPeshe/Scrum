@@ -1,0 +1,13 @@
+server:
+  port: 8194
+  servlet:
+    context-path: /market-image
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      authentication-database: admin
+      username: root
+      password: root
+      database: images

@@ -8,7 +8,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agile.scrum.mst.market.api.ProductCardDto;
-import ru.agile.scrum.mst.market.api.ProductDto;
 import ru.agile.scrum.mst.market.core.entities.Category;
 import ru.agile.scrum.mst.market.core.entities.Product;
 import ru.agile.scrum.mst.market.core.exceptions.FieldsNotNullException;
@@ -47,6 +46,9 @@ public class ProductService {
                     .orElseThrow(() -> new ResourceNotFoundException("Категория не найдена"));
             product.setCategory(category);
         }
+        if (productCardDto.getQuantity() != null) {
+            product.setQuantity(productCardDto.getQuantity());
+        }
         if (productCardDto.getDescription() != null) {
             product.setDescription(productCardDto.getDescription());
         }
@@ -65,6 +67,7 @@ public class ProductService {
         product.setCategory(categoryService.findByTitle(productCardDto.getCategoryTitle()).orElseThrow(
                 () -> new ResourceNotFoundException("Категория с названием: " +
                         productCardDto.getCategoryTitle() + " не найдена")));
+        product.setQuantity(productCardDto.getQuantity());
         product.setDescription((productCardDto.getDescription()));
         if (productRepository.existsByTitle(productCardDto.getTitle())) {
             throw new TheProductExistsException("Такой продукт уже существует");
