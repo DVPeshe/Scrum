@@ -49,4 +49,7 @@ public class Product {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Column(name = "image_id")
+    private String imageId;
 }

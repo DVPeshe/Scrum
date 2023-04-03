@@ -13,6 +13,7 @@
         <module>gateway-service</module>
 		<module>favorite-service</module>
         <module>email-service</module>
+        <module>image-service</module>
     </modules>
 
 	<groupId>ru.agile.scrum.mst.market</groupId>

@@ -32,6 +32,14 @@ services:
     ports:
       - "6379:6379"
 
+  mongo:
+    image: 'mongo:latest'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+
   front-service:
     image: front-service
     build:
@@ -85,9 +93,17 @@ services:
       - redis
     ports:
       - "8192:8192"
+
   email-service:
     image: email-service
     build:
       context: email-service/
     ports:
       - "8193:8193"
+
+  image-service:
+    image: image-service
+    build:
+      context: image-service/
+    ports:
+      - "8194:8194"

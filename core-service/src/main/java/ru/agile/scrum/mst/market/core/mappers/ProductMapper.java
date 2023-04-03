@@ -15,6 +15,7 @@ public class ProductMapper {
                 .visible(product.isVisible())
                 .categoryTitle(product.getCategory().getTitle())
                 .quantity(product.getQuantity())
+                .imageId(product.getImageId())
                 .build();
     }
 }
