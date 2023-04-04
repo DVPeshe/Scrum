@@ -18,5 +18,16 @@ public class EmailController {
         emailService.sendEmail(eAddress,testMessageSubject, testMessage);
     }
 
+    @PostMapping("/subscribeBackToStock")
+    public void subscribeToBackToStock(@RequestParam(name = "productId")int productId, @RequestParam(name = "email") String eAddress){
+        emailService.subscribeToBackToStock(productId,eAddress);
+    }
+
+    @PostMapping("/sendEmailBackToStock")
+    public void sendEmailBackToStock(@RequestParam(name = "productId") int productId){
+        emailService.sendBackToStock(productId);
+    }
+
+
 
 }
