@@ -13,7 +13,7 @@
     <groupId>ru.agile.scrum.mst.market</groupId>
     <artifactId>image-service</artifactId>
     <name>image-service</name>
-    <version>0.0.1-SNAPSHOT</version>
+
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
