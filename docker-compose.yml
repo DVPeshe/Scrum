@@ -94,6 +94,15 @@ services:
     ports:
       - "8192:8192"
 
+  comment-service:
+    image: favorite-service
+    build:
+      context: favorite-service/
+    depends_on:
+      - postgres
+    ports:
+      - "8192:8192"
+
   email-service:
     image: email-service
     build:
