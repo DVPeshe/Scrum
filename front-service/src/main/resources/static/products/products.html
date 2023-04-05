@@ -36,6 +36,12 @@
                     <button class="btn btn-outline-primary btn-sm" ng-click="editVisibleProduct(p.id, true)"
                             ng-show="!p.visible">Вернуть в магазин
                     </button>
+
+                </td>
+                <td>
+                    <button class="btn btn-outline-primary btn-sm"
+                            ng-click="sendEmails(p.id)">Оповестить о поступлении
+                    </button>
                 </td>
                 <td>
                     <button class="btn btn-outline-success btn-sm"

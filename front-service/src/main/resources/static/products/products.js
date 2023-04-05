@@ -58,5 +58,12 @@ angular.module('market').controller('productsController', function ($scope, $htt
          $location.path('/productCard').search({id: id, flag: bov});
     }
 
+
+    $scope.sendEmails = function (id) {
+         $http.get('http://localhost:5555/email/api/v1/emails/sendEmailBackToStock/'+id).then(function success(response) {
+             alert(response.data.value);
+         });
+     }
+
     $scope.loadProducts();
 });
