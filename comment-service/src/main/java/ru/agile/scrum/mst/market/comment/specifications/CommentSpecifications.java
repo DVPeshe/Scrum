@@ -3,7 +3,6 @@ package ru.agile.scrum.mst.market.comment.specifications;
 import org.springframework.data.jpa.domain.Specification;
 import ru.agile.scrum.mst.market.comment.entity.Comment;
 
-import java.math.BigDecimal;
 
 
 public class CommentSpecifications {
@@ -14,7 +13,7 @@ public class CommentSpecifications {
 
     }
 
-    public static Specification<Comment> productIdEquals(Long productId) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("product"), productId);
+    public static Specification<Comment> productTitleEquals(String product) {
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("product"), product);
     }
 }

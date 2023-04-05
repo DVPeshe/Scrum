@@ -14,14 +14,3 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-integrations:
-  product-service:
-    url: http://localhost:8189/market-core/
-    connect-timeout: 500
-    read-timeout: 10000
-    write-timeout: 5000
-  auth-service:
-    url: http://localhost:8187/market-auth/
-    connect-timeout: 500
-    read-timeout: 10000
-    write-timeout: 5000

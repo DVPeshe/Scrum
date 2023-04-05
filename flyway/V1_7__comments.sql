@@ -1,24 +1,24 @@
 create table comments
 (
     id          bigserial primary key,
-    user_id     bigint references users (id)    not null,
-    product_id  bigint references products (id) not null,
+    username    varchar(255)                    not null,
+    product     varchar(255)                    not null,
     description text                            not null,
     visible     boolean                         not null,
     created_at  timestamp default current_timestamp,
     updated_at  timestamp default current_timestamp
 );
 
-insert into comments (user_id, product_id, description, visible)
-values  (1, 12, 'очень крутой товар1!', true),
-        (2, 12, 'очень крутой товар2!', true),
-        (3, 12, 'очень крутой товар3!', true),
-        (5, 12, 'очень крутой товар4!', true),
-        (1, 18, 'очень крутой товар5!', true),
-        (5, 18, 'очень крутой товар6!', true),
-        (4, 13, 'очень крутой товар7!', true),
-        (1, 13, 'очень крутой товар8!', true),
-        (2, 13, 'очень крутой товар9!', true),
-        (1, 5, 'очень крутой товар10!', true),
-        (3, 5, 'очень крутой товар11!', true),
-        (2, 5, 'очень крутой товар12!', true);
+insert into comments (username, product, description, visible)
+values  ('bob', 'Coca-Cola', 'очень крутой товар1!', true),
+        ('john', 'Coca-Cola', 'очень крутой товар2!', true),
+        ('artur', 'Coca-Cola', 'очень крутой товар3!', true),
+        ('max', 'Coca-Cola', 'очень крутой товар4!', true),
+        ('bob', 'Cтиральный порошок', 'очень крутой товар5!', true),
+        ('max', 'Cтиральный порошок', 'очень крутой товар6!', true),
+        ('ethan', 'Sprite', 'очень крутой товар7!', true),
+        ('bob', 'Sprite', 'очень крутой товар8!', true),
+        ('john', 'Sprite', 'очень крутой товар9!', true),
+        ('bob', 'Бублики', 'очень крутой товар10!', true),
+        ('artur', 'Бублики', 'очень крутой товар11!', true),
+        ('john', 'Бублики', 'очень крутой товар12!', true);
