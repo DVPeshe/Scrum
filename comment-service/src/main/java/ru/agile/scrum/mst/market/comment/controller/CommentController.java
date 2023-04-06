@@ -5,10 +5,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.agile.scrum.mst.market.api.CommentDto;
+import ru.agile.scrum.mst.market.api.StringResponse;
 import ru.agile.scrum.mst.market.comment.entity.Comment;
-import ru.agile.scrum.mst.market.comment.exception.ResourceNotFoundException;
 import ru.agile.scrum.mst.market.comment.mappers.CommentMapper;
 import ru.agile.scrum.mst.market.comment.service.CommentService;
 import ru.agile.scrum.mst.market.comment.specifications.CommentSpecifications;
@@ -26,14 +28,14 @@ public class CommentController {
     public Page<CommentDto> getAllComments(
             @RequestParam(name = "p", defaultValue = "1") @Parameter(description = "Номер страницы", required = true) Integer page,
             @RequestParam(name = "page_size", defaultValue = "10") @Parameter(description = "Номер страницы", required = false) Integer pageSize,
-            @RequestParam(name = "product_id") @Parameter(description = "ID продукта", required = true) Long productId
+            @RequestParam(name = "product") @Parameter(description = "ID продукта", required = true) String product
     ) {
         if (page < 1) {
             page = 1;
         }
         Specification<Comment> spec = Specification.where(null);
-        if (productId != null) {
-            spec = spec.and(CommentSpecifications.productIdEquals(productId))
+        if (product != null) {
+            spec = spec.and(CommentSpecifications.productTitleEquals(product))
                     .and(CommentSpecifications.visibleLike());
         } else {
             spec = spec.and(CommentSpecifications.visibleLike());
@@ -43,9 +45,13 @@ public class CommentController {
         return commentService.findAll(page - 1, pageSize, spec).map(commentMapper::mapCommentToCommentDto);
     }
 
-    @GetMapping("/{id}")
-    public CommentDto getProductById(@PathVariable @Parameter(description = "Идентификатор продукта", required = true) Long id) {
-        return commentMapper.mapCommentToCommentDto(commentService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Продукт с id: " + id + " не найден")));
+    @PostMapping("/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<?> createOrUpdateComment(@RequestBody CommentDto commentDto) {
+        commentService.createComment(commentDto);
+        StringResponse stringResponse = new StringResponse("Отзыв добавен");
+        return ResponseEntity.ok(stringResponse);
     }
+
 
 }

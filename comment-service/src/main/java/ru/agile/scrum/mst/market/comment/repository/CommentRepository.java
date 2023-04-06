@@ -8,5 +8,6 @@ import ru.agile.scrum.mst.market.comment.entity.Comment;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long>, JpaSpecificationExecutor<Comment> {
-    boolean existsById(Long id);
+    boolean existsByUsernameAndProduct(String username, String product);
+    Comment getCommentByUsernameAndProduct(String username, String product);
 }

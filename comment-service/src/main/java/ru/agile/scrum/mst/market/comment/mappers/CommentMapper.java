@@ -9,14 +9,11 @@ import ru.agile.scrum.mst.market.comment.entity.Comment;
 @RequiredArgsConstructor
 public class CommentMapper {
 
-    private final UserMapper userMapper;
-    private final ProductMapper productMapper;
-
     public CommentDto mapCommentToCommentDto(Comment comment) {
         return CommentDto.builder()
                 .id(comment.getId())
-                .user(userMapper.mapUserToUserCommentDto(comment.getUser()))
-                .product(productMapper.mapProductToProductCommentDto(comment.getProduct()))
+                .user(comment.getUsername())
+                .product(comment.getProduct())
                 .description(comment.getDescription())
                 .build();
     }
