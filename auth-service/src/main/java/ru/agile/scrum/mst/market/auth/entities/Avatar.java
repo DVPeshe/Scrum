@@ -1,6 +1,9 @@
 package ru.agile.scrum.mst.market.auth.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -9,18 +12,22 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Table(name = "roles")
-public class Role {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "avatars")
+public class Avatar {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "avatar")
+    private byte[] avatar;
 
-    @Column(name = "title")
-    private String title;
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private User user;
 
     @CreationTimestamp
     @Column(name = "created_at")

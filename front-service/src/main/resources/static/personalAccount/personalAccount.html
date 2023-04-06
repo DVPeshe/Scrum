@@ -6,28 +6,44 @@
         <div class="row">
             <div class="col">
                 <div class="form-floating input-group-sm">
-                    <label for="userUsername">Имя пользователя</label>
-                    <input style="width: 80%;" type="text" disabled="true" class="form-control" id="userUsername"
+                    <label for="userFullName" class="font-weight-bold">Ваше имя</label>
+                    <input style="width: 80%;" type="text" class="form-control" id="userFullName"
+                           placeholder="Ф.И.О." ng-model="upUser.fullName">
+                </div>
+                <p></p>
+                <div class="form-floating input-group-sm">
+                    <label for="userUsername" class="text-info font-weight-bold">Имя пользователя</label>
+                    <input style="width: 80%;" type="text" disabled="true"
+                           class="form-control text-white bg-info"
+                           id="userUsername"
                            placeholder="Имя пользователя" ng-model="upUser.username">
                 </div>
                 <p></p>
                 <div class="form-floating input-group-sm">
-                    <label for="userEmail">Ваш email</label>
-                    <input style="width: 80%;" type="text" class="form-control" id="userEmail" placeholder="email"
+                    <label class="text-info font-weight-bold">Кем являетесь в магазине</label>
+                    <ul class="list-group" style="width: 80%;">
+                        <li class="list-group-item list-group-item-info" ng-repeat="role in userRoles">{{role}}</li>
+                    </ul>
+                </div>
+                <div class="form-floating input-group-sm">
+                    <label for="userEmail" class="font-weight-bold">Ваш email</label>
+                    <input style="width: 80%;" type="text" class="form-control" id="userEmail"
+                           placeholder="email"
                            ng-model="upUser.email">
                 </div>
                 <p></p>
                 <div class="form-floating input-group-sm">
-                    <label for="userPass">Новый пароль</label>
+                    <label for="userPass" class="font-weight-bold text-warning">Новый пароль</label>
                     <input style="width: 80%;" type="password" class="form-control" id="userPass"
                            placeholder="Введите новый пароль" ng-model="upUser.password">
                 </div>
                 <p></p>
                 <div class="form-floating input-group-sm">
-                    <label for="userOldPass">Tекущий пароль</label>
+                    <label for="userOldPass" class="font-weight-bold">Tекущий пароль</label>
                     <input style="width: 80%;" type="password" class="form-control" id="userOldPass"
                            placeholder="Введите текущий пароль" ng-model="upUser.confirmPassword"/>
-                    <label for="userOldPass">*Для отправки формы введите ваш текущий пароль (обязательное поле)</label>
+                    <label for="userOldPass" class="text-info">*Для отправки формы введите ваш текущий пароль
+                        (обязательное поле)</label>
                 </div>
             </div>
             <div class="col">

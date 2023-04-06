@@ -18,7 +18,13 @@ public class RoleController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping
-    public List<String> getAllRolesUser() {
+    public List<String> getAllUserRoles() {
         return roleService.getAllRolesStr();
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping("/titles")
+    public List<String> getAllRoleTitles() {
+        return roleService.getAllRoleTitles();
     }
 }

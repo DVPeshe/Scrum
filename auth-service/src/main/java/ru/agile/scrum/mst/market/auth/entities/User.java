@@ -29,6 +29,13 @@ public class User {
     @Column(name = "access")
     private Boolean access;
 
+    @Column(name = "full_name")
+    private String fullName;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Avatar avatar;
+
     @ManyToMany
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
