@@ -3,6 +3,12 @@
     <h3>Регистрация</h3>
     <p></p>
     <form novalidate ng-submit="functionRegistration()">
+        <label for="userFullName">Имя пользователя</label>
+        <div class="form-floating input-group-sm">
+            <input style="width: 40%;" type="text" class="form-control" id="userFullName"
+                   placeholder="Введите имя пользователя" ng-model="reguser.fullName">
+        </div>
+        <p></p>
         <label for="userUsername">Имя пользователя</label>
         <div class="form-floating input-group-sm">
             <input style="width: 40%;" type="text" class="form-control" id="userUsername"
