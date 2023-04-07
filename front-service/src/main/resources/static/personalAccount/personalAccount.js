@@ -1,7 +1,9 @@
 angular.module('market').controller('personalAccountController', function ($scope, $http, $location, $localStorage) {
-    const contextPath = 'http://localhost:5555/auth/api/v1/users';
+    const userContextPath = 'http://localhost:5555/auth/api/v1/users';
+    const avatarContextPath = 'http://localhost:5555/auth/api/v1/avatars';
     const input = document.querySelector('#image_uploads');
-    const image = document.querySelector('#image');
+    const element = document.querySelector('#image');
+    const reader = new FileReader();
 
     const fileTypes = [
         "image/apng",
@@ -15,26 +17,72 @@ angular.module('market').controller('personalAccountController', function ($scop
         "image/webp",
         "image/x-icon"
     ];
-    $scope.upUser = {username: null, password: null, confirmPassword: null, email: null};
-    $scope.avatar = null;
+    $scope.upUser = {username: null, password: null, confirmPassword: null, email: null, fullName: null};
+    $scope.userAvatar = {username: null, avatar: null};
+    $scope.userRoles = [];
 
     $scope.functionUpdateUser = function () {
-        $http.post(contextPath + '/updateUser', $scope.upUser).then(function success(response) {
+        $http.post(userContextPath + '/updateUser', $scope.upUser).then(function success(response) {
             alert(response.data.value);
+            $scope.upUser.password = null;
+            $scope.upUser.confirmPassword = null;
+            $scope.getUserData();
+            $scope.getUserAvatar();
         }, function error(response) {
             let me = response;
             console.log(me);
             alert(me.data.message);
+            $scope.upUser.password = null;
+            $scope.upUser.confirmPassword = null;
+            $scope.getUserData();
+            $scope.getUserAvatar();
         });
     }
 
-    $scope.getDataUser = function () {
-        let username = $localStorage.mstMarketUser.username
-        $scope.upUser.username = username;
-        $http.get(contextPath + '/email/' + username).then(function success(response) {
+    $scope.updateAvatar = function (file) {
+        reader.readAsDataURL(file);
+    }
+
+    reader.onload = function () {
+        const base64 = reader.result.split(',')[1];
+        $scope.userAvatar.username = $localStorage.mstMarketUser.username;
+        $scope.userAvatar.avatar = base64;
+        $http.post(avatarContextPath, $scope.userAvatar).then(function success(response) {
+            $scope.getUserAvatar();
+        }, function error(response) {
+            $scope.getUserAvatar();
+        });
+    }
+
+    $scope.getUserData = function () {
+        $http.get(userContextPath + '/personal-data').then(function success(response) {
             console.log(response.data)
-            if (response.data.value) {
-                $scope.upUser.email = response.data.value;
+            if (response.data) {
+                $scope.upUser.username = response.data.username;
+                $scope.upUser.email = response.data.email;
+                $scope.upUser.fullName = response.data.fullName;
+            }
+        });
+        $http.get(userContextPath + '/role-titles').then(function success(response) {
+            console.log(response.data)
+            if (response.data) {
+                $scope.userRoles = response.data;
+            }
+        });
+    }
+
+    $scope.getUserAvatar = function () {
+        $http.get(avatarContextPath).then(function success(response) {
+            console.log(response.data)
+            if (response.data) {
+                const avatar = response.data.avatar;
+                const binaryString = window.atob(avatar);
+                const bytes = new Uint8Array(binaryString.length);
+                const arrayBuffer = bytes.map((byte, i) => binaryString.charCodeAt(i));
+                if (element.src) {
+                    URL.revokeObjectURL(element.src);
+                }
+                element.src = URL.createObjectURL(new Blob([arrayBuffer], {type: 'image/*'}));
             }
         });
     }
@@ -44,8 +92,8 @@ angular.module('market').controller('personalAccountController', function ($scop
         if (curFiles.length > 0) {
             for (const file of curFiles) {
                 if (validFileType(file)) {
-                    $scope.avatar = file;
-                    image.src = URL.createObjectURL(file);
+                    $scope.updateAvatar(file);
+                    // element.src = URL.createObjectURL(file);
                 }
             }
         }
@@ -56,5 +104,6 @@ angular.module('market').controller('personalAccountController', function ($scop
     }
 
     input.addEventListener('change', updateImageDisplay);
-    $scope.getDataUser();
+    $scope.getUserData();
+    $scope.getUserAvatar();
 });
