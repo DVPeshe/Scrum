@@ -29,6 +29,9 @@
         <tr ng-repeat="p in commentsPage.content">
             <td>{{p.user}}</td>
             <td>{{p.description}}</td>
+            <td ng-show="isVisibleAdmin()">
+                <button type="button" class="btn btn-danger" ng-click="deleteComment(p.id)">Удалить комментарий</button>
+            </td>
         </tr>
         </tbody>
     </table>
