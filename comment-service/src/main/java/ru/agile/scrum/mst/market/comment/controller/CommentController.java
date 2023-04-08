@@ -55,8 +55,8 @@ public class CommentController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/delete/{id}")
-    public void updateVisibleProduct(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteComment(@PathVariable Long id) {
         commentService.deleteById(id);
     }
 

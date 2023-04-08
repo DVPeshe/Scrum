@@ -66,8 +66,8 @@ angular.module('market').controller('productCardController', function ($scope, $
 
     $scope.deleteComment = function (id){
         $http({
-            url: 'http://localhost:5555/comment/api/v1/comments/delete/'+id,
-            method: 'GET',
+            url: 'http://localhost:5555/comment/api/v1/comments/'+id,
+            method: 'DELETE',
 
         }).then(function (response) {
             $scope.loadComments()
