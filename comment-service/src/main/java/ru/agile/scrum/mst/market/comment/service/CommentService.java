@@ -17,7 +17,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     public Page<Comment> findAll(int page, int pageSize, Specification<Comment> specification) {
-        Sort sort = Sort.by("id");
+        Sort sort = Sort.by("updatedAt").descending();
         return commentRepository.findAll(specification, PageRequest.of(page, pageSize, sort));
     }
 
@@ -51,4 +51,7 @@ public class CommentService {
     }
 
 
+    public void deleteById(Long id) {
+        commentRepository.deleteById(id);
+    }
 }

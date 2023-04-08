@@ -7,7 +7,6 @@ angular.module('market').controller('productCardController', function ($scope, $
         $http.post('http://localhost:5555/comment/api/v1/comments/create', $scope.comment).then(function success(response) {
             alert(response.data.value);
             $scope.loadComments();
-            // $location.path('/products');
         }, function error(response) {
             let me = response;
             console.log(me);
@@ -23,6 +22,10 @@ angular.module('market').controller('productCardController', function ($scope, $
                 $scope.getDataComment();
 
             });
+    }
+
+    $scope.isVisibleAdmin = function () {
+        return $localStorage.visibleAdmin;
     }
 
     $scope.visibleAddCard = function () {
@@ -59,6 +62,16 @@ angular.module('market').controller('productCardController', function ($scope, $
         $scope.comment.user = $localStorage.mstMarketUser.username;
         $scope.comment.product = $scope.productCard.title;
 
+    }
+
+    $scope.deleteComment = function (id){
+        $http({
+            url: 'http://localhost:5555/comment/api/v1/comments/'+id,
+            method: 'DELETE',
+
+        }).then(function (response) {
+            $scope.loadComments()
+        });
     }
 
 

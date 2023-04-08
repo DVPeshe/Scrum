@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.agile.scrum.mst.market.api.CommentDto;
 import ru.agile.scrum.mst.market.api.StringResponse;
@@ -51,6 +52,12 @@ public class CommentController {
         commentService.createComment(commentDto);
         StringResponse stringResponse = new StringResponse("Отзыв добавен");
         return ResponseEntity.ok(stringResponse);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @DeleteMapping("/{id}")
+    public void deleteComment(@PathVariable Long id) {
+        commentService.deleteById(id);
     }
 
 
