@@ -1,7 +1,11 @@
 angular.module('market').controller('productCardController', function ($scope, $http, $localStorage, $rootScope, $location, $routeParams) {
 
     const contextPath = 'http://localhost:5555/core/api/v1/products'
+    const contextPathImg = 'http://localhost:5555/image/api/v1/image/'
+
     $scope.comment = {user: null, product: null, description: null};
+
+    const element = document.querySelector('#image');
 
     $scope.createComment = function () {
         $http.post('http://localhost:5555/comment/api/v1/comments/create', $scope.comment).then(function success(response) {
@@ -18,9 +22,9 @@ angular.module('market').controller('productCardController', function ($scope, $
         $http.get(contextPath + '/card/' + $routeParams.id)
             .then(function success(response) {
                 $scope.productCard = response.data;
+                $scope.getImageById();
                 $scope.loadComments();
                 $scope.getDataComment();
-
             });
     }
 
@@ -74,9 +78,23 @@ angular.module('market').controller('productCardController', function ($scope, $
         });
     }
 
+    $scope.getImageById = function () {
+        $http.get(contextPathImg + $scope.productCard.imageId)
+            .then(function success(response) {
+                console.log(response.data)
+                if (response.data) {
+                    const image = response.data.image;
+                    const binaryString = window.atob(image);
+                    const bytes = new Uint8Array(binaryString.length);
+                    const arrayBuffer = bytes.map((byte, i) => binaryString.charCodeAt(i));
+                    if (element.src) {
+                        URL.revokeObjectURL(element.src);
+                    }
+                    element.src = URL.createObjectURL(new Blob([arrayBuffer], {type: 'image/*'}));
+                }
+            });
+    }
 
     $scope.getProductCardById();
-
-
 
 });
