@@ -11,7 +11,7 @@ import ru.agile.scrum.mst.market.image.services.ImageService;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/v1/image")
+@RequestMapping("/api/v1/images")
 @RequiredArgsConstructor
 public class ImageController {
 

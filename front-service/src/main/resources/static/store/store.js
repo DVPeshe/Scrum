@@ -1,6 +1,6 @@
 angular.module('market').controller('storeController', function ($scope, $http, $localStorage, $rootScope, $location, $routeParams) {
 
-    const contextPathImg = 'http://localhost:5555/image/api/v1/image/'
+    const contextPathImg = 'http://localhost:5555/image/api/v1/images/'
 
     $scope.loadProducts = function (page = 1) {
         $http({

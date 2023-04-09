@@ -1,7 +1,7 @@
 angular.module('market').controller('productCardController', function ($scope, $http, $localStorage, $rootScope, $location, $routeParams) {
 
     const contextPath = 'http://localhost:5555/core/api/v1/products'
-    const contextPathImg = 'http://localhost:5555/image/api/v1/image/'
+    const contextPathImg = 'http://localhost:5555/image/api/v1/images/'
 
     $scope.comment = {user: null, product: null, description: null};
 
