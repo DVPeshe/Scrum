@@ -9,10 +9,6 @@ import ru.agile.scrum.mst.market.image.models.Image;
 import ru.agile.scrum.mst.market.image.repositories.ImageRepository;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 @Service

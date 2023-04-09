@@ -1,4 +1,7 @@
 angular.module('market').controller('storeController', function ($scope, $http, $localStorage, $rootScope, $location, $routeParams) {
+
+    const contextPathImg = 'http://localhost:5555/image/api/v1/images/'
+
     $scope.loadProducts = function (page = 1) {
         $http({
             url: 'http://localhost:5555/core/api/v1/products',
@@ -73,6 +76,7 @@ angular.module('market').controller('storeController', function ($scope, $http, 
             .then(function (response) {
                 $scope.cart = response.data;
                 $rootScope.currentCartUser = response.data;
+                $scope.getImageById()
             });
     };
     $scope.getCategories = function () {
@@ -88,6 +92,19 @@ angular.module('market').controller('storeController', function ($scope, $http, 
             });
     };
 
+    $scope.getImageById = function () {
+        $http.get(contextPathImg + '6426a26deadb6c2a4764b738')
+            .then(function success(response) {
+                console.log(response.data)
+                if (response.data) {
+                    const image = response.data.image;
+                    const binaryString = window.atob(image);
+                    const bytes = new Uint8Array(binaryString.length);
+                    const arrayBuffer = bytes.map((byte, i) => binaryString.charCodeAt(i));
+                    $scope.image = URL.createObjectURL(new Blob([arrayBuffer], {type: 'image/*'}));
+                }
+            });
+    }
 
     $scope.loadCart();
     $scope.loadProducts();
