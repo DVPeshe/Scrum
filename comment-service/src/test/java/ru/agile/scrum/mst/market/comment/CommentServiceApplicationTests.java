@@ -1,4 +1,4 @@
-package ru.agile.scrum.mst.market.commentservice;
+package ru.agile.scrum.mst.market.comment;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
