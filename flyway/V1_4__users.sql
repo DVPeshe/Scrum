@@ -1,21 +1,7 @@
 begin;
 
 alter table users
-    add full_name text not null default '';
-
-create table avatars
-(
-    id         bigserial primary key,
-    user_id    bigint references users (id) not null,
-    avatar     bytea,
-    created_at timestamp default current_timestamp,
-    updated_at timestamp default current_timestamp
-);
-
-insert into avatars (user_id, avatar)
-values (1, pg_read_binary_file(current_setting('data_directory') || '/bob.jpg')::bytea),
-       (2, pg_read_binary_file(current_setting('data_directory') || '/john.jpg')::bytea),
-       (3, pg_read_binary_file(current_setting('data_directory') || '/artur.jpg')::bytea);
+    add full_name varchar(255) not null default '';
 
 update users
 set full_name = 'Боб'

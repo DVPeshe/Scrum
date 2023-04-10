@@ -41,4 +41,9 @@ public class GlobalExceptionsHandler {
     public ResponseEntity<AppError> handleFieldsNotFoundException(FieldsNotNullException e) {
         return new ResponseEntity<>(new AppError("ILLEGAL_DATA_STATE", e.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler
+    public ResponseEntity<AppError> handleAccessForbiddenException(AccessForbiddenException e) {
+        return new ResponseEntity<>(new AppError("ACCESS_FORBIDDEN", e.getMessage()), HttpStatus.FORBIDDEN);
+    }
 }

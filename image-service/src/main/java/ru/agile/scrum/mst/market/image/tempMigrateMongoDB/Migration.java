@@ -1,7 +1,6 @@
 package ru.agile.scrum.mst.market.image.tempMigrateMongoDB;
 
 import com.mongodb.MongoException;
-import com.mongodb.MongoWriteException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonBinarySubType;
@@ -11,11 +10,7 @@ import ru.agile.scrum.mst.market.image.models.Image;
 import ru.agile.scrum.mst.market.image.repositories.ImageRepository;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Base64;
-import java.util.Optional;
 
 //Пока такой костыль :)
 @Service

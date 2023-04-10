@@ -31,6 +31,7 @@
     <table class="table table-hover">
         <thead>
         <tr>
+            <th>Изображение</th>
             <th>Название</th>
             <th>Цена</th>
             <th>Категория продукта</th>
@@ -39,6 +40,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="p in productsPage.content">
+            <td><img src="" class="mr-3" style="width: 50px; height: auto" alt=""></td>
             <td><a id="link" data-ng-click="showInfoById(p.id)" href ng-click="">{{p.title}}</a></td>
             <td>{{p.price}}</td>
             <td>{{p.categoryTitle}}</td>

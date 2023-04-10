@@ -14,6 +14,7 @@
 		<module>favorite-service</module>
         <module>email-service</module>
         <module>image-service</module>
+		<module>comment-service</module>
     </modules>
 
 	<groupId>ru.agile.scrum.mst.market</groupId>

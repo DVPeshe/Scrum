@@ -1,5 +1,8 @@
 <div>
     <h1>{{productCard.title}}</h1>
+    <div class="media">
+        <img id="image" src="" class="mr-3" style="width: 200px; height: auto">
+    </div>
     <h2 class="text-danger">{{productCard.price}} <span style="font-size: 0.7em">руб</span></h2>
     <h2>Количество в наличии</h2>
     <h2 class="text-danger">{{productCard.quantity}}</h2>
@@ -16,4 +19,55 @@
             Добавить в корзину
         </button>
     </div>
+    <p></p>
+    <div>
+        <h2>Отзывы</h2>
+    </div>
+    <div ng-show="commentsPage.content.length == 0">
+        <p>Отзывов пока нет</p>
+    </div>
+
+    <table class="table table-hover">
+        <tbody>
+        <tr ng-repeat="p in commentsPage.content">
+            <td>{{p.user}}</td>
+            <td>{{p.description}}</td>
+            <td ng-show="isVisibleAdmin()">
+                <button type="button" class="btn btn-danger" ng-click="deleteComment(p.id)">Удалить комментарий</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item" ng-repeat="pageIndex in pagesList">
+                <button class="page-link" ng-click="loadComments(pageIndex, productCard.title)">{{pageIndex}}</button>
+            </li>
+        </ul>
+    </nav>
+    <form novalidate ng-submit="createComment()">
+        <label for="username">Имя пользователя</label>
+        <div class="form-floating input-group-sm">
+            <input disabled="disabled" style="width: 40%;" type="text" class="form-control" id="username"
+                   placeholder="{{username}}" ng-model="comment.user" >
+        </div>
+        <p></p>
+        <label for="product">Товар</label>
+        <div class="form-floating input-group-sm">
+            <input disabled="disabled" style="width: 40%;" type="text" class="form-control" id="product"
+                   placeholder="{{productCard.title}}" ng-model="comment.product" >
+        </div>
+        <p></p>
+        <label for="commentDescription">Отзыв</label>
+        <div class="form-floating input-group-sm">
+            <textarea style="width: 40%; height:100%;" class="form-control" id="commentDescription" rows="5"
+                      placeholder="Напишите свой отзыв" ng-model="comment.description">></textarea>
+        </div>
+        <p></p>
+        <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Оставить отзыв
+        </button>
+        <p></p>
+    </form>
+
 </div>

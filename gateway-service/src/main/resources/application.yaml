@@ -52,6 +52,15 @@ spring:
             - StripPrefix=1
             - PrefixPath=/market-favorite
             - JwtAuthFilter
+        - id: comment-service
+#          uri: http://comment-service:8195
+          uri: http://localhost:8195
+          predicates:
+            - Path=/comment/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/market-comment
+            - JwtAuthFilter
         - id: email-service
 #          uri: http://email-service:8193
           uri: http://localhost:8193

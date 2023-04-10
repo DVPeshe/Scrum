@@ -2,6 +2,7 @@ package ru.agile.scrum.mst.market.email.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.agile.scrum.mst.market.api.StringResponse;
 import ru.agile.scrum.mst.market.email.services.EmailService;
 
 @RestController
@@ -17,6 +18,17 @@ public class EmailController {
         String testMessage = "Приятных покупок!";
         emailService.sendEmail(eAddress,testMessageSubject, testMessage);
     }
+
+    @PostMapping("/subscribeBackToStock")
+    public void subscribeToBackToStock(@RequestParam(name = "productId")int productId, @RequestParam(name = "email") String eAddress){
+        emailService.subscribeToBackToStock(productId,eAddress);
+    }
+
+    @GetMapping("/sendEmailBackToStock/{productId}")
+    public StringResponse sendEmailBackToStock(@PathVariable int productId){
+       return emailService.sendBackToStock(productId);
+    }
+
 
 
 }
