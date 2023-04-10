@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.agile.scrum.mst.market.api.ProductCardDto;
 import ru.agile.scrum.mst.market.api.ProductDto;
+import ru.agile.scrum.mst.market.api.ProductStockDto;
 import ru.agile.scrum.mst.market.api.StringResponse;
 import ru.agile.scrum.mst.market.core.entities.Category;
 import ru.agile.scrum.mst.market.core.entities.Product;
@@ -134,6 +135,23 @@ public class ProductController {
         productService.updateProduct(productCardDto);
         StringResponse stringResponse = new StringResponse(String.format("Продукт %s успешно обновлен", productCardDto.getTitle()));
         return ResponseEntity.ok(stringResponse);
+    }
+
+////    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+//    @PostMapping("/updateProductStock")
+//    public ResponseEntity<?> updateDataProductStock(@RequestBody ProductStockDto productStockDto) {//
+//        productService.updateProductStock(productStockDto);
+//        StringResponse stringResponse = new StringResponse(String.format("Продукт %s успешно обновлен", productStockDto.getId()));
+//        return ResponseEntity.ok(stringResponse);
+//    }
+
+    @GetMapping("/updateProductStock/{id}")
+    public void updateDataProductStock(@RequestHeader(required = false) String quantityStr, @PathVariable Long id) {
+        int quantity = Integer.parseInt(quantityStr);
+        ProductStockDto productStockDto = new ProductStockDto();
+        productStockDto.setId(id);
+        productStockDto.setQuantity(quantity);
+        productService.updateProductStock(productStockDto);
     }
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
