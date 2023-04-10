@@ -29,14 +29,14 @@ public class CommentController {
     public Page<CommentDto> getAllComments(
             @RequestParam(name = "p", defaultValue = "1") @Parameter(description = "Номер страницы", required = true) Integer page,
             @RequestParam(name = "page_size", defaultValue = "10") @Parameter(description = "Номер страницы", required = false) Integer pageSize,
-            @RequestParam(name = "product") @Parameter(description = "Название продукта", required = true) String product
+            @RequestParam(name = "product") @Parameter(description = "Название продукта", required = true) String productTitle
     ) {
         if (page < 1) {
             page = 1;
         }
         Specification<Comment> spec = Specification.where(null);
-        if (product != null) {
-            spec = spec.and(CommentSpecifications.productTitleEquals(product))
+        if (productTitle != null) {
+            spec = spec.and(CommentSpecifications.productTitleEquals(productTitle))
                     .and(CommentSpecifications.visibleLike());
         } else {
             spec = spec.and(CommentSpecifications.visibleLike());

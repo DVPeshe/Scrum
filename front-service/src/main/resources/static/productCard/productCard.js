@@ -79,7 +79,6 @@ angular.module('market').controller('productCardController', function ($scope, $
     $scope.getDataComment = function () {
         $scope.comment.user = $localStorage.mstMarketUser.username;
         $scope.comment.product = $scope.productCard.title;
-        $scope.comment.estimation = this.get('Radio').value;
 
     }
 

@@ -1,5 +1,3 @@
-begin;
-
 alter table comments
     add estimation smallint;
 
@@ -50,7 +48,5 @@ where id = 11;
 update comments
 set estimation = 5
 where id = 12;
-
-commit;
 
 

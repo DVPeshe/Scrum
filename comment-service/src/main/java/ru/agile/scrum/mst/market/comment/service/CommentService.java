@@ -11,6 +11,9 @@ import ru.agile.scrum.mst.market.comment.entity.Comment;
 import ru.agile.scrum.mst.market.comment.exception.FieldsNotNullException;
 import ru.agile.scrum.mst.market.comment.repository.CommentRepository;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -61,6 +64,12 @@ public class CommentService {
     }
 
     public Double getEstimation(String productTitle) {
-        return commentRepository.getEstimation(productTitle);
+        return round(commentRepository.getEstimation(productTitle));
+    }
+
+    public static double round(Double value) {
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }
