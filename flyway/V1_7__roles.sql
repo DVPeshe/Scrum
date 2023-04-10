@@ -1,5 +1,3 @@
-begin;
-
 alter table roles
     add title varchar(50);
 
@@ -18,5 +16,3 @@ where name = 'ROLE_MANAGER';
 update roles
 set title = 'генеральный директор'
 where name = 'ROLE_SUPERADMIN';
-
-commit;

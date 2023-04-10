@@ -1,4 +1,3 @@
-begin;
 alter table products
 add quantity integer;
 
@@ -73,5 +72,3 @@ where id = 17;
 update products
 set quantity = 3
 where id = 18;
-
-commit;
