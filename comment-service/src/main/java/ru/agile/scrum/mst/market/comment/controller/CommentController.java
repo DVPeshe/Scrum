@@ -29,7 +29,7 @@ public class CommentController {
     public Page<CommentDto> getAllComments(
             @RequestParam(name = "p", defaultValue = "1") @Parameter(description = "Номер страницы", required = true) Integer page,
             @RequestParam(name = "page_size", defaultValue = "10") @Parameter(description = "Номер страницы", required = false) Integer pageSize,
-            @RequestParam(name = "product") @Parameter(description = "ID продукта", required = true) String product
+            @RequestParam(name = "product") @Parameter(description = "Название продукта", required = true) String product
     ) {
         if (page < 1) {
             page = 1;
@@ -58,6 +58,11 @@ public class CommentController {
     @DeleteMapping("/{id}")
     public void deleteComment(@PathVariable Long id) {
         commentService.deleteById(id);
+    }
+
+    @GetMapping("/estimation")
+    public Double getEstimation(@RequestParam(name = "product") @Parameter(description = "Название продукта", required = true) String productTitle) {
+        return commentService.getEstimation(productTitle);
     }
 
 

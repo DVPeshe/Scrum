@@ -14,4 +14,5 @@ public class CommentDto {
     private String user;
     private String product;
     private String description;
+    private Integer estimation;
 }

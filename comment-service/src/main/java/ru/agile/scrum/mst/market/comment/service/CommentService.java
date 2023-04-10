@@ -29,10 +29,14 @@ public class CommentService {
                 || commentDto.getDescription() == null) {
             throw new FieldsNotNullException("Все поля формы должны быть заполнены");
         }
+        if (commentDto.getEstimation() == null) {
+            throw new FieldsNotNullException("Поставьте оценку");
+        }
         Comment comment = new Comment();
         comment.setUsername(commentDto.getUser());
         comment.setProduct(commentDto.getProduct());
         comment.setDescription(commentDto.getDescription());
+        comment.setEstimation(commentDto.getEstimation());
         comment.setVisible(true);
         if (commentRepository.existsByUsernameAndProduct(commentDto.getUser(), commentDto.getProduct())) {
             return updateComment(commentDto);
@@ -46,6 +50,7 @@ public class CommentService {
         comment.setUsername(commentDto.getUser());
         comment.setProduct(commentDto.getProduct());
         comment.setDescription(commentDto.getDescription());
+        comment.setEstimation(commentDto.getEstimation());
         commentRepository.save(comment);
         return comment;
     }
@@ -53,5 +58,9 @@ public class CommentService {
 
     public void deleteById(Long id) {
         commentRepository.deleteById(id);
+    }
+
+    public Double getEstimation(String productTitle) {
+        return commentRepository.getEstimation(productTitle);
     }
 }

@@ -3,9 +3,22 @@ angular.module('market').controller('productCardController', function ($scope, $
     const contextPath = 'http://localhost:5555/core/api/v1/products'
     const contextPathImg = 'http://localhost:5555/image/api/v1/images/'
 
-    $scope.comment = {user: null, product: null, description: null};
+    $scope.comment = {user: null, product: null, description: null, estimation: null};
+
 
     const element = document.querySelector('#image');
+
+    $scope.getEstimation = function (product = $scope.productCard) {
+        $http({
+            url: 'http://localhost:5555/comment/api/v1/comments/estimation',
+            method: 'GET',
+            params: {
+                product: product.title
+            }
+        }).then(function (response) {
+            $scope.avgEstimation = response.data;
+        });
+    }
 
     $scope.createComment = function () {
         $http.post('http://localhost:5555/comment/api/v1/comments/create', $scope.comment).then(function success(response) {
@@ -52,6 +65,7 @@ angular.module('market').controller('productCardController', function ($scope, $
         }).then(function (response) {
             $scope.commentsPage = response.data;
             $scope.generatePagesList($scope.commentsPage.totalPages);
+            $scope.getEstimation();
         });
     };
 
@@ -65,6 +79,7 @@ angular.module('market').controller('productCardController', function ($scope, $
     $scope.getDataComment = function () {
         $scope.comment.user = $localStorage.mstMarketUser.username;
         $scope.comment.product = $scope.productCard.title;
+        $scope.comment.estimation = this.get('Radio').value;
 
     }
 
