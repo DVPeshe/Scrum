@@ -28,7 +28,7 @@ public class CommentService {
         if (commentDto.getUser() == null) {
             throw new FieldsNotNullException("Авторизуйтесь, чтобы оставить отзыв");
         }
-        if (commentDto.getUser() == null || commentDto.getProduct() == null
+        if (commentDto.getProduct() == null
                 || commentDto.getDescription() == null) {
             throw new FieldsNotNullException("Все поля формы должны быть заполнены");
         }
