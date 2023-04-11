@@ -4,7 +4,7 @@ angular.module('market').controller('usersController', function ($scope, $http, 
     $scope.loadUsers = function (page = 1) {
         $scope.lastClick = page;
         $http({
-            url: contextPath + '/listUsers',
+            url: contextPath + '/all',
             method: 'GET',
             params: {
                 p: page,
