@@ -15,6 +15,7 @@ public class CommentMapper {
                 .user(comment.getUsername())
                 .product(comment.getProduct())
                 .description(comment.getDescription())
+                .estimation(comment.getEstimation())
                 .build();
     }
 }

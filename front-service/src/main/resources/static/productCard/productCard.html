@@ -21,6 +21,9 @@
     </div>
     <p></p>
     <div>
+        <h4>Оценка покупателей: {{avgEstimation}}</h4>
+    </div>
+    <div>
         <h2>Отзывы</h2>
     </div>
     <div ng-show="commentsPage.content.length == 0">
@@ -29,9 +32,15 @@
 
     <table class="table table-hover">
         <tbody>
+        <tr>
+            <th>Пользователь</th>
+            <th>Комментарий</th>
+            <th>Оценка</th>
+        </tr>
         <tr ng-repeat="p in commentsPage.content">
             <td>{{p.user}}</td>
             <td>{{p.description}}</td>
+            <td>{{p.estimation}}</td>
             <td ng-show="isVisibleAdmin()">
                 <button type="button" class="btn btn-danger" ng-click="deleteComment(p.id)">Удалить комментарий</button>
             </td>
@@ -65,6 +74,27 @@
                       placeholder="Напишите свой отзыв" ng-model="comment.description">></textarea>
         </div>
         <p></p>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="Radio" id="Radio1" value="1" ng-model="comment.estimation">
+            <label class="form-check-label" for="Radio1">1</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="Radio" id="Radio2" value="2" ng-model="comment.estimation">
+            <label class="form-check-label" for="Radio2">2</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="Radio" id="Radio3" value="3" ng-model="comment.estimation">
+            <label class="form-check-label" for="Radio3">3</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="Radio" id="Radio4" value="4" ng-model="comment.estimation">
+            <label class="form-check-label" for="Radio4">4</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="Radio" id="Radio5" value="5" ng-model="comment.estimation" >
+            <label class="form-check-label" for="Radio5">5</label>
+        </div>
         <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Оставить отзыв
         </button>
         <p></p>
