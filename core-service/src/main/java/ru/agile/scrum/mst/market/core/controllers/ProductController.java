@@ -53,20 +53,18 @@ public class ProductController {
         }
         Specification<Product> spec = Specification.where(null);
         if (titlePart != null) {
-            spec = spec.and(ProductsSpecifications.titleLike(titlePart))
-                    .and(ProductsSpecifications.visibleLike());
-        } else if (minPrice != null) {
-            spec = spec.and(ProductsSpecifications.priceGreaterOrEqualsThan(BigDecimal.valueOf(minPrice)))
-                    .and(ProductsSpecifications.visibleLike());
-        } else if (maxPrice != null) {
-            spec = spec.and(ProductsSpecifications.priceLessThanOrEqualsThan(BigDecimal.valueOf(maxPrice)))
-                    .and(ProductsSpecifications.visibleLike());
-        } else if (categoryTitle != null) {
-            spec = spec.and(ProductsSpecifications.titleCategoryLike(categoryTitle))
-                    .and(ProductsSpecifications.visibleLike());
-        } else {
-            spec = spec.and(ProductsSpecifications.visibleLike());
+            spec = spec.and(ProductsSpecifications.titleLike(titlePart));
         }
+        if (minPrice != null) {
+            spec = spec.and(ProductsSpecifications.priceGreaterOrEqualsThan(BigDecimal.valueOf(minPrice)));
+        }
+        if (maxPrice != null) {
+            spec = spec.and(ProductsSpecifications.priceLessThanOrEqualsThan(BigDecimal.valueOf(maxPrice)));
+        }
+        if (categoryTitle != null) {
+            spec = spec.and(ProductsSpecifications.titleCategoryLike(categoryTitle));
+        }
+        spec = spec.and(ProductsSpecifications.visibleLike());
         return productService.findAll(page - 1, pageSize, spec).map(productMapper::mapProductToProductDto);
     }
 
