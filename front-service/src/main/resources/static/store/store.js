@@ -106,6 +106,19 @@ angular.module('market').controller('storeController', function ($scope, $http, 
             });
     }
 
+    $scope.subscribeBackToStock = function(id){
+                $http({
+                    url: 'http://localhost:5555/email/api/v1/emails/subscribeBackToStock',
+                    method: 'POST',
+                    params: {
+                        productId: id,
+                        email: $rootScope.userEmail
+                    }
+                }).then(function (response){
+                      alert('Вы получите оповещение на ваш email как только продукт снова появиться в продаже');
+                });
+        };
+
     $scope.loadCart();
     $scope.loadProducts();
     $scope.getCategories();

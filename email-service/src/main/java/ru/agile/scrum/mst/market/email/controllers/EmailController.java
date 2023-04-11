@@ -20,8 +20,8 @@ public class EmailController {
     }
 
     @PostMapping("/subscribeBackToStock")
-    public void subscribeToBackToStock(@RequestParam(name = "productId")int productId, @RequestParam(name = "email") String eAddress){
-        emailService.subscribeToBackToStock(productId,eAddress);
+    public void subscribeToBackToStock(@RequestParam(name = "productId")int productId, @RequestParam(name = "email") String email){
+        emailService.subscribeToBackToStock(productId,email);
     }
 
     @GetMapping("/sendEmailBackToStock/{productId}")

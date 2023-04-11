@@ -55,6 +55,11 @@
                 </button>
             </td>
             <td>
+                <button class="btn btn-primary green" ng-click="subscribeBackToStock(p.id)" ng-if="p.quantity == 0">
+                    Оповестить о поступлении
+                </button>
+            </td>
+            <td>
             <td>
                 <button type="button" class="btn btn-primary" ng-click="addToFavorite(p.id)"
                         ng-show="!inFavorite(p.id)">

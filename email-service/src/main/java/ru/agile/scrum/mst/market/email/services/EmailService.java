@@ -1,12 +1,12 @@
 package ru.agile.scrum.mst.market.email.services;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import ru.agile.scrum.mst.market.api.ProductDto;
 import ru.agile.scrum.mst.market.api.StringResponse;
+import ru.agile.scrum.mst.market.api.UserPersonalAccount;
 import ru.agile.scrum.mst.market.email.integrations.ProductServiceIntegration;
 
 import java.util.ArrayList;
@@ -26,14 +26,14 @@ public class EmailService {
 
     HashMap<Integer, List<String>> backToStockSubscriberDB = new HashMap<>();
 
-    public void subscribeToBackToStock(int productId, String eAddress){
+    public void subscribeToBackToStock(int productId, String email){
         if(!backToStockSubscriberDB.containsKey(productId)) {
             ArrayList<String> newEmailsList = new ArrayList<>();
-            newEmailsList.add(eAddress);
+            newEmailsList.add(email);
             backToStockSubscriberDB.put(productId,newEmailsList);
         }else {
             ArrayList<String> updateEmailsList = (ArrayList<String>) backToStockSubscriberDB.get(productId);
-            updateEmailsList.add(eAddress);
+            updateEmailsList.add(email);
             backToStockSubscriberDB.put(productId,updateEmailsList);
         }
     }
