@@ -3,6 +3,7 @@ package ru.agile.scrum.mst.market.auth.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.agile.scrum.mst.market.auth.entities.Role;
+import ru.agile.scrum.mst.market.auth.exceptions.ResourceNotFoundException;
 import ru.agile.scrum.mst.market.auth.repositories.RoleRepository;
 
 import java.util.List;
@@ -31,4 +32,7 @@ public class RoleService {
     public List<String> getAllRoleTitles() {
         return roleRepository.findAll().stream().map(Role::getTitle).toList();
     }
+
+    public Role getRoleByName(String nameRole) { return roleRepository.findByName(nameRole).orElseThrow(
+            () -> new ResourceNotFoundException("Роль " + nameRole + " не найденa."));}
 }

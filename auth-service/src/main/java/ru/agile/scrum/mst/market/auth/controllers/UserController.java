@@ -6,10 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.agile.scrum.mst.market.api.RegistrationUserDto;
-import ru.agile.scrum.mst.market.api.StringResponse;
-import ru.agile.scrum.mst.market.api.UserDto;
-import ru.agile.scrum.mst.market.api.UserPersonalAccount;
+import ru.agile.scrum.mst.market.api.*;
 import ru.agile.scrum.mst.market.auth.entities.User;
 import ru.agile.scrum.mst.market.auth.exceptions.AccessForbiddenException;
 import ru.agile.scrum.mst.market.auth.mappers.UserMapper;
@@ -45,8 +42,8 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/roleEdit")
-    public ResponseEntity<?> roleEdit(@RequestBody UserDto userDto) {
-        userService.roleEdit(userDto);
+    public ResponseEntity<?> roleEdit(@RequestBody UserDtoRoles userDtoRoles) {
+        userService.roleEdit(userDtoRoles);
         StringResponse stringResponse = new StringResponse("Права пользователя изменены");
         return ResponseEntity.ok(stringResponse);
     }

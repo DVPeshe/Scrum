@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.agile.scrum.mst.market.api.JwtRequest;
 import ru.agile.scrum.mst.market.api.RegistrationUserDto;
 import ru.agile.scrum.mst.market.api.UserDto;
+import ru.agile.scrum.mst.market.auth.entities.Role;
 import ru.agile.scrum.mst.market.auth.entities.User;
 
 @Component
@@ -13,7 +14,7 @@ public class UserMapper {
         return UserDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
-                .role(user.getRoles().get(0).getName())
+                .roles(user.getRoles().stream().map(Role::getName).toList())
                 .access(user.getAccess())
                 .build();
     }

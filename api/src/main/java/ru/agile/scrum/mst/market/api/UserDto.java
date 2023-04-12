@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -12,6 +14,6 @@ import lombok.NoArgsConstructor;
 public class UserDto {
     private Long id;
     private String username;
-    private String role;
+    private List<String> roles;
     private Boolean access;
 }
