@@ -1,4 +1,4 @@
-angular.module('market').controller('registrationController', function ($scope, $http, $location, $localStorage) {
+angular.module('market').controller('registrationController', function ($scope,$rootScope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:5555/auth/';
     $scope.reguser = {fullName: null, username: null, email: null, password: null, confirmPassword: null};
 
@@ -7,6 +7,7 @@ angular.module('market').controller('registrationController', function ($scope, 
             if (response.data.token) {
                 $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                 $localStorage.mstMarketUser = {username: $scope.reguser.username, token: response.data.token};
+                $rootScope.userEmail = $scope.reguser.email;
                 alert('Привет ' + $localStorage.mstMarketUser.username + '!')
                 $location.path("/");
             }

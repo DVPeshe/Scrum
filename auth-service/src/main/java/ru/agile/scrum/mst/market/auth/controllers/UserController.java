@@ -113,4 +113,15 @@ public class UserController {
     public ResponseEntity<List<String>> getUserRoles(@RequestHeader String username) {
         return ResponseEntity.ok(userService.getUserRoles(username));
     }
+
+    @GetMapping("/personal-email")
+    public UserPersonalAccount getUserPersonalEmail(@RequestHeader String username) {
+        UserPersonalAccount account = UserPersonalAccount.builder()
+                .username(username)
+                .email(userService.getUserEmailByName(username))
+                .fullName(userService.getFullNameByName(username))
+                .build();
+        return account;
+    }
+
 }
