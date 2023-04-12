@@ -111,8 +111,7 @@ angular.module('market').controller('storeController', function ($scope, $http, 
                     url: 'http://localhost:5555/email/api/v1/emails/subscribeBackToStock',
                     method: 'POST',
                     params: {
-                        productId: id,
-                        email: $rootScope.userEmail
+                        productId: id
                     }
                 }).then(function (response){
                       alert('Вы получите оповещение на ваш email как только продукт снова появиться в продаже');

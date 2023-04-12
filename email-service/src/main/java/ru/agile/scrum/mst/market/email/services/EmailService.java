@@ -8,6 +8,7 @@ import ru.agile.scrum.mst.market.api.ProductDto;
 import ru.agile.scrum.mst.market.api.StringResponse;
 import ru.agile.scrum.mst.market.api.UserPersonalAccount;
 import ru.agile.scrum.mst.market.email.integrations.ProductServiceIntegration;
+import ru.agile.scrum.mst.market.email.integrations.UserServiceIntegration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,19 +24,25 @@ public class EmailService {
     private final JavaMailSender mailSender;
 
     private final ProductServiceIntegration productServiceIntegration;
+    private final UserServiceIntegration userServiceIntegration;
 
     HashMap<Integer, List<String>> backToStockSubscriberDB = new HashMap<>();
 
-    public void subscribeToBackToStock(int productId, String email){
-        if(!backToStockSubscriberDB.containsKey(productId)) {
-            ArrayList<String> newEmailsList = new ArrayList<>();
-            newEmailsList.add(email);
-            backToStockSubscriberDB.put(productId,newEmailsList);
-        }else {
-            ArrayList<String> updateEmailsList = (ArrayList<String>) backToStockSubscriberDB.get(productId);
-            updateEmailsList.add(email);
-            backToStockSubscriberDB.put(productId,updateEmailsList);
+    public void subscribeToBackToStock(int productId, String username){
+        UserPersonalAccount personalAccount = userServiceIntegration.getPersonalData(username);
+        if(personalAccount != null){
+            String email = personalAccount.getEmail();
+            if(!backToStockSubscriberDB.containsKey(productId)) {
+                ArrayList<String> newEmailsList = new ArrayList<>();
+                newEmailsList.add(email);
+                backToStockSubscriberDB.put(productId,newEmailsList);
+            }else {
+                ArrayList<String> updateEmailsList = (ArrayList<String>) backToStockSubscriberDB.get(productId);
+                updateEmailsList.add(email);
+                backToStockSubscriberDB.put(productId,updateEmailsList);
+            }
         }
+
     }
 
     public StringResponse sendBackToStock(int productId){
