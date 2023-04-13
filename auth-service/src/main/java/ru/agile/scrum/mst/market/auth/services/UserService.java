@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.agile.scrum.mst.market.api.JwtRequest;
 import ru.agile.scrum.mst.market.api.RegistrationUserDto;
 import ru.agile.scrum.mst.market.api.UserDto;
+import ru.agile.scrum.mst.market.auth.entities.Avatar;
 import ru.agile.scrum.mst.market.auth.entities.Role;
 import ru.agile.scrum.mst.market.auth.entities.User;
 import ru.agile.scrum.mst.market.auth.exceptions.*;
@@ -64,10 +65,6 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
-    public void createUser(User user) {
-        userRepository.save(user);
-    }
-
     public void auth(JwtRequest authRequest) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
@@ -98,7 +95,12 @@ public class UserService implements UserDetailsService {
         user.setFullName(registrationUserDto.getFullName());
         user.setAccess(true);
         user.setRoles(List.of(roleService.getUserRole()));
-        createUser(user);
+        Avatar avatar = Avatar.builder()
+                .avatar(null)
+                .user(user)
+                .build();
+        user.setAvatar(avatar);
+        userRepository.save(user);
     }
 
     public String getToken(UserDetails userDetails) {
