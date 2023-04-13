@@ -119,10 +119,10 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void roleEdit(UserDtoRoles userDtoRoles) {
+    public void editRole(UserDtoRoles userDtoRoles) {
         User user = userRepository.findByUsername(userDtoRoles.getUsername()).orElseThrow(
                 () -> new ResourceNotFoundException("Пользователь " + userDtoRoles.getUsername() + " не найден."));
-        List<Role> collect = userDtoRoles.getRoles().stream().map(roleService::getRoleByName).toList();
+        List<Role> collect = userDtoRoles.getRoles().stream().map(roleService::getRoleByTitle).toList();
         user.getRoles().clear();
         user.getRoles().addAll(collect);
         userRepository.save(user);

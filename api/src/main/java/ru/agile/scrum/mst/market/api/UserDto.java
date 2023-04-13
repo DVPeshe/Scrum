@@ -14,6 +14,6 @@ import java.util.List;
 public class UserDto {
     private Long id;
     private String username;
-    private List<String> roles;
+    private List<String> rolesTitle;
     private Boolean access;
 }

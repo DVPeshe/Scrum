@@ -14,7 +14,7 @@ public class UserMapper {
         return UserDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
-                .roles(user.getRoles().stream().map(Role::getName).toList())
+                .rolesTitle(user.getRoles().stream().map(Role::getTitle).toList())
                 .access(user.getAccess())
                 .build();
     }

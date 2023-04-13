@@ -41,11 +41,10 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping("/roleEdit")
-    public ResponseEntity<?> roleEdit(@RequestBody UserDtoRoles userDtoRoles) {
-        userService.roleEdit(userDtoRoles);
-        StringResponse stringResponse = new StringResponse("Права пользователя изменены");
-        return ResponseEntity.ok(stringResponse);
+    @PutMapping("/edit-role")
+    public StringResponse editRole(@RequestBody UserDtoRoles userDtoRoles) {
+        userService.editRole(userDtoRoles);
+        return new StringResponse("Права пользователя изменены");
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")

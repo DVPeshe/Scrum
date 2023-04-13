@@ -5,7 +5,7 @@ angular.module('market').controller('roleController', function ($scope, $http, $
 
     $scope.editRole = function () {
         $localStorage.lastEditUser.roles = $localStorage.checkboxRolesListModel;
-        $http.post(contextPathUsers + '/roleEdit', $localStorage.lastEditUser).then(function succes(response) {
+        $http.put(contextPathUsers + '/edit-role', $localStorage.lastEditUser).then(function succes(response) {
             if (response.data.value) {
                 alert(response.data.value);
                 $location.path('/users');
@@ -23,7 +23,7 @@ angular.module('market').controller('roleController', function ($scope, $http, $
     }
 
     $scope.getRoles = function () {
-        $http.get(contextPathRoles).then(function success(response) {
+        $http.get(contextPathRoles + '/titles').then(function success(response) {
             $scope.roleList = response.data
         });
     }
@@ -39,7 +39,6 @@ angular.module('market').controller('roleController', function ($scope, $http, $
     }
 
     $scope.editListRole = function (role) {
-        console.log("Click!");
         let index = searchRole(role, $localStorage.checkboxRolesListModel);
         if (index !== null) {
             $localStorage.checkboxRolesListModel.splice(index, 1)

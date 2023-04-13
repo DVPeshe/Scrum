@@ -21,7 +21,7 @@
         <tbody>
         <tr ng-repeat="user in usersPage.content">
             <td>{{user.username}}</td>
-            <td>{{user.roles}}</td>
+            <td>{{user.rolesTitle}}</td>
             <td>
                 <button class="btn btn-outline-danger btn-sm" ng-click="banUser(user.id, false)"
                         ng-disabled="showUserManagement(user.username)"
@@ -33,7 +33,7 @@
                 </button>
             <td>
             <td>
-                <button class="btn btn-outline-primary btn-sm" ng-click="editRole(user.username, user.roles)"
+                <button class="btn btn-outline-primary btn-sm" ng-click="editRole(user.username, user.rolesTitle)"
                         ng-disabled="showUserManagement(user.username)">Назначить права пользователю
                 </button>
             <td>
