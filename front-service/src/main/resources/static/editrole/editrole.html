@@ -2,17 +2,33 @@
     <p></p>
     <h3>Управление доступом</h3>
     <p></p>
-    <h5>Пользователь: {{edituser.username}}</h5>
+    <h5>Пользователь: {{currentUserName}}</h5>
     <p></p>
-    <form novalidate ng-submit="editRole()">
-        <div class="form-floating input-group-sm">
-            <select style="width: 40%;" class="form-control" ng-model="edituser.role" ng-options="u for u in roleList">
-                <option value="">ROLE_...</option>
-            </select>
-        </div>
-        <p></p>
-        <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Назначить права</button>
-    </form>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Права пользователя</th>
+            <th>Вкл/Выкл</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="role in roleList">
+            <td>{{role}}</td>
+            <td>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" ng-click="editListRole(role)" ng-checked="checkRole(role)" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Назначить роль
+                    </label>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p></p>
+    <button class="btn btn-outline-primary btn-sm" ng-click="editRole()"
+            ng-disabled="equalsListsRoles()">Обновить права
+    </button>
     <p></p>
     <button class="btn btn-outline-info btn-sm" ng-click="back()">Назад</button>
 </div>

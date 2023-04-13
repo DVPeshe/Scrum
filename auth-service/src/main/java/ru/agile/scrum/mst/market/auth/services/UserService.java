@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agile.scrum.mst.market.api.JwtRequest;
 import ru.agile.scrum.mst.market.api.RegistrationUserDto;
-import ru.agile.scrum.mst.market.api.UserDto;
+import ru.agile.scrum.mst.market.api.UserDtoRoles;
 import ru.agile.scrum.mst.market.auth.entities.Avatar;
 import ru.agile.scrum.mst.market.auth.entities.Role;
 import ru.agile.scrum.mst.market.auth.entities.User;
@@ -27,9 +27,7 @@ import ru.agile.scrum.mst.market.auth.mappers.UserMapper;
 import ru.agile.scrum.mst.market.auth.repositories.UserRepository;
 import ru.agile.scrum.mst.market.auth.utils.JwtTokenUtil;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -94,7 +92,11 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(registrationUserDto.getPassword()));
         user.setFullName(registrationUserDto.getFullName());
         user.setAccess(true);
-        user.setRoles(List.of(roleService.getUserRole()));
+      
+        List<Role> roles = new ArrayList<>();
+        roles.add(roleService.getUserRole());
+        user.setRoles(roles);
+
         Avatar avatar = Avatar.builder()
                 .avatar(null)
                 .user(user)
@@ -108,7 +110,10 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean getAccessAdmin(String username) {
-        Collection<Role> rolesUser = userRepository.findByUsername(username).get().getRoles();
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new ResourceNotFoundException("Пользователь " + username + " не найден.")
+        );
+        Collection<Role> rolesUser = user.getRoles();
         return rolesUser.size() > 1;
     }
 
@@ -118,17 +123,13 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void roleEdit(UserDto userDto) {
-        for (Role role : roleService.getAllRoles()) {
-            if (role.getName().equals(userDto.getRole())) {
-                User user = userRepository.getById(userDto.getId());
-                user.getRoles().clear();
-                user.getRoles().add(role);
-                userRepository.save(user);
-                return;
-            }
-        }
-        throw new IncorrectRoleUserException("Такой роли не существует!");
+    public void editRole(UserDtoRoles userDtoRoles) {
+        User user = userRepository.findByUsername(userDtoRoles.getUsername()).orElseThrow(
+                () -> new ResourceNotFoundException("Пользователь " + userDtoRoles.getUsername() + " не найден."));
+        List<Role> collect = userDtoRoles.getRoles().stream().map(roleService::getRoleByTitle).toList();
+        user.getRoles().clear();
+        user.getRoles().addAll(collect);
+        userRepository.save(user);
     }
 
     @Transactional

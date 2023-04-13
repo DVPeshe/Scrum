@@ -1,5 +1,6 @@
-angular.module('market').controller('usersController', function ($scope, $http, $location, $rootScope, $localStorage) {
+angular.module('market').controller('usersController', function ($scope, $http, $location, $localStorage, $rootScope) {
     const contextPath = 'http://localhost:5555/auth/api/v1/users';
+    $localStorage.checkboxRolesListModel = null;
 
     $scope.loadUsers = function (page = 1) {
         $scope.lastClick = page;
@@ -24,10 +25,8 @@ angular.module('market').controller('usersController', function ($scope, $http, 
         $scope.pagesList = out;
     }
 
-    $scope.editRole = function (id, username) {
-        $rootScope.edituser = {id: id, username: username, role: null}
-        $localStorage.lastEditUser = $rootScope.edituser;
-        console.log($rootScope.edituser);
+    $scope.editRole = function (username, roles) {
+        $rootScope.editUser = {username: username, roles: roles};
         $location.path('/editrole')
     }
 
@@ -38,7 +37,7 @@ angular.module('market').controller('usersController', function ($scope, $http, 
             params: {
                 access: flag
             }
-        }).then(function (response) {
+        }).then(function () {
             $scope.loadUsers($scope.lastClick);
         });
     }
