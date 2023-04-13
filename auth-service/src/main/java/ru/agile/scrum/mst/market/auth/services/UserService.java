@@ -96,8 +96,7 @@ public class UserService implements UserDetailsService {
         List<Role> roles = new ArrayList<>();
         roles.add(roleService.getUserRole());
         user.setRoles(roles);
-      
-        user.setRoles(List.of(roleService.getUserRole()));
+
         Avatar avatar = Avatar.builder()
                 .avatar(null)
                 .user(user)
