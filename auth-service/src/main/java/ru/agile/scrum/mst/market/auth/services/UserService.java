@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.agile.scrum.mst.market.api.JwtRequest;
 import ru.agile.scrum.mst.market.api.RegistrationUserDto;
 import ru.agile.scrum.mst.market.api.UserDtoRoles;
-import ru.agile.scrum.mst.market.api.UserDto;
 import ru.agile.scrum.mst.market.auth.entities.Avatar;
 import ru.agile.scrum.mst.market.auth.entities.Role;
 import ru.agile.scrum.mst.market.auth.entities.User;
