@@ -11,6 +11,9 @@ import ru.agile.scrum.mst.market.comment.entity.Comment;
 import ru.agile.scrum.mst.market.comment.exception.FieldsNotNullException;
 import ru.agile.scrum.mst.market.comment.repository.CommentRepository;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -25,14 +28,18 @@ public class CommentService {
         if (commentDto.getUser() == null) {
             throw new FieldsNotNullException("Авторизуйтесь, чтобы оставить отзыв");
         }
-        if (commentDto.getUser() == null || commentDto.getProduct() == null
+        if (commentDto.getProduct() == null
                 || commentDto.getDescription() == null) {
             throw new FieldsNotNullException("Все поля формы должны быть заполнены");
+        }
+        if (commentDto.getEstimation() == null) {
+            throw new FieldsNotNullException("Поставьте оценку");
         }
         Comment comment = new Comment();
         comment.setUsername(commentDto.getUser());
         comment.setProduct(commentDto.getProduct());
         comment.setDescription(commentDto.getDescription());
+        comment.setEstimation(commentDto.getEstimation());
         comment.setVisible(true);
         if (commentRepository.existsByUsernameAndProduct(commentDto.getUser(), commentDto.getProduct())) {
             return updateComment(commentDto);
@@ -46,6 +53,7 @@ public class CommentService {
         comment.setUsername(commentDto.getUser());
         comment.setProduct(commentDto.getProduct());
         comment.setDescription(commentDto.getDescription());
+        comment.setEstimation(commentDto.getEstimation());
         commentRepository.save(comment);
         return comment;
     }
@@ -53,5 +61,15 @@ public class CommentService {
 
     public void deleteById(Long id) {
         commentRepository.deleteById(id);
+    }
+
+    public Double getEstimation(String productTitle) {
+        return round(commentRepository.getEstimation(productTitle));
+    }
+
+    public static double round(Double value) {
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import ru.agile.scrum.mst.market.api.ProductDto;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -42,5 +40,8 @@ public class Comment {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Column(name = "estimation")
+    private Integer estimation;
 
 }

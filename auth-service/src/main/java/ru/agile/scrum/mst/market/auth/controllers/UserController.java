@@ -24,7 +24,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/listUsers")
+    @GetMapping("/all")
     public Page<UserDto> getAllUsers(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "page_size", defaultValue = "5") Integer pageSize,
@@ -109,4 +109,15 @@ public class UserController {
     public ResponseEntity<List<String>> getUserRoles(@RequestHeader String username) {
         return ResponseEntity.ok(userService.getUserRoles(username));
     }
+
+    @GetMapping("/personal-email")
+    public UserPersonalAccount getUserPersonalEmail(@RequestHeader String username) {
+        UserPersonalAccount account = UserPersonalAccount.builder()
+                .username(username)
+                .email(userService.getUserEmailByName(username))
+                .fullName(userService.getFullNameByName(username))
+                .build();
+        return account;
+    }
+
 }

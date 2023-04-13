@@ -13,7 +13,7 @@ public class CommentSpecifications {
 
     }
 
-    public static Specification<Comment> productTitleEquals(String product) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("product"), product);
+    public static Specification<Comment> productTitleEquals(String productTitle) {
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("product"), productTitle);
     }
 }
