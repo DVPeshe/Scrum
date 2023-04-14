@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AvatarPersonalAccount {
-    private String username;
     private byte[] avatar;
 }

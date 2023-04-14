@@ -18,7 +18,7 @@ angular.module('market').controller('personalAccountController', function ($scop
         "image/x-icon"
     ];
     $scope.upUser = {username: null, password: null, confirmPassword: null, email: null, fullName: null};
-    $scope.userAvatar = {username: null, avatar: null};
+    $scope.userAvatar = {avatar: null};
     $scope.userRoles = [];
 
     $scope.functionUpdateUser = function () {
@@ -44,10 +44,8 @@ angular.module('market').controller('personalAccountController', function ($scop
     }
 
     reader.onload = function () {
-        const base64 = reader.result.split(',')[1];
-        $scope.userAvatar.username = $localStorage.mstMarketUser.username;
-        $scope.userAvatar.avatar = base64;
-        $http.post(avatarContextPath, $scope.userAvatar).then(function success(response) {
+        $scope.userAvatar.avatar = reader.result.split(',')[1];
+        $http.put(avatarContextPath + '/my', $scope.userAvatar).then(function success(response) {
             $scope.getUserAvatar();
         }, function error(response) {
             $scope.getUserAvatar();
@@ -72,7 +70,7 @@ angular.module('market').controller('personalAccountController', function ($scop
     }
 
     $scope.getUserAvatar = function () {
-        $http.get(avatarContextPath).then(function success(response) {
+        $http.get(avatarContextPath + '/my').then(function success(response) {
             console.log(response.data)
             if (response.data) {
                 const avatar = response.data.avatar;
@@ -93,7 +91,6 @@ angular.module('market').controller('personalAccountController', function ($scop
             for (const file of curFiles) {
                 if (validFileType(file)) {
                     $scope.updateAvatar(file);
-                    // element.src = URL.createObjectURL(file);
                 }
             }
         }
