@@ -22,7 +22,7 @@ angular.module('market').controller('registrationController', function ($scope,$
     $scope.userAvatar = {username: null, avatar: null};
 
     $scope.functionRegistration = function () {
-        $http.post(contextPath + 'registration', $scope.reguser).then(function success(response) {
+        $http.post(contextPath + 'register', $scope.reguser).then(function success(response) {
             if (response.data.token) {
                 $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                 $localStorage.mstMarketUser = {username: $scope.reguser.username, token: response.data.token};

@@ -22,7 +22,7 @@ angular.module('market').controller('personalAccountController', function ($scop
     $scope.userRoles = [];
 
     $scope.functionUpdateUser = function () {
-        $http.post(userContextPath + '/updateUser', $scope.upUser).then(function success(response) {
+        $http.put(userContextPath + '/edit-user', $scope.upUser).then(function success(response) {
             alert(response.data.value);
             $scope.upUser.password = null;
             $scope.upUser.confirmPassword = null;

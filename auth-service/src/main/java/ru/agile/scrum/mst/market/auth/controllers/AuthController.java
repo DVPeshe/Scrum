@@ -30,7 +30,7 @@ public class AuthController {
         return ResponseEntity.ok(jwtResponse);
     }
 
-    @PostMapping("/registration")
+    @PostMapping("/register")
     public ResponseEntity<?> createAuthToken(@RequestBody RegistrationUserDto registrationUserDto) {
         userService.reg(registrationUserDto);
         UserDetails userDetails = userService.loadUserByUsername(registrationUserDto.getUsername());

@@ -13,6 +13,7 @@ import ru.agile.scrum.mst.market.auth.mappers.UserMapper;
 import ru.agile.scrum.mst.market.auth.repositories.Specifications.UsersSpecifications;
 import ru.agile.scrum.mst.market.auth.services.UserService;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 
@@ -82,15 +83,14 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PostMapping("/updateUser")
-    public ResponseEntity<?> updateAnyUserData(@RequestBody RegistrationUserDto registrationUserDto, @RequestHeader String username) {
-        if (!Objects.equals(username, registrationUserDto.getUsername())) {
+    @PutMapping("/edit-user")
+    public StringResponse updateAnyUserData(@RequestBody RegistrationUserDto registrationUserDto, Principal principal) {
+        if (!Objects.equals(principal.getName(), registrationUserDto.getUsername())) {
             throw new AccessForbiddenException("Запрещено изменять чужие персональные данные.");
         }
         userService.updateUser(registrationUserDto);
-        StringResponse stringResponse = new StringResponse(String
+        return new StringResponse(String
                 .format("Данные пользователя %s успешно обновлены.", registrationUserDto.getUsername()));
-        return ResponseEntity.ok(stringResponse);
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
