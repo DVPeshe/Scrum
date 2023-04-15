@@ -4,9 +4,17 @@ angular.module('market').controller('productCardController', function ($scope, $
     const contextPathImg = 'http://localhost:5555/image/api/v1/images/'
 
     $scope.comment = {user: null, product: null, description: null, estimation: null};
-
+    $scope.productImage = {id : null, title : null, image : null};
 
     const element = document.querySelector('#image');
+    const input = document.querySelector('#image_uploads');
+    const reader = new FileReader();
+
+    const imageTypes = [
+        "image/jpg",
+        "image/jpeg",
+        "image/png",
+    ];
 
     $scope.getEstimation = function (product = $scope.productCard) {
         $http({
@@ -108,6 +116,69 @@ angular.module('market').controller('productCardController', function ($scope, $
                 }
             });
     }
+
+    $scope.uploadImage = function () {
+        if ($scope.productImage.image) {
+            URL.revokeObjectURL(element.src);
+            $http.post(contextPathImg + 'upload', $scope.productImage)
+                .then(function success() {
+                        alert('Удалось сохранить изображение!');
+                    },
+                    function error(response) {
+                        alert('Не удалось сохранить изображение!');
+                        let me = response;
+                        console.log(me);
+                        alert(me.data.message);
+                    });
+        }
+    }
+
+    $scope.deleteImage = function (productId) {
+        if ($scope.productCard.imageId) {
+            $scope.productImage.productId = productId;
+            console.log($scope.productImage.productId);
+            $http.delete(contextPathImg + $scope.productCard.imageId,
+                {data: $scope.productImage, headers: {'Content-Type': 'application/json;charset=utf-8'}})
+                .then(function success() {
+                        alert('Удалось удалить изображение!');
+                        $scope.getProductCardById();
+                    },
+                    function error(response) {
+                        alert('Не удалось удалить изображение!');
+                        let me = response;
+                        console.log(me);
+                        alert(me.data.message);
+                    });
+        }
+    }
+
+    function updateImage() {
+        const curFiles = input.files;
+        if (curFiles.length > 0) {
+            for (const file of curFiles) {
+                if (valiImageType(file)) {
+                    if (element.src) {
+                        URL.revokeObjectURL(element.src);
+                        $scope.productImage.image = null;
+                    }
+                    element.src = URL.createObjectURL(file);
+                    reader.readAsDataURL(file);
+                    $scope.productImage.title = file.name;
+                    $scope.productImage.productId = $scope.productCard.id;
+                }
+            }
+        }
+    }
+
+    function valiImageType(file) {
+        return imageTypes.includes(file.type);
+    }
+
+    reader.onload = function () {
+        $scope.productImage.image = reader.result.split(',')[1];
+    }
+
+    input.addEventListener('change', updateImage);
 
     $scope.getProductCardById();
 
