@@ -22,7 +22,7 @@ angular.module('market').controller('personalAccountController', function ($scop
     $scope.userRoles = [];
 
     $scope.functionUpdateUser = function () {
-        $http.put(userContextPath + '/edit-user', $scope.upUser).then(function success(response) {
+        $http.put(userContextPath + '/my', $scope.upUser).then(function success(response) {
             alert(response.data.value);
             $scope.upUser.password = null;
             $scope.upUser.confirmPassword = null;
@@ -53,7 +53,7 @@ angular.module('market').controller('personalAccountController', function ($scop
     }
 
     $scope.getUserData = function () {
-        $http.get(userContextPath + '/personal-data').then(function success(response) {
+        $http.get(userContextPath + '/personal-data/my').then(function success(response) {
             console.log(response.data)
             if (response.data) {
                 $scope.upUser.username = response.data.username;
@@ -61,10 +61,10 @@ angular.module('market').controller('personalAccountController', function ($scop
                 $scope.upUser.fullName = response.data.fullName;
             }
         });
-        $http.get(userContextPath + '/role-titles').then(function success(response) {
+        $http.get(userContextPath + '/role-titles/my').then(function success(response) {
             console.log(response.data)
             if (response.data) {
-                $scope.userRoles = response.data;
+                $scope.userRoles = response.data.roleTitles;
             }
         });
     }

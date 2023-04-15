@@ -3,7 +3,6 @@ package ru.agile.scrum.mst.market.auth.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.agile.scrum.mst.market.api.*;
@@ -14,13 +13,13 @@ import ru.agile.scrum.mst.market.auth.repositories.Specifications.UsersSpecifica
 import ru.agile.scrum.mst.market.auth.services.UserService;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
+
     private final UserService userService;
     private final UserMapper userMapper;
 
@@ -56,34 +55,18 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/email/{username}")
-    public ResponseEntity<?> getAnyEmailAddress(@PathVariable String username) {
-        StringResponse stringResponse = new StringResponse(userService.getUserEmailByName(username));
-        return ResponseEntity.ok(stringResponse);
-    }
-
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-    @GetMapping("/email")
-    public ResponseEntity<?> getUserEmailAddress(@RequestHeader String username) {
-        StringResponse stringResponse = new StringResponse(userService.getUserEmailByName(username));
-        return ResponseEntity.ok(stringResponse);
+    public StringResponse getAnyEmailAddress(@PathVariable String username) {
+        return new StringResponse(userService.getUserEmailByName(username));
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/full-name/{username}")
-    public ResponseEntity<?> getAnyFullName(@PathVariable String username) {
-        StringResponse stringResponse = new StringResponse(userService.getFullNameByName(username));
-        return ResponseEntity.ok(stringResponse);
+    public StringResponse getAnyFullName(@PathVariable String username) {
+        return new StringResponse(userService.getFullNameByName(username));
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    @GetMapping("/full-name")
-    public ResponseEntity<?> getUserFullName(@RequestHeader String username) {
-        StringResponse stringResponse = new StringResponse(userService.getFullNameByName(username));
-        return ResponseEntity.ok(stringResponse);
-    }
-
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PutMapping("/edit-user")
+    @PutMapping("/my")
     public StringResponse updateAnyUserData(@RequestBody RegistrationUserDto registrationUserDto, Principal principal) {
         if (!Objects.equals(principal.getName(), registrationUserDto.getUsername())) {
             throw new AccessForbiddenException("Запрещено изменять чужие персональные данные.");
@@ -94,20 +77,20 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    @GetMapping("/personal-data")
-    public ResponseEntity<UserPersonalAccount> getUserPersonalData(@RequestHeader String username) {
-        UserPersonalAccount account = UserPersonalAccount.builder()
+    @GetMapping("/personal-data/my")
+    public UserPersonalAccount getUserPersonalData(Principal principal) {
+        final String username = principal.getName();
+        return UserPersonalAccount.builder()
                 .username(username)
                 .email(userService.getUserEmailByName(username))
                 .fullName(userService.getFullNameByName(username))
                 .build();
-        return ResponseEntity.ok(account);
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    @GetMapping("/role-titles")
-    public ResponseEntity<List<String>> getUserRoles(@RequestHeader String username) {
-        return ResponseEntity.ok(userService.getUserRoles(username));
+    @GetMapping("/role-titles/my")
+    public RoleTitlesResponse getUserRoles(Principal principal) {
+        return userService.getUserRoles(principal.getName());
     }
 
     @GetMapping("/personal-email")
