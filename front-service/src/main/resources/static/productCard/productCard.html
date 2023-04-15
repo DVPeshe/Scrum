@@ -1,13 +1,18 @@
 <div>
-    <h1>{{productCard.title}}</h1>
-    <div class="media">
-        <img id="image" src="" class="mr-3" style="width: 200px; height: auto">
+    <div class="mainInfo">
+        <h1 class="productTitle">{{productCard.title}}</h1>
+        <div class="media">
+            <img id="image" src="" class="mr-3 mediaImage" style="width: 200px; height: auto">
+            <div class="mediaText">
+                <p>{{productCard.description}}</p></div>
+            </div>
+        </div>
+        <h2 class="quantity">В наличии: {{productCard.quantity}} шт.</h2>
+        <h2 class="price">Цена: {{productCard.price}} руб.</h2>
+
+
     </div>
-    <h2 class="text-danger">{{productCard.price}} <span style="font-size: 0.7em">руб</span></h2>
-    <h2>Количество в наличии</h2>
-    <h2 class="text-danger">{{productCard.quantity}}</h2>
-    <h2>Описание</h2>
-    <p>{{productCard.description}}</p>
+
     <div ng-show="visibleAddCard()">
         <button class="btn btn-primary" ng-click="addToCart(productCard.id)"
                 ng-if="productCard.quantity != 0"
@@ -21,22 +26,25 @@
     </div>
     <p></p>
     <div>
-        <h4>Оценка покупателей: {{avgEstimation}}</h4>
+        <h4 class="score" ng-show="commentsPage.content.length > 0">Оценка покупателей: {{avgEstimation}}</h4>
     </div>
     <div>
-        <h2>Отзывы</h2>
+        <h4 class="comments">Отзывы</h4>
     </div>
     <div ng-show="commentsPage.content.length == 0">
         <p>Отзывов пока нет</p>
     </div>
 
-    <table class="table table-hover">
-        <tbody>
+    <table ng-show="commentsPage.content.length > 0" class="table table-hover tableProductCard">
+        <thead>
         <tr>
             <th>Пользователь</th>
             <th>Комментарий</th>
             <th>Оценка</th>
+            <th ng-show="isVisibleAdmin()"></th>
         </tr>
+        </thead>
+        <tbody>
         <tr ng-repeat="p in commentsPage.content">
             <td>{{p.user}}</td>
             <td>{{p.description}}</td>
@@ -59,13 +67,13 @@
         <label for="username">Имя пользователя</label>
         <div class="form-floating input-group-sm">
             <input disabled="disabled" style="width: 40%;" type="text" class="form-control" id="username"
-                   placeholder="{{username}}" ng-model="comment.user" >
+                   placeholder="{{username}}" ng-model="comment.user">
         </div>
         <p></p>
         <label for="product">Товар</label>
         <div class="form-floating input-group-sm">
             <input disabled="disabled" style="width: 40%;" type="text" class="form-control" id="product"
-                   placeholder="{{productCard.title}}" ng-model="comment.product" >
+                   placeholder="{{productCard.title}}" ng-model="comment.product">
         </div>
         <p></p>
         <label for="commentDescription">Отзыв</label>
@@ -76,23 +84,28 @@
         <p></p>
 
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="Radio" id="Radio1" value="1" ng-model="comment.estimation">
+            <input class="form-check-input" type="radio" name="Radio" id="Radio1" value="1"
+                   ng-model="comment.estimation">
             <label class="form-check-label" for="Radio1">1</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="Radio" id="Radio2" value="2" ng-model="comment.estimation">
+            <input class="form-check-input" type="radio" name="Radio" id="Radio2" value="2"
+                   ng-model="comment.estimation">
             <label class="form-check-label" for="Radio2">2</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="Radio" id="Radio3" value="3" ng-model="comment.estimation">
+            <input class="form-check-input" type="radio" name="Radio" id="Radio3" value="3"
+                   ng-model="comment.estimation">
             <label class="form-check-label" for="Radio3">3</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="Radio" id="Radio4" value="4" ng-model="comment.estimation">
+            <input class="form-check-input" type="radio" name="Radio" id="Radio4" value="4"
+                   ng-model="comment.estimation">
             <label class="form-check-label" for="Radio4">4</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="Radio" id="Radio5" value="5" ng-model="comment.estimation" >
+            <input class="form-check-input" type="radio" name="Radio" id="Radio5" value="5"
+                   ng-model="comment.estimation">
             <label class="form-check-label" for="Radio5">5</label>
         </div>
         <button class="btn btn-outline-warning btn-sm" style="width: 20%;" type="submit">Оставить отзыв
