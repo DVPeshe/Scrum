@@ -2,6 +2,7 @@ package ru.agile.scrum.mst.market.core.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.agile.scrum.mst.market.api.OrderDto;
 import ru.agile.scrum.mst.market.core.mappers.OrderMapper;
@@ -17,6 +18,7 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderMapper orderMapper;
 
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping
     public List<OrderDto> getUserOrders(@RequestHeader String username) {
         return orderService.findUserOrders(username)
@@ -25,11 +27,13 @@ public class OrderController {
                 .collect(Collectors.toList());
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/clear")
     public void clearUserOrders(@RequestHeader String username) {
         orderService.deleteOrders(username);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createNewOrder(@RequestHeader String username) {

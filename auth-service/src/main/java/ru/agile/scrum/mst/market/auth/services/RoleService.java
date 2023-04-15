@@ -30,7 +30,8 @@ public class RoleService {
     }
 
     public List<String> getAllRoleTitles() {
-        return roleRepository.findAll().stream().map(Role::getTitle).toList();
+        return roleRepository.findAll().stream().map(Role::getTitle)
+                .filter((title) -> !title.equals("генеральный директор")).toList();
     }
 
     public Role getRoleByName(String nameRole) { return roleRepository.findByName(nameRole).orElseThrow(

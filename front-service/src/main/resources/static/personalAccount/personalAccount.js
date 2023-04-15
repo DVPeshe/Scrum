@@ -64,9 +64,9 @@ angular.module('market').controller('personalAccountController', function ($scop
             }
         });
         $http.get(userContextPath + '/role-titles').then(function success(response) {
-            console.log(response.data)
+            console.log(response)
             if (response.data) {
-                $scope.userRoles = response.data;
+                $scope.userRoles = response.data.values;
             }
         });
     }
