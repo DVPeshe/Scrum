@@ -145,4 +145,9 @@ public class ProductController {
         return productCardMapper.mapProductToProductCardDto(productService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт с id: " + id + " не найден")));
     }
+
+    @PutMapping("/updateImage/{id}")
+    public void updateProductImage(@PathVariable Long id, @RequestBody String imageId) {
+        productService.updateProductImage(id, imageId);
+    }
 }
