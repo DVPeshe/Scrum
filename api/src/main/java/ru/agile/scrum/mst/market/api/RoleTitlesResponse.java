@@ -5,10 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AvatarPersonalAccount {
-    private byte[] avatar;
+public class RoleTitlesResponse {
+    List<String> roleTitles;
 }

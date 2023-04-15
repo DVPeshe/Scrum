@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agile.scrum.mst.market.api.JwtRequest;
 import ru.agile.scrum.mst.market.api.RegistrationUserDto;
+import ru.agile.scrum.mst.market.api.RoleTitlesResponse;
 import ru.agile.scrum.mst.market.api.UserDtoRoles;
 import ru.agile.scrum.mst.market.auth.entities.Avatar;
 import ru.agile.scrum.mst.market.auth.entities.Role;
@@ -183,7 +184,9 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public List<String> getUserRoles(String username) {
-        return getByName(username).getRoles().stream().map(Role::getTitle).toList();
+    public RoleTitlesResponse getUserRoles(String username) {
+        return RoleTitlesResponse.builder()
+                .roleTitles(getByName(username).getRoles().stream().map(Role::getTitle).toList())
+                .build();
     }
 }

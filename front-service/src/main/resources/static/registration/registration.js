@@ -1,4 +1,4 @@
-angular.module('market').controller('registrationController', function ($scope,$rootScope, $http, $location, $localStorage) {
+angular.module('market').controller('registrationController', function ($scope, $rootScope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:5555/auth/';
     const avatarContextPath = 'http://localhost:5555/auth/api/v1/avatars';
     const input = document.querySelector('#image_uploads');
@@ -19,10 +19,10 @@ angular.module('market').controller('registrationController', function ($scope,$
     ];
 
     $scope.reguser = {fullName: null, username: null, email: null, password: null, confirmPassword: null};
-    $scope.userAvatar = {username: null, avatar: null};
+    $scope.userAvatar = {avatar: null};
 
     $scope.functionRegistration = function () {
-        $http.post(contextPath + 'registration', $scope.reguser).then(function success(response) {
+        $http.post(contextPath + 'register', $scope.reguser).then(function success(response) {
             if (response.data.token) {
                 $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                 $localStorage.mstMarketUser = {username: $scope.reguser.username, token: response.data.token};
@@ -32,8 +32,7 @@ angular.module('market').controller('registrationController', function ($scope,$
 
                 if ($scope.userAvatar.avatar) {
                     URL.revokeObjectURL(element.src);
-                    $scope.userAvatar.username = $scope.reguser.username;
-                    $http.post(avatarContextPath, $scope.userAvatar).then(null, function error(response) {
+                    $http.put(avatarContextPath + '/my', $scope.userAvatar).then(null, function error(response) {
                         alert('Не удалось сохранить аватар!');
                     });
                 }
@@ -62,8 +61,7 @@ angular.module('market').controller('registrationController', function ($scope,$
     }
 
     reader.onload = function () {
-        const base64 = reader.result.split(',')[1];
-        $scope.userAvatar.avatar = base64;
+        $scope.userAvatar.avatar = reader.result.split(',')[1];
     }
 
     function validFileType(file) {
