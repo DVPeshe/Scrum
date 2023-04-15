@@ -26,7 +26,6 @@ import ru.agile.scrum.mst.market.auth.exceptions.*;
 import ru.agile.scrum.mst.market.auth.mappers.UserMapper;
 import ru.agile.scrum.mst.market.auth.repositories.UserRepository;
 import ru.agile.scrum.mst.market.auth.utils.JwtTokenUtil;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -92,7 +91,7 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(registrationUserDto.getPassword()));
         user.setFullName(registrationUserDto.getFullName());
         user.setAccess(true);
-      
+
         List<Role> roles = new ArrayList<>();
         roles.add(roleService.getUserRole());
         user.setRoles(roles);
@@ -110,11 +109,21 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean getAccessAdmin(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new ResourceNotFoundException("Пользователь " + username + " не найден.")
-        );
+        User user = getUserByName(username);
         Collection<Role> rolesUser = user.getRoles();
         return rolesUser.size() > 1;
+    }
+
+    public boolean getAccessUserPanel(String username) {
+        return containsRoleUser(username, "ROLE_ADMIN");
+    }
+
+    public boolean getAccessProductPanel(String username) {
+        return containsRoleUser(username, "ROLE_MANAGER");
+    }
+
+    public boolean getAccessEditRole(String username) {
+        return containsRoleUser(username, "ROLE_SUPERADMIN");
     }
 
     public Page<User> findAll(int page, int pageSize, Specification<User> specification) {
@@ -124,12 +133,25 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void editRole(UserDtoRoles userDtoRoles) {
-        User user = userRepository.findByUsername(userDtoRoles.getUsername()).orElseThrow(
-                () -> new ResourceNotFoundException("Пользователь " + userDtoRoles.getUsername() + " не найден."));
+        User user = getUserByName(userDtoRoles.getUsername());
         List<Role> collect = userDtoRoles.getRoles().stream().map(roleService::getRoleByTitle).toList();
         user.getRoles().clear();
         user.getRoles().addAll(collect);
         userRepository.save(user);
+    }
+
+    public User getUserByName(String username) {
+        return userRepository.findByUsername(username).orElseThrow(
+                () -> new ResourceNotFoundException("Пользователь " + username + " не найден."));
+    }
+
+    public boolean containsRoleUser(String username, String nameRole) {
+        User userByName = getUserByName(username);
+        List<Role> roles = userByName.getRoles();
+        for (Role role : roles) {
+            if (role.getName().equals(nameRole)) return true;
+        }
+        return false;
     }
 
     @Transactional

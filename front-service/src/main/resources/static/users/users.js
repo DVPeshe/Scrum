@@ -52,6 +52,10 @@ angular.module('market').controller('usersController', function ($scope, $http, 
             return name === $localStorage.mstMarketUser.username;
         }
 
+        $scope.isVisibleEditRole = function () {
+            return $localStorage.visibleEditRole;
+        }
+
         $scope.loadUsers();
     }
 );

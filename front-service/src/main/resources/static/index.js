@@ -100,8 +100,12 @@ angular.module('market').controller('indexController', function ($rootScope, $sc
         $http.post('http://localhost:5555/auth/authenticate', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
-                    console.log(response.data);
-                    $localStorage.visibleAdmin = response.data.visibleAdminButton;
+
+                    $localStorage.visibleAdmin = response.data.visibleAdministrationButton;
+                    $localStorage.visibleProduct = response.data.visibleProductPanelButton;
+                    $localStorage.visibleUser = response.data.visibleUserPanelButton;
+                    $localStorage.visibleEditRole = response.data.visibleEditRoleButton;
+
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                     $localStorage.mstMarketUser = {username: $scope.user.username, token: response.data.token};
                     $rootScope.username = $scope.user.username;
