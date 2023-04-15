@@ -12,8 +12,6 @@ import ru.agile.scrum.mst.market.auth.exceptions.AccessForbiddenException;
 import ru.agile.scrum.mst.market.auth.mappers.UserMapper;
 import ru.agile.scrum.mst.market.auth.repositories.Specifications.UsersSpecifications;
 import ru.agile.scrum.mst.market.auth.services.UserService;
-
-import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -40,7 +38,7 @@ public class UserController {
         return userService.findAll(page - 1, pageSize, spec).map(userMapper::mapUserToUserDto);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_SUPERADMIN')")
     @PutMapping("/edit-role")
     public StringResponse editRole(@RequestBody UserDtoRoles userDtoRoles) {
         userService.editRole(userDtoRoles);
@@ -106,8 +104,8 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/role-titles")
-    public ResponseEntity<List<String>> getUserRoles(@RequestHeader String username) {
-        return ResponseEntity.ok(userService.getUserRoles(username));
+    public ListResponse getUserRoles(@RequestHeader String username) {
+        return new ListResponse(userService.getUserRoles(username));
     }
 
     @GetMapping("/personal-email")

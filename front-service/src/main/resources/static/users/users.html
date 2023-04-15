@@ -22,19 +22,17 @@
         <tr ng-repeat="user in usersPage.content">
             <td>{{user.username}}</td>
             <td>{{user.rolesTitle}}</td>
-            <td>
+            <td ng-show="!showUserManagement(user.username)">
                 <button class="btn btn-outline-danger btn-sm" ng-click="banUser(user.id, false)"
-                        ng-disabled="showUserManagement(user.username)"
                         ng-show="user.access">Заблокировать пользователя
                 </button>
                 <button class="btn btn-outline-success btn-sm" ng-click="banUser(user.id, true)"
-                        ng-disabled="showUserManagement(user.username)"
                         ng-show="!user.access">Разблокировать пользователя
                 </button>
             <td>
-            <td>
+            <td ng-show="!showUserManagement(user.username)">
                 <button class="btn btn-outline-primary btn-sm" ng-click="editRole(user.username, user.rolesTitle)"
-                        ng-disabled="showUserManagement(user.username)">Назначить права пользователю
+                >Назначить права пользователю
                 </button>
             <td>
         </tr>
@@ -51,3 +49,5 @@
         </ul>
     </nav>
 </div>
+
+<!--!showUserManagement(user.username)-->
