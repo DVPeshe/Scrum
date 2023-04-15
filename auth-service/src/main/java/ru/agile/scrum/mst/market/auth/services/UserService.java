@@ -136,6 +136,14 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void updateAccessUser(Long id, Boolean flag) {
         User user = userRepository.getById(id);
+        if (user.getRoles().stream().map(Role::getName).toList().contains("ROLE_SUPERADMIN")) {
+            throw new AccessForbiddenException("Данное действие недопустимо с генеральным директором.");
+        }
+        if (!flag) user.getRoles().clear();
+        else {
+            Role roleUser = roleService.getRoleByName("ROLE_USER");
+            user.getRoles().add(roleUser);
+        }
         user.setAccess(flag);
         userRepository.save(user);
     }

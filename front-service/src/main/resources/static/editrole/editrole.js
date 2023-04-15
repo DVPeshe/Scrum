@@ -1,6 +1,7 @@
 angular.module('market').controller('roleController', function ($scope, $http, $rootScope, $location, $localStorage) {
     const contextPathUsers = 'http://localhost:5555/auth/api/v1/users';
     const contextPathRoles = 'http://localhost:5555/auth/api/v1/roles';
+    const userRole = 'покупатель';
 
 
     $scope.editRole = function () {
@@ -24,7 +25,8 @@ angular.module('market').controller('roleController', function ($scope, $http, $
 
     $scope.getRoles = function () {
         $http.get(contextPathRoles + '/titles').then(function success(response) {
-            $scope.roleList = response.data
+            console.log(response)
+            $scope.roleList = response.data.values;
         });
     }
 
@@ -80,6 +82,10 @@ angular.module('market').controller('roleController', function ($scope, $http, $
             newArray.push(array[i]);
         }
         return newArray;
+    }
+
+    $scope.isUser = function (role) {
+        return role === userRole;
     }
 
     $scope.getRoles();
