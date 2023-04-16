@@ -11,5 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class JwtResponse {
     private String token;
-    private boolean visibleAdminButton;
+    private boolean visibleAdministrationButton;
+    private boolean visibleProductPanelButton;
+    private boolean visibleUserPanelButton;
+    private boolean visibleEditRoleButton;
 }

@@ -31,7 +31,7 @@
                 </button>
             <td>
             <td ng-show="!showUserManagement(user.username)">
-                <button class="btn btn-outline-primary btn-sm" ng-click="editRole(user.username, user.rolesTitle)"
+                <button ng-show="isVisibleEditRole()" class="btn btn-outline-primary btn-sm" ng-click="editRole(user.username, user.rolesTitle)"
                 >Назначить права пользователю
                 </button>
             <td>
@@ -49,5 +49,3 @@
         </ul>
     </nav>
 </div>
-
-<!--!showUserManagement(user.username)-->
