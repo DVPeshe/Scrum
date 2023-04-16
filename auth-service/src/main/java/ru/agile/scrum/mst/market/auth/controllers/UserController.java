@@ -40,7 +40,7 @@ public class UserController {
         return userService.findAll(page - 1, pageSize, spec).map(userMapper::mapUserToUserDto);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_SUPERADMIN')")
     @PutMapping("/edit-role")
     public StringResponse editRole(@RequestBody UserDtoRoles userDtoRoles) {
         userService.editRole(userDtoRoles);
