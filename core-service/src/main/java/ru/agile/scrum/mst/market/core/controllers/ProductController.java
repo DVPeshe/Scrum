@@ -26,7 +26,6 @@ import ru.agile.scrum.mst.market.core.mappers.ProductMapper;
 import ru.agile.scrum.mst.market.core.repositories.specifications.ProductsSpecifications;
 import ru.agile.scrum.mst.market.core.services.CategoryService;
 import ru.agile.scrum.mst.market.core.services.ProductService;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -135,21 +134,12 @@ public class ProductController {
         return ResponseEntity.ok(stringResponse);
     }
 
-////    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-//    @PostMapping("/updateProductStock")
-//    public ResponseEntity<?> updateDataProductStock(@RequestBody ProductStockDto productStockDto) {//
-//        productService.updateProductStock(productStockDto);
-//        StringResponse stringResponse = new StringResponse(String.format("Продукт %s успешно обновлен", productStockDto.getId()));
-//        return ResponseEntity.ok(stringResponse);
-//    }
-
-    @GetMapping("/updateProductStock/{id}")
-    public void updateDataProductStock(@RequestHeader(required = false) String quantityStr, @PathVariable Long id) {
-        int quantity = Integer.parseInt(quantityStr);
-        ProductStockDto productStockDto = new ProductStockDto();
-        productStockDto.setId(id);
-        productStockDto.setQuantity(quantity);
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    @PostMapping("/updateProductStock")
+    public ResponseEntity<?> updateDataProductStock(@RequestBody ProductStockDto productStockDto) {
         productService.updateProductStock(productStockDto);
+        StringResponse stringResponse = new StringResponse(String.format("Продукт %s успешно обновлен", productStockDto.getId()));
+        return ResponseEntity.ok(stringResponse);
     }
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")

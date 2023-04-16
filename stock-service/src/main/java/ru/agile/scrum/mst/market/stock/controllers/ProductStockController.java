@@ -5,6 +5,7 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+import ru.agile.scrum.mst.market.api.JwtResponse;
 import ru.agile.scrum.mst.market.stock.services.ProductStockService;
 import ru.agile.scrum.mst.market.stock.soap.productstocks.*;
 

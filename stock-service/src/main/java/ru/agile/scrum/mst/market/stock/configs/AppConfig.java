@@ -19,6 +19,7 @@ import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.tcp.TcpClient;
+import ru.agile.scrum.mst.market.stock.properties.AuthServiceIntegrationProperties;
 import ru.agile.scrum.mst.market.stock.properties.ProductServiceIntegrationProperties;
 import java.util.concurrent.TimeUnit;
 
@@ -26,10 +27,11 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(
-        ProductServiceIntegrationProperties.class
+        {ProductServiceIntegrationProperties.class, AuthServiceIntegrationProperties.class}
 )
 public class AppConfig extends WsConfigurerAdapter {
     private final ProductServiceIntegrationProperties productServiceIntegrationProperties;
+    private final AuthServiceIntegrationProperties authServiceIntegrationProperties;
 
     @Bean
     public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
@@ -60,4 +62,23 @@ public class AppConfig extends WsConfigurerAdapter {
                 .clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)))
                 .build();
     }
+
+    @Bean
+    public WebClient authServiceWebClient() {
+        TcpClient authtcpClient = TcpClient
+                .create()
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, authServiceIntegrationProperties.getConnectTimeout())
+                .doOnConnected(connection -> {
+                    connection.addHandlerLast(new ReadTimeoutHandler(authServiceIntegrationProperties.getReadTimeout(), TimeUnit.MILLISECONDS));
+                    connection.addHandlerLast(new WriteTimeoutHandler(authServiceIntegrationProperties.getWriteTimeout(), TimeUnit.MILLISECONDS));
+                });
+
+        return WebClient
+                .builder()
+                .baseUrl(authServiceIntegrationProperties.getUrl())
+                .clientConnector(new ReactorClientHttpConnector(HttpClient.from(authtcpClient)))
+                .build();
+    }
+
+
 }
