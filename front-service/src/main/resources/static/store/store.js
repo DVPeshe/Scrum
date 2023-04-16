@@ -15,6 +15,7 @@ angular.module('market').controller('storeController', function ($scope, $http, 
             }
         }).then(function (response) {
             $scope.productsPage = response.data;
+            $scope.getImageById();
             $scope.generatePagesList($scope.productsPage.totalPages);
         });
     };
@@ -76,7 +77,6 @@ angular.module('market').controller('storeController', function ($scope, $http, 
             .then(function (response) {
                 $scope.cart = response.data;
                 $rootScope.currentCartUser = response.data;
-                $scope.getImageById()
             });
     };
     $scope.getCategories = function () {

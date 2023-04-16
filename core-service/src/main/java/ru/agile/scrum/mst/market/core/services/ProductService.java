@@ -86,4 +86,11 @@ public class ProductService {
         byId.setVisible(visible);
         productRepository.save(byId);
     }
+
+    @Transactional
+    public void updateProductImage(Long id, String imageId) {
+        Product byId = productRepository.getById(id);
+        byId.setImageId(imageId);
+        productRepository.save(byId);
+    }
 }

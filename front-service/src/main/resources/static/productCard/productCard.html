@@ -1,12 +1,22 @@
 <div>
     <div class="mainInfo">
         <h1 class="productTitle">{{productCard.title}}</h1>
+        <p>
         <div class="media">
-            <img id="image" src="" class="mr-3 mediaImage" style="width: 200px; height: auto">
+            <img id="image" src="" class="mr-3 mediaImage" style="width: auto; height: 200px">
             <div class="mediaText">
                 <p>{{productCard.description}}</p></div>
             </div>
         </div>
+    <div>
+        <label for="image_uploads" class="btn btn-outline-warning btn-sm">Выбрать изображение для загрузки</label>
+        <input type="file" id="image_uploads" name="image_uploads" style="opacity: 0"
+               accept="image/jpg, image/jpeg, image/pjpeg, image/png">
+    </div>
+    <div>
+        <button class="btn btn-outline-primary btn-sm" ng-click="uploadImage()">Загрузить</button>
+        <button class="btn btn-danger btn-sm" ng-click="deleteImage(productCard.id)">Удалить</button>
+    </div>
         <h2 class="quantity">В наличии: {{productCard.quantity}} шт.</h2>
         <h2 class="price">Цена: {{productCard.price}} руб.</h2>
 
