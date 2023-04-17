@@ -93,13 +93,4 @@ public class UserController {
         return userService.getUserRoles(principal.getName());
     }
 
-    @GetMapping("/personal-email")
-    public UserPersonalAccount getUserPersonalEmail(@RequestHeader String username) {
-        return UserPersonalAccount.builder()
-                .username(username)
-                .email(userService.getUserEmailByName(username))
-                .fullName(userService.getFullNameByName(username))
-                .build();
-    }
-
 }

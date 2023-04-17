@@ -14,7 +14,7 @@ public class UserServiceIntegration {
 
     public UserPersonalAccount getPersonalData(String username, String tokenSecurity) {
         return userServiceWebClient.get()
-                .uri("/api/v1/users/personal-email")
+                .uri("/api/v1/users/personal-data/my")
                 .header("username", username)
                 .header("roles", getRolesStringFromTokenSecurity(tokenSecurity))
                 .retrieve()
