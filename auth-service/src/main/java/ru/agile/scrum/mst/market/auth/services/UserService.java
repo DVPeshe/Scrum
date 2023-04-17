@@ -18,17 +18,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.agile.scrum.mst.market.api.JwtRequest;
 import ru.agile.scrum.mst.market.api.RegistrationUserDto;
-import ru.agile.scrum.mst.market.api.UserDto;
+import ru.agile.scrum.mst.market.api.RoleTitlesResponse;
+import ru.agile.scrum.mst.market.api.UserDtoRoles;
+import ru.agile.scrum.mst.market.auth.entities.Avatar;
 import ru.agile.scrum.mst.market.auth.entities.Role;
 import ru.agile.scrum.mst.market.auth.entities.User;
 import ru.agile.scrum.mst.market.auth.exceptions.*;
 import ru.agile.scrum.mst.market.auth.mappers.UserMapper;
 import ru.agile.scrum.mst.market.auth.repositories.UserRepository;
 import ru.agile.scrum.mst.market.auth.utils.JwtTokenUtil;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,10 +63,6 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
 
-    public void createUser(User user) {
-        userRepository.save(user);
-    }
-
     public void auth(JwtRequest authRequest) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
@@ -97,8 +92,17 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(registrationUserDto.getPassword()));
         user.setFullName(registrationUserDto.getFullName());
         user.setAccess(true);
-        user.setRoles(List.of(roleService.getUserRole()));
-        createUser(user);
+
+        List<Role> roles = new ArrayList<>();
+        roles.add(roleService.getUserRole());
+        user.setRoles(roles);
+
+        Avatar avatar = Avatar.builder()
+                .avatar(null)
+                .user(user)
+                .build();
+        user.setAvatar(avatar);
+        userRepository.save(user);
     }
 
     public String getToken(UserDetails userDetails) {
@@ -106,8 +110,21 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean getAccessAdmin(String username) {
-        Collection<Role> rolesUser = userRepository.findByUsername(username).get().getRoles();
+        User user = getUserByName(username);
+        Collection<Role> rolesUser = user.getRoles();
         return rolesUser.size() > 1;
+    }
+
+    public boolean getAccessUserPanel(String username) {
+        return containsRoleUser(username, "ROLE_ADMIN");
+    }
+
+    public boolean getAccessProductPanel(String username) {
+        return containsRoleUser(username, "ROLE_MANAGER");
+    }
+
+    public boolean getAccessEditRole(String username) {
+        return containsRoleUser(username, "ROLE_SUPERADMIN");
     }
 
     public Page<User> findAll(int page, int pageSize, Specification<User> specification) {
@@ -116,22 +133,39 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void roleEdit(UserDto userDto) {
-        for (Role role : roleService.getAllRoles()) {
-            if (role.getName().equals(userDto.getRole())) {
-                User user = userRepository.getById(userDto.getId());
-                user.getRoles().clear();
-                user.getRoles().add(role);
-                userRepository.save(user);
-                return;
-            }
+    public void editRole(UserDtoRoles userDtoRoles) {
+        User user = getUserByName(userDtoRoles.getUsername());
+        List<Role> collect = userDtoRoles.getRoles().stream().map(roleService::getRoleByTitle).toList();
+        user.getRoles().clear();
+        user.getRoles().addAll(collect);
+        userRepository.save(user);
+    }
+
+    public User getUserByName(String username) {
+        return userRepository.findByUsername(username).orElseThrow(
+                () -> new ResourceNotFoundException("Пользователь " + username + " не найден."));
+    }
+
+    public boolean containsRoleUser(String username, String nameRole) {
+        User userByName = getUserByName(username);
+        List<Role> roles = userByName.getRoles();
+        for (Role role : roles) {
+            if (role.getName().equals(nameRole)) return true;
         }
-        throw new IncorrectRoleUserException("Такой роли не существует!");
+        return false;
     }
 
     @Transactional
     public void updateAccessUser(Long id, Boolean flag) {
         User user = userRepository.getById(id);
+        if (user.getRoles().stream().map(Role::getName).toList().contains("ROLE_SUPERADMIN")) {
+            throw new AccessForbiddenException("Данное действие недопустимо с генеральным директором.");
+        }
+        if (!flag) user.getRoles().clear();
+        else {
+            Role roleUser = roleService.getRoleByName("ROLE_USER");
+            user.getRoles().add(roleUser);
+        }
         user.setAccess(flag);
         userRepository.save(user);
     }
@@ -172,7 +206,9 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public List<String> getUserRoles(String username) {
-        return getByName(username).getRoles().stream().map(Role::getTitle).toList();
+    public RoleTitlesResponse getUserRoles(String username) {
+        return RoleTitlesResponse.builder()
+                .roleTitles(getByName(username).getRoles().stream().map(Role::getTitle).toList())
+                .build();
     }
 }

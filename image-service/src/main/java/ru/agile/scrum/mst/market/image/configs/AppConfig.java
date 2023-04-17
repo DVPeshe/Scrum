@@ -1,4 +1,4 @@
-package ru.agile.scrum.mst.market.email.configs;
+package ru.agile.scrum.mst.market.image.configs;
 
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
@@ -11,20 +11,17 @@ import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.tcp.TcpClient;
-import ru.agile.scrum.mst.market.email.integrations.UserServiceIntegration;
-import ru.agile.scrum.mst.market.email.properties.ProductServiceIntegrationProperties;
-import ru.agile.scrum.mst.market.email.properties.UserServiceIntegrationProperties;
+import ru.agile.scrum.mst.market.image.properties.ProductServiceIntegrationProperties;
 
 import java.util.concurrent.TimeUnit;
 
 @Configuration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(
-        {ProductServiceIntegrationProperties.class, UserServiceIntegrationProperties.class}
+        ProductServiceIntegrationProperties.class
 )
-public class WebClientConfig {
+public class AppConfig {
     private final ProductServiceIntegrationProperties productServiceIntegrationProperties;
-    private final UserServiceIntegrationProperties userServiceIntegrationProperties;
 
     @Bean
     public WebClient productServiceWebClient() {
@@ -42,22 +39,4 @@ public class WebClientConfig {
                 .clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)))
                 .build();
     }
-
-    @Bean
-    public WebClient userServiceWebClient() {
-        TcpClient tcpClient = TcpClient
-                .create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, userServiceIntegrationProperties.getConnectTimeout())
-                .doOnConnected(connection -> {
-                    connection.addHandlerLast(new ReadTimeoutHandler(userServiceIntegrationProperties.getReadTimeout(), TimeUnit.MILLISECONDS));
-                    connection.addHandlerLast(new WriteTimeoutHandler(userServiceIntegrationProperties.getWriteTimeout(), TimeUnit.MILLISECONDS));
-                });
-
-        return WebClient
-                .builder()
-                .baseUrl(userServiceIntegrationProperties.getUrl())
-                .clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)))
-                .build();
-    }
-
 }

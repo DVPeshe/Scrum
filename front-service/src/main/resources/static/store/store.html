@@ -40,7 +40,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="p in productsPage.content">
-            <td><img src="" class="mr-3" style="width: 50px; height: auto" alt=""></td>
+            <td><img id="image" ng-src="{{image}}" class="mr-3" style="width: 50px; height: auto" alt=""></td>
             <td><a id="link" data-ng-click="showInfoById(p.id)" href ng-click="">{{p.title}}</a></td>
             <td>{{p.price}}</td>
             <td>{{p.categoryTitle}}</td>
@@ -52,6 +52,11 @@
                 </button>
                 <button class="btn btn-secondary" ng-click="addToCart(p.id)" ng-show="!suchAProductAlreadyExists(p.id)">
                     Добавить в корзину
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-primary green" ng-click="subscribeBackToStock(p.id)" ng-if="p.quantity == 0">
+                    Оповестить о поступлении
                 </button>
             </td>
             <td>

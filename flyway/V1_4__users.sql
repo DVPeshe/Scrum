@@ -1,5 +1,3 @@
-begin;
-
 alter table users
     add full_name varchar(255) not null default '';
 
@@ -26,5 +24,3 @@ where username = 'max';
 update users
 set full_name = 'Морган'
 where username = 'morgan';
-
-commit;

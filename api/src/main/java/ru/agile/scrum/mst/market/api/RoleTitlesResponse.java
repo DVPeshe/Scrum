@@ -7,13 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Data
-public class UserDto {
-    private Long id;
-    private String username;
-    private List<String> rolesTitle;
-    private Boolean access;
+public class RoleTitlesResponse {
+    List<String> roleTitles;
 }

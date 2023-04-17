@@ -15,6 +15,7 @@ angular.module('market').controller('storeController', function ($scope, $http, 
             }
         }).then(function (response) {
             $scope.productsPage = response.data;
+            $scope.getImageById();
             $scope.generatePagesList($scope.productsPage.totalPages);
         });
     };
@@ -76,7 +77,6 @@ angular.module('market').controller('storeController', function ($scope, $http, 
             .then(function (response) {
                 $scope.cart = response.data;
                 $rootScope.currentCartUser = response.data;
-                $scope.getImageById()
             });
     };
     $scope.getCategories = function () {
@@ -105,6 +105,18 @@ angular.module('market').controller('storeController', function ($scope, $http, 
                 }
             });
     }
+
+    $scope.subscribeBackToStock = function(id){
+                $http({
+                    url: 'http://localhost:5555/email/api/v1/emails/subscribeBackToStock',
+                    method: 'POST',
+                    params: {
+                        productId: id
+                    }
+                }).then(function (response){
+                      alert('Вы получите оповещение на ваш email как только продукт снова появиться в продаже');
+                });
+        };
 
     $scope.loadCart();
     $scope.loadProducts();

@@ -1,9 +1,6 @@
 package ru.agile.scrum.mst.market.auth.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,12 +8,14 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "avatars")
 public class Avatar {
+
     @Id
     @Column(name = "id")
     private Long id;
@@ -24,7 +23,7 @@ public class Avatar {
     @Column(name = "avatar")
     private byte[] avatar;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "id")
     private User user;
@@ -36,4 +35,25 @@ public class Avatar {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Avatar avatar = (Avatar) o;
+        return id != null && id.equals(avatar.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return 13;
+    }
+
+    @Override
+    public String toString() {
+        return "Avatar{" +
+                "id=" + id +
+                ", user=" + user.getUsername() +
+                '}';
+    }
 }

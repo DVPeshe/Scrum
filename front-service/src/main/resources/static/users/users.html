@@ -21,20 +21,18 @@
         <tbody>
         <tr ng-repeat="user in usersPage.content">
             <td>{{user.username}}</td>
-            <td>{{user.role}}</td>
-            <td>
+            <td>{{user.rolesTitle}}</td>
+            <td ng-show="!showUserManagement(user.username)">
                 <button class="btn btn-outline-danger btn-sm" ng-click="banUser(user.id, false)"
-                        ng-disabled="showUserManagement(user.username)"
                         ng-show="user.access">Заблокировать пользователя
                 </button>
                 <button class="btn btn-outline-success btn-sm" ng-click="banUser(user.id, true)"
-                        ng-disabled="showUserManagement(user.username)"
                         ng-show="!user.access">Разблокировать пользователя
                 </button>
             <td>
-            <td>
-                <button class="btn btn-outline-primary btn-sm" ng-click="editRole(user.id, user.username)"
-                        ng-disabled="showUserManagement(user.username)">Назначить права пользователю
+            <td ng-show="!showUserManagement(user.username)">
+                <button ng-show="isVisibleEditRole()" class="btn btn-outline-primary btn-sm" ng-click="editRole(user.username, user.rolesTitle)"
+                >Назначить права пользователю
                 </button>
             <td>
         </tr>
