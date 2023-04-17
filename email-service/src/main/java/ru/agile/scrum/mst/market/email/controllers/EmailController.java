@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.agile.scrum.mst.market.api.StringResponse;
 import ru.agile.scrum.mst.market.email.services.EmailService;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/api/v1/emails")
 @RequiredArgsConstructor
@@ -20,8 +22,8 @@ public class EmailController {
     }
 
     @PostMapping("/subscribeBackToStock")
-    public void subscribeToBackToStock(@RequestParam(name = "productId")int productId, @RequestHeader(name = "username") String username){
-        emailService.subscribeToBackToStock(productId,username);
+    public void subscribeToBackToStock(@RequestParam(name = "productId")int productId, Principal principal){
+        emailService.subscribeToBackToStock(productId, principal.getName(), principal.toString());
     }
 
     @GetMapping("/sendEmailBackToStock/{productId}")

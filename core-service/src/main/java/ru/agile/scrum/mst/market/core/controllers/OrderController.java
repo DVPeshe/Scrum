@@ -8,6 +8,7 @@ import ru.agile.scrum.mst.market.api.OrderDto;
 import ru.agile.scrum.mst.market.core.mappers.OrderMapper;
 import ru.agile.scrum.mst.market.core.services.OrderService;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +37,7 @@ public class OrderController {
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createNewOrder(@RequestHeader String username) {
-        orderService.createNewOrder(username);
+    public void createNewOrder(Principal principal) {
+        orderService.createNewOrder(principal.getName(), principal.toString());
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.agile.scrum.mst.market.api.JwtRequest;
 import ru.agile.scrum.mst.market.api.JwtResponse;
 import ru.agile.scrum.mst.market.api.RegistrationUserDto;
-import ru.agile.scrum.mst.market.auth.mappers.UserMapper;
 import ru.agile.scrum.mst.market.auth.services.UserService;
 
 @RestController

@@ -9,7 +9,6 @@ import ru.agile.scrum.mst.market.api.StringResponse;
 import ru.agile.scrum.mst.market.api.UserPersonalAccount;
 import ru.agile.scrum.mst.market.email.integrations.ProductServiceIntegration;
 import ru.agile.scrum.mst.market.email.integrations.UserServiceIntegration;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +27,8 @@ public class EmailService {
 
     HashMap<Integer, List<String>> backToStockSubscriberDB = new HashMap<>();
 
-    public void subscribeToBackToStock(int productId, String username){
-        UserPersonalAccount personalAccount = userServiceIntegration.getPersonalData(username);
+    public void subscribeToBackToStock(int productId, String nameuser, String tokenSecurity){
+        UserPersonalAccount personalAccount = userServiceIntegration.getPersonalData(nameuser, tokenSecurity);
         if(personalAccount != null){
             String email = personalAccount.getEmail();
             if(!backToStockSubscriberDB.containsKey(productId)) {

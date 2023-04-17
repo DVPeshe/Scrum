@@ -7,6 +7,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import ru.agile.scrum.mst.market.api.CartDto;
 import ru.agile.scrum.mst.market.api.CartItemDto;
 import ru.agile.scrum.mst.market.core.entities.Category;
@@ -18,8 +20,11 @@ import ru.agile.scrum.mst.market.core.services.OrderService;
 import ru.agile.scrum.mst.market.core.services.ProductService;
 
 import java.math.BigDecimal;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @SpringBootTest(classes = OrderService.class)
 public class OrderServiceTest {
@@ -49,7 +54,23 @@ public class OrderServiceTest {
                 .items(List.of(cartItemDto))
                 .build();
 
-        Mockito.doReturn(cartDto).when(cartServiceIntegration).getCurrentUserCart("Bob");
+        Principal principal = new Principal() {
+            @Override
+            public String getName() {
+                return "Bob";
+            }
+
+            @Override
+            public String toString() {
+                List<String> roles = new ArrayList<>();
+                roles.add("ROLE_USER");
+                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken("Bob",
+                        null, roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+                return token.toString();
+            }
+        };
+
+        Mockito.doReturn(cartDto).when(cartServiceIntegration).getCurrentUserCart(principal.getName(), principal.toString());
 
         Category category = Category.builder()
                 .id(4L)
@@ -65,7 +86,7 @@ public class OrderServiceTest {
 
         Mockito.doReturn(Optional.of(product)).when(productService).findById(1922L);
 
-        Order order = orderService.createNewOrder("Bob");
+        Order order = orderService.createNewOrder(principal.getName(), principal.toString());
         Assertions.assertEquals(order.getTotalPrice(), new BigDecimal(240));
         Mockito.verify(orderRepository, Mockito.times(1)).save(ArgumentMatchers.any());
     }
