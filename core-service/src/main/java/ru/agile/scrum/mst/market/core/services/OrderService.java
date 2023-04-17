@@ -9,7 +9,6 @@ import ru.agile.scrum.mst.market.core.entities.OrderItem;
 import ru.agile.scrum.mst.market.core.exceptions.ResourceNotFoundException;
 import ru.agile.scrum.mst.market.core.integrations.CartServiceIntegration;
 import ru.agile.scrum.mst.market.core.repositories.OrderRepository;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +20,8 @@ public class OrderService {
     private final ProductService productService;
 
     @Transactional
-    public Order createNewOrder(String username) {
-        CartDto cart = cartServiceIntegration.getCurrentUserCart(username);
+    public Order createNewOrder(String username, String tokenSecurity) {
+        CartDto cart = cartServiceIntegration.getCurrentUserCart(username, tokenSecurity);
         if (cart.getItems().isEmpty()) {
             throw new IllegalStateException("Нельзя оформить заказ для пустой корзины");
         }
@@ -40,7 +39,7 @@ public class OrderService {
             order.getItems().add(oi);
         });
         orderRepository.save(order);
-        cartServiceIntegration.clearCart(username);
+        cartServiceIntegration.clearCart(username, tokenSecurity);
         return order;
     }
 

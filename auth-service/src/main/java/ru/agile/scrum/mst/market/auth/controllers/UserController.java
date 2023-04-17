@@ -95,12 +95,11 @@ public class UserController {
 
     @GetMapping("/personal-email")
     public UserPersonalAccount getUserPersonalEmail(@RequestHeader String username) {
-        UserPersonalAccount account = UserPersonalAccount.builder()
+        return UserPersonalAccount.builder()
                 .username(username)
                 .email(userService.getUserEmailByName(username))
                 .fullName(userService.getFullNameByName(username))
                 .build();
-        return account;
     }
 
 }
