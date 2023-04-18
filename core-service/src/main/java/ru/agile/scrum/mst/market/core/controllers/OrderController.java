@@ -29,7 +29,7 @@ public class OrderController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    @GetMapping("/clear")
+    @DeleteMapping
     public void clearUserOrders(@RequestHeader String username) {
         orderService.deleteOrders(username);
     }

@@ -12,7 +12,7 @@ public class ProductServiceIntegration {
 
     public void updateImage(Long productId, String imageId) {
         productServiceWebClient.put()
-                .uri("api/v1/products/updateImage/" + productId)
+                .uri("api/v1/products/" + productId + "/images")
                 .body(Mono.just(imageId), String.class)
                 .retrieve()
                 .bodyToMono(Void.class)

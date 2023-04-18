@@ -3,7 +3,7 @@ angular.module('market').controller('updateProductController', function ($scope,
     const contextPath = 'http://localhost:5555/core/api/v1';
 
     $scope.functionUpdateProduct = function () {
-        $http.post(contextPath + '/products/updateProduct', $scope.upProduct).then(function success(response) {
+        $http.put(contextPath + '/products', $scope.upProduct).then(function success(response) {
             alert(response.data.value);
             $location.path('/products');
         }, function error(response) {

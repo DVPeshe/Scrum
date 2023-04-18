@@ -3,7 +3,7 @@ angular.module('market').controller('productsController', function ($scope, $htt
     $scope.loadProducts = function (page = 1) {
         $scope.lastClickPage = page;
         $http({
-            url: contextPath + '/getProduct',
+            url: contextPath + '/manager-products',
             method: 'GET',
             params: {
                 p: page,
@@ -39,8 +39,8 @@ angular.module('market').controller('productsController', function ($scope, $htt
 
     $scope.editVisibleProduct = function (id, flag) {
         $http({
-            url: contextPath + '/editVisible/' + id,
-            method: 'POST',
+            url: contextPath + '/' + id + '/product-visibilities',
+            method: 'PUT',
             params: {
                 visible: flag
             }

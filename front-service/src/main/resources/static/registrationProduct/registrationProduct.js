@@ -3,7 +3,7 @@ angular.module('market').controller('registrationProductController', function ($
     $scope.regproduct = {title: null, price: null, categoryTitle: null, quantity: null, description: null};
 
     $scope.functionRegistrationProduct = function () {
-        $http.post(contextPath + '/products/create', $scope.regproduct).then(function success(response) {
+        $http.post(contextPath + '/products', $scope.regproduct).then(function success(response) {
             alert(response.data.value);
             $location.path('/products');
         }, function error(response) {

@@ -74,7 +74,7 @@ public class ProductController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    @GetMapping("/getProduct")
+    @GetMapping("/manager-products")
     public Page<ProductCardDto> getProductListEdit(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "page_size", defaultValue = "5") Integer pageSize,
@@ -118,7 +118,7 @@ public class ProductController {
     )
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> createNewProducts(@RequestBody ProductCardDto productCardDto) {
         productService.createNewProduct(productCardDto);
@@ -127,7 +127,7 @@ public class ProductController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    @PostMapping("/updateProduct")
+    @PutMapping
     public ResponseEntity<?> updateDataProduct(@RequestBody ProductCardDto productCardDto) {
         productService.updateProduct(productCardDto);
         StringResponse stringResponse = new StringResponse(String.format("Продукт %s успешно обновлен", productCardDto.getTitle()));
@@ -135,18 +135,18 @@ public class ProductController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    @PostMapping("/editVisible/{id}")
+    @PutMapping("/{id}/product-visibilities")
     public void updateVisibleProduct(@PathVariable Long id, @RequestParam(name = "visible") Boolean visible) {
         productService.updateVisible(id, visible);
     }
 
-    @GetMapping("/card/{id}")
+    @GetMapping("/{id}/cards")
     public ProductCardDto getProductCardById(@PathVariable @Parameter(description = "Идентификатор продукта", required = true) Long id) {
         return productCardMapper.mapProductToProductCardDto(productService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт с id: " + id + " не найден")));
     }
 
-    @PutMapping("/updateImage/{id}")
+    @PutMapping("/{id}/images")
     public void updateProductImage(@PathVariable Long id, @RequestBody String imageId) {
         productService.updateProductImage(id, imageId);
     }
