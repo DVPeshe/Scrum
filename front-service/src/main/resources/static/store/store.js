@@ -108,7 +108,7 @@ angular.module('market').controller('storeController', function ($scope, $http, 
 
     $scope.subscribeBackToStock = function(id){
                 $http({
-                    url: 'http://localhost:5555/email/api/v1/emails/subscribeBackToStock',
+                    url: 'http://localhost:5555/email/api/v1/subscription/my',
                     method: 'POST',
                     params: {
                         productId: id

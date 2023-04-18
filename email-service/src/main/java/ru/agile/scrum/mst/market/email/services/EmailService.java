@@ -1,6 +1,7 @@
 package ru.agile.scrum.mst.market.email.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -12,40 +13,35 @@ import ru.agile.scrum.mst.market.email.integrations.UserServiceIntegration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class EmailService {
     @Value("${spring.mail.sender.email}")
     private String senderAddress;
-
-
     private final JavaMailSender mailSender;
-
     private final ProductServiceIntegration productServiceIntegration;
     private final UserServiceIntegration userServiceIntegration;
-
-    HashMap<Integer, List<String>> backToStockSubscriberDB = new HashMap<>();
-
+    private final RedisTemplate<String, List<String>> backToStockSubscriberDB;
+    private final String prefix = "S";
     public void subscribeToBackToStock(int productId, String nameuser, String tokenSecurity){
         UserPersonalAccount personalAccount = userServiceIntegration.getPersonalData(nameuser, tokenSecurity);
+        String key = prefix + productId;
         if(personalAccount != null){
             String email = personalAccount.getEmail();
-            if(!backToStockSubscriberDB.containsKey(productId)) {
+            if(!backToStockSubscriberDB.hasKey(key)) {
                 ArrayList<String> newEmailsList = new ArrayList<>();
                 newEmailsList.add(email);
-                backToStockSubscriberDB.put(productId,newEmailsList);
+                backToStockSubscriberDB.opsForValue().set(key,newEmailsList);
             }else {
-                ArrayList<String> updateEmailsList = (ArrayList<String>) backToStockSubscriberDB.get(productId);
+                List<String> updateEmailsList =  backToStockSubscriberDB.opsForValue().get(key);
                 updateEmailsList.add(email);
-                backToStockSubscriberDB.put(productId,updateEmailsList);
+                backToStockSubscriberDB.opsForValue().set(key,updateEmailsList);
             }
         }
-
     }
-
     public StringResponse sendBackToStock(int productId){
-        List<String> currentSubcriberEmailList =  backToStockSubscriberDB.get(productId);
+        String key = prefix + productId;
+        List<String> currentSubcriberEmailList =  backToStockSubscriberDB.opsForValue().get(key);
         if(currentSubcriberEmailList!= null){
             String[] emails = currentSubcriberEmailList.toArray(new String[currentSubcriberEmailList.size()]);
             SimpleMailMessage message = new SimpleMailMessage();
@@ -55,19 +51,11 @@ public class EmailService {
             ProductDto productDto = productServiceIntegration.findById((long) productId);
             message.setText("Товар "+ productDto.getTitle() + " снова в продаже! Успешных покупок!");
             mailSender.send(message);
+            backToStockSubscriberDB.delete(key);
             return new StringResponse("Произведена рассылка. Колличество подписчиков: "+ emails.length);
+
         }else{
             return new StringResponse("Нет подписчиков на данный товар");
         }
-
-    }
-    public void sendEmail(String to, String subject, String body) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(senderAddress);
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(body);
-
-        mailSender.send(message);
     }
 }
