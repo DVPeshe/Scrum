@@ -17,7 +17,7 @@ public class EmailController {
     public void subscribeToBackToStock(@RequestParam(name = "productId")int productId, Principal principal){
         emailService.subscribeToBackToStock(productId, principal.getName(), principal.toString());
     }
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     @DeleteMapping("/{product-id}")
     public StringResponse sendEmailBackToStock(@PathVariable(name="product-id") int productId){
        return emailService.sendBackToStock(productId);
