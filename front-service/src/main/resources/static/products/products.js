@@ -60,9 +60,12 @@ angular.module('market').controller('productsController', function ($scope, $htt
 
 
     $scope.sendEmails = function (id) {
-         $http.get('http://localhost:5555/email/api/v1/emails/sendEmailBackToStock/'+id).then(function success(response) {
-             alert(response.data.value);
-         });
+        $http({
+             url:"http://localhost:5555/email/api/v1/subscription/" + id,
+             method: 'DELETE'
+        }).then(function (response) {
+              alert(response.data.value);
+        });
      }
 
     $scope.loadProducts();
