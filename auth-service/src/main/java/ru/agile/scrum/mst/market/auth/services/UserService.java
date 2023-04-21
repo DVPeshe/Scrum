@@ -79,6 +79,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    @Transactional
     public void reg(RegistrationUserDto form) {
         User user = new User();
         user.setEmail(form.getEmail());
