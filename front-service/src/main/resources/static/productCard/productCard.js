@@ -40,7 +40,7 @@ angular.module('market').controller('productCardController', function ($scope, $
     }
 
     $scope.getProductCardById = function () {
-        $http.get(contextPath + '/' + $routeParams.id + '/cards')
+        $http.get(contextPath + '/card/' + $routeParams.id)
             .then(function success(response) {
                 $scope.productCard = response.data;
                 $scope.getImageById();

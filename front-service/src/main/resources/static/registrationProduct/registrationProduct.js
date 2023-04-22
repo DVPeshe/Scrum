@@ -18,8 +18,8 @@ angular.module('market').controller('registrationProductController', function ($
     }
 
     $scope.getCategories = function () {
-        $http.get(contextPath + '/categories').then(function success(response) {
-            $scope.categoryList = response.data
+        $http.get(contextPath + '/categories/titles').then(function success(response) {
+            $scope.categoryList = response.data.value
         });
     }
     $scope.getCategories();

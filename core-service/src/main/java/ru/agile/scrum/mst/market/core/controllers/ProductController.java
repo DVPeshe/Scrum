@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.agile.scrum.mst.market.api.ProductCardDto;
 import ru.agile.scrum.mst.market.api.ProductDto;
 import ru.agile.scrum.mst.market.api.StringResponse;
-import ru.agile.scrum.mst.market.core.entities.Category;
 import ru.agile.scrum.mst.market.core.entities.Product;
 import ru.agile.scrum.mst.market.core.exceptions.AppError;
 import ru.agile.scrum.mst.market.core.exceptions.ResourceNotFoundException;
@@ -25,9 +24,8 @@ import ru.agile.scrum.mst.market.core.mappers.ProductMapper;
 import ru.agile.scrum.mst.market.core.repositories.specifications.ProductsSpecifications;
 import ru.agile.scrum.mst.market.core.services.CategoryService;
 import ru.agile.scrum.mst.market.core.services.ProductService;
-
 import java.math.BigDecimal;
-import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -68,13 +66,8 @@ public class ProductController {
         return productService.findAll(page - 1, pageSize, spec).map(productMapper::mapProductToProductDto);
     }
 
-    @GetMapping("/categories")
-    public List<Category> getCategoriesProducts() {
-        return categoryService.getAllCategories();
-    }
-
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    @GetMapping("/manager-products")
+    @GetMapping("/cards")
     public Page<ProductCardDto> getProductListEdit(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "page_size", defaultValue = "5") Integer pageSize,
@@ -127,27 +120,33 @@ public class ProductController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    @PutMapping
-    public ResponseEntity<?> updateDataProduct(@RequestBody ProductCardDto productCardDto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateDataProduct(@PathVariable Long id, @RequestBody ProductCardDto productCardDto) {
         productService.updateProduct(productCardDto);
         StringResponse stringResponse = new StringResponse(String.format("Продукт %s успешно обновлен", productCardDto.getTitle()));
         return ResponseEntity.ok(stringResponse);
     }
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    @PutMapping("/{id}/product-visibilities")
-    public void updateVisibleProduct(@PathVariable Long id, @RequestParam(name = "visible") Boolean visible) {
-        productService.updateVisible(id, visible);
+    @PutMapping("/{id}/visualize")
+    public void visualizeProduct(@PathVariable Long id ) {
+        productService.updateVisible(id, true);
     }
 
-    @GetMapping("/{id}/cards")
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    @PutMapping("/{id}/unvisualize")
+    public void unvisualizeProduct(@PathVariable Long id ) {
+        productService.updateVisible(id, false);
+    }
+
+    @GetMapping("/card/{id}")
     public ProductCardDto getProductCardById(@PathVariable @Parameter(description = "Идентификатор продукта", required = true) Long id) {
         return productCardMapper.mapProductToProductCardDto(productService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт с id: " + id + " не найден")));
     }
 
-    @PutMapping("/{id}/images")
-    public void updateProductImage(@PathVariable Long id, @RequestBody String imageId) {
+    @PutMapping("/{id}/images/{imageId}")
+    public void updateProductImage(@PathVariable Long id, @PathVariable String imageId) {
         productService.updateProductImage(id, imageId);
     }
 }
