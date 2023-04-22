@@ -140,7 +140,7 @@ angular.module('market').controller('productCardController', function ($scope, $
     $scope.uploadImage = function () {
         if ($scope.productImage.image) {
             URL.revokeObjectURL(element.src);
-            $http.post(contextPathImg + 'upload', $scope.productImage)
+            $http.post(contextPathImg, $scope.productImage)
                 .then(function success() {
                         alert('Удалось сохранить изображение!');
                     },

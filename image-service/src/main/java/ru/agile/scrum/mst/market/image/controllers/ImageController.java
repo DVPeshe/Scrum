@@ -27,7 +27,7 @@ public class ImageController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    @PostMapping("/upload")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void uploadImage(@RequestBody ImageDto image, Principal principal) {
         imageService.uploadImage(image, principal);
