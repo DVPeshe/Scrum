@@ -30,10 +30,10 @@
                 <td>{{p.categoryTitle}}</td>
                 <td>{{p.quantity}}</td>
                 <td>
-                    <button class="btn btn-outline-danger btn-sm" ng-click="editVisibleProduct(p.id, false)"
+                    <button class="btn btn-outline-danger btn-sm" ng-click="doUnVisibleProduct(p.id)"
                             ng-show="p.visible">Убрать из магазина
                     </button>
-                    <button class="btn btn-outline-primary btn-sm" ng-click="editVisibleProduct(p.id, true)"
+                    <button class="btn btn-outline-primary btn-sm" ng-click="doVisibleProduct(p.id)"
                             ng-show="!p.visible">Вернуть в магазин
                     </button>
 

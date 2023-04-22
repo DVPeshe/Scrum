@@ -25,11 +25,6 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public List<CategoryDto> getAllCategoriesDto() {
-        return getAllCategories().stream().map(categoryMapper::mapCategoryToCategoryDto)
-                .collect(Collectors.toList());
-    }
-
     public List<String> getTitleCategory() {
         return getAllCategories().stream().map(Category::getTitle).collect(Collectors.toList());
     }
