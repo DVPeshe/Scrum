@@ -3,7 +3,7 @@ package ru.agile.scrum.mst.market.email.integrations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.agile.scrum.mst.market.api.UserPersonalAccount;
+import ru.agile.scrum.mst.market.api.UserPersonalAccountResponse;
 
 @Component
 @RequiredArgsConstructor
@@ -12,13 +12,13 @@ public class UserServiceIntegration {
 
     private final WebClient userServiceWebClient;
 
-    public UserPersonalAccount getPersonalData(String username, String tokenSecurity) {
+    public UserPersonalAccountResponse getPersonalData(String username, String tokenSecurity) {
         return userServiceWebClient.get()
                 .uri("/api/v1/users/personal-data/my")
                 .header("username", username)
                 .header("roles", getRolesStringFromTokenSecurity(tokenSecurity))
                 .retrieve()
-                .bodyToMono(UserPersonalAccount.class)
+                .bodyToMono(UserPersonalAccountResponse.class)
                 .block();
     }
 

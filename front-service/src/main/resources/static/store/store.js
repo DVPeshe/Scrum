@@ -80,8 +80,8 @@ angular.module('market').controller('storeController', function ($scope, $http, 
             });
     };
     $scope.getCategories = function () {
-        $http.get('http://localhost:5555/core/api/v1/categories').then(function success(response) {
-            $scope.categoryList = response.data
+        $http.get('http://localhost:5555/core/api/v1/categories/titles').then(function success(response) {
+            $scope.categoryList = response.data.value
         });
     }
     $scope.loadFavorite = function () {

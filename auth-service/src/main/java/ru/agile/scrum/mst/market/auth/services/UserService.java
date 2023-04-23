@@ -16,10 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.agile.scrum.mst.market.api.JwtRequest;
-import ru.agile.scrum.mst.market.api.RegistrationUserDto;
-import ru.agile.scrum.mst.market.api.RoleTitlesResponse;
-import ru.agile.scrum.mst.market.api.UserDtoRoles;
+import ru.agile.scrum.mst.market.api.*;
 import ru.agile.scrum.mst.market.auth.entities.Avatar;
 import ru.agile.scrum.mst.market.auth.entities.Role;
 import ru.agile.scrum.mst.market.auth.entities.User;
@@ -185,19 +182,18 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void updateUser(RegistrationUserDto registrationUserDto) {
-        JwtRequest jwtRequest = userMapper.mapRegistrationUserDtoToJwtRequest(registrationUserDto);
+    public void updateUser(UserPersonalAccountRequest form, String username) {
+        JwtRequest jwtRequest = JwtRequest.builder()
+                .password(form.getConfirmPassword())
+                .username(username)
+                .build();
         auth(jwtRequest);
-        User user = getByName(jwtRequest.getUsername());
-        if (registrationUserDto.getEmail() != null) {
-            user.setEmail(registrationUserDto.getEmail());
+        User user = getByName(username);
+        user.setEmail(form.getEmail());
+        if (form.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(form.getPassword()));
         }
-        if (registrationUserDto.getPassword() != null) {
-            user.setPassword(passwordEncoder.encode(registrationUserDto.getPassword()));
-        }
-        if (registrationUserDto.getFullName() != null) {
-            user.setFullName(registrationUserDto.getFullName());
-        }
+        user.setFullName(form.getFullName());
         userRepository.save(user);
     }
 

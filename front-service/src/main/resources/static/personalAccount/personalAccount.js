@@ -17,25 +17,41 @@ angular.module('market').controller('personalAccountController', function ($scop
         "image/webp",
         "image/x-icon"
     ];
-    $scope.upUser = {username: null, password: null, confirmPassword: null, email: null, fullName: null};
+
+    const formLabelText = {
+        'password': 'Новый пароль',
+        'confirmPassword': 'Текущий пароль',
+        'email': 'Ваш email',
+        'fullName': 'Ваше имя'
+    };
+
+    $scope.upUser = {password: null, confirmPassword: null, email: null, fullName: null};
     $scope.userAvatar = {avatar: null};
     $scope.userRoles = [];
+    $scope.username = null;
 
     $scope.functionUpdateUser = function () {
-        $http.put(userContextPath + '/my', $scope.upUser).then(function success(response) {
-            alert(response.data.value);
+        $http.put(userContextPath + '/my', $scope.upUser).then(function success() {
+            alert('Данные пользователя успешно обновлены.');
             $scope.upUser.password = null;
             $scope.upUser.confirmPassword = null;
             $scope.getUserData();
             $scope.getUserAvatar();
         }, function error(response) {
-            let me = response;
-            console.log(me);
-            alert(me.data.message);
+            console.log(response);
             $scope.upUser.password = null;
             $scope.upUser.confirmPassword = null;
-            $scope.getUserData();
-            $scope.getUserAvatar();
+            if (response.data.value) {
+                let errors = response.data.value;
+                let message = 'Ошибка заполнения анкеты пользователя.\n';
+                for (const error of errors) {
+                    message = message + '\nПоле \'' + formLabelText[error.fieldName] + '\': ' + error.description + '.';
+                }
+                alert(message);
+            }
+            if (response.data.message) {
+                alert(response.data.message);
+            }
         });
     }
 
@@ -45,9 +61,9 @@ angular.module('market').controller('personalAccountController', function ($scop
 
     reader.onload = function () {
         $scope.userAvatar.avatar = reader.result.split(',')[1];
-        $http.put(avatarContextPath + '/my', $scope.userAvatar).then(function success(response) {
+        $http.put(avatarContextPath + '/my', $scope.userAvatar).then(function success() {
             $scope.getUserAvatar();
-        }, function error(response) {
+        }, function error() {
             $scope.getUserAvatar();
         });
     }
@@ -56,7 +72,7 @@ angular.module('market').controller('personalAccountController', function ($scop
         $http.get(userContextPath + '/personal-data/my').then(function success(response) {
             console.log(response.data)
             if (response.data) {
-                $scope.upUser.username = response.data.username;
+                $scope.username = response.data.username;
                 $scope.upUser.email = response.data.email;
                 $scope.upUser.fullName = response.data.fullName;
             }
