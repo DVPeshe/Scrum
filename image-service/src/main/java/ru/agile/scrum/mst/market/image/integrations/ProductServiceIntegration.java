@@ -3,7 +3,6 @@ package ru.agile.scrum.mst.market.image.integrations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.security.Principal;
 
@@ -14,10 +13,9 @@ public class ProductServiceIntegration {
 
     public void updateImage(Long productId, String imageId, Principal principal) {
         productServiceWebClient.put()
-                .uri("api/v1/products/" + productId + "/images")
+                .uri("api/v1/products/" + productId + "/images/" + imageId)
                 .header("username", principal.getName())
                 .header("roles", getRolesStringFromTokenSecurity(principal))
-                .body(Mono.just(imageId), String.class)
                 .retrieve()
                 .bodyToMono(Void.class)
                 .block();
