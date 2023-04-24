@@ -18,9 +18,9 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(
-        ProductServiceIntegrationProperties.class
+        {ProductServiceIntegrationProperties.class}
 )
-public class AppConfig {
+public class WebClientConfig {
     private final ProductServiceIntegrationProperties productServiceIntegrationProperties;
 
     @Bean
@@ -39,4 +39,5 @@ public class AppConfig {
                 .clientConnector(new ReactorClientHttpConnector(HttpClient.from(tcpClient)))
                 .build();
     }
+
 }
