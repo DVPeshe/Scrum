@@ -46,13 +46,24 @@ public class CommentController {
         return commentService.findAll(page - 1, pageSize, spec).map(commentMapper::mapCommentToCommentDto);
     }
 
-    @PostMapping("/create")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PostMapping("/new")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> createOrUpdateComment(@RequestBody CommentDto commentDto) {
+    public ResponseEntity<?> createComment(@RequestBody CommentDto commentDto) {
         commentService.createComment(commentDto);
         StringResponse stringResponse = new StringResponse("Отзыв добавен");
         return ResponseEntity.ok(stringResponse);
     }
+
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PutMapping("/my")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> updateComment(@RequestBody CommentDto commentDto) {
+        commentService.updateComment(commentDto);
+        StringResponse stringResponse = new StringResponse("Отзыв изменен");
+        return ResponseEntity.ok(stringResponse);
+    }
+
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")

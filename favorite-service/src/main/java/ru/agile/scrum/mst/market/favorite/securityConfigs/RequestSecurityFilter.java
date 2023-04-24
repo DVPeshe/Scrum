@@ -5,7 +5,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,19 +19,15 @@ public class RequestSecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = request.getHeader("Authorization");
 
-        String usernameHeader = null;
-        List<String> userRolesHeader = null;
+        String usernameHeader = request.getHeader("username");
+        String userRolesHeader = request.getHeader("roles");
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            usernameHeader = request.getHeader("username");
-            userRolesHeader = convertStringToListString(request.getHeader("roles"));
-        }
-
-        if (usernameHeader != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (usernameHeader != null && userRolesHeader != null
+                && SecurityContextHolder.getContext().getAuthentication() == null) {
+            List<String> userListRoles = convertStringToListString(userRolesHeader);
             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(usernameHeader,
-                    null, userRolesHeader.stream().map(SimpleGrantedAuthority::new)
+                    null, userListRoles.stream().map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList()));
             SecurityContextHolder.getContext().setAuthentication(token);
         }

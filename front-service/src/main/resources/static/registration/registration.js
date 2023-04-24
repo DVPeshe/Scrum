@@ -18,6 +18,14 @@ angular.module('market').controller('registrationController', function ($scope, 
         "image/x-icon"
     ];
 
+    const formLabelText = {
+        'username': 'Имя пользователя',
+        'password': 'Пароль',
+        'confirmPassword': 'Подтверждение пароля',
+        'email': 'Ваш email',
+        'fullName': 'Ваше имя'
+    };
+
     $scope.reguser = {fullName: null, username: null, email: null, password: null, confirmPassword: null};
     $scope.userAvatar = {avatar: null};
 
@@ -27,6 +35,7 @@ angular.module('market').controller('registrationController', function ($scope, 
                 $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                 $localStorage.mstMarketUser = {username: $scope.reguser.username, token: response.data.token};
                 $rootScope.userEmail = $scope.reguser.email;
+                $rootScope.username = $localStorage.mstMarketUser.username;
                 alert('Привет ' + $localStorage.mstMarketUser.username + '!')
                 $location.path("/");
 
@@ -38,9 +47,13 @@ angular.module('market').controller('registrationController', function ($scope, 
                 }
             }
         }, function error(response) {
-            let me = response;
-            console.log(me);
-            alert(me.data.message);
+            console.log(response);
+            let errors = response.data.value;
+            let message = 'Ошибка заполнения формы регистрации.\n';
+            for (const error of errors) {
+                message = message + '\nПоле \'' + formLabelText[error.fieldName] + '\': ' + error.description + '.';
+            }
+            alert(message);
         });
     }
 

@@ -9,6 +9,7 @@ import ru.agile.scrum.mst.market.image.integrations.ProductServiceIntegration;
 import ru.agile.scrum.mst.market.image.models.Image;
 import ru.agile.scrum.mst.market.image.repositories.ImageRepository;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Service
@@ -24,26 +25,26 @@ public class ImageService {
             return imageRepository.findById(id);
     }
 
-    public String uploadImage(ImageDto imageDto){
+    public String uploadImage(ImageDto imageDto, Principal principal){
 
         Image image = new Image();
         image.setTitle(imageDto.getTitle());
         image.setImage(new Binary(BsonBinarySubType.BINARY, imageDto.getImage()));
         image = imageRepository.insert(image);
 
-        productServiceIntegration.updateImage(imageDto.getProductId(), image.getId());
+        productServiceIntegration.updateImage(imageDto.getProductId(), image.getId(), principal);
 
         return image.getId();
     }
 
-    public void deleteImage(String id, Long productId) {
+    public void deleteImage(String id, Long productId, Principal principal) {
         if (DEFAULT_IMAGE_ID.equals(id)) {
             return;
         }
 
         imageRepository.deleteById(id);
 
-        productServiceIntegration.updateImage(productId, DEFAULT_IMAGE_ID);
+        productServiceIntegration.updateImage(productId, DEFAULT_IMAGE_ID, principal);
 
     }
 }

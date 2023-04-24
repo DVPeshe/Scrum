@@ -3,7 +3,7 @@ angular.module('market').controller('productsController', function ($scope, $htt
     $scope.loadProducts = function (page = 1) {
         $scope.lastClickPage = page;
         $http({
-            url: contextPath + '/getProduct',
+            url: contextPath + '/cards',
             method: 'GET',
             params: {
                 p: page,
@@ -37,17 +37,23 @@ angular.module('market').controller('productsController', function ($scope, $htt
         $location.path('/updateProduct');
     }
 
-    $scope.editVisibleProduct = function (id, flag) {
+    $scope.doVisibleProduct = function (id) {
         $http({
-            url: contextPath + '/editVisible/' + id,
-            method: 'POST',
-            params: {
-                visible: flag
-            }
+            url: contextPath + '/' + id + '/visualize',
+            method: 'PUT'
         }).then(function (response) {
             $scope.loadProducts($scope.lastClickPage);
         });
     }
+
+        $scope.doUnVisibleProduct = function (id) {
+            $http({
+                url: contextPath + '/' + id + '/unvisualize',
+                method: 'PUT'
+            }).then(function (response) {
+                $scope.loadProducts($scope.lastClickPage);
+            });
+        }
 
     $scope.back = function () {
         $location.path('/admin')
@@ -60,9 +66,12 @@ angular.module('market').controller('productsController', function ($scope, $htt
 
 
     $scope.sendEmails = function (id) {
-         $http.get('http://localhost:5555/email/api/v1/emails/sendEmailBackToStock/'+id).then(function success(response) {
-             alert(response.data.value);
-         });
+        $http({
+             url:"http://localhost:5555/email/api/v1/subscription/" + id,
+             method: 'DELETE'
+        }).then(function (response) {
+              alert(response.data.value);
+        });
      }
 
     $scope.loadProducts();

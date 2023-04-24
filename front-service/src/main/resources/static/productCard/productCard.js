@@ -29,7 +29,17 @@ angular.module('market').controller('productCardController', function ($scope, $
     }
 
     $scope.createComment = function () {
-        $http.post('http://localhost:5555/comment/api/v1/comments/create', $scope.comment).then(function success(response) {
+        $http.post('http://localhost:5555/comment/api/v1/comments/new', $scope.comment).then(function success(response) {
+            alert(response.data.value);
+            $scope.loadComments();
+        }, function error(response) {
+            let me = response;
+            console.log(me);
+            alert(me.data.message);
+        });
+    }
+    $scope.updateComment = function () {
+        $http.put('http://localhost:5555/comment/api/v1/comments/my', $scope.comment).then(function success(response) {
             alert(response.data.value);
             $scope.loadComments();
         }, function error(response) {
@@ -50,7 +60,16 @@ angular.module('market').controller('productCardController', function ($scope, $
     }
 
     $scope.isVisibleAdmin = function () {
-        return $localStorage.visibleAdmin;
+        return $localStorage.visibleUser;
+    }
+    $scope.isMyCommentPresent = function (){
+        for (let i=0; i< $scope.length; i++){
+            if($localStorage.mstMarketUser?.username===$scope.commentsPage.content[i].user){
+                return true;
+            }
+        }
+        return false;
+
     }
 
     $scope.visibleAddCard = function () {
@@ -72,6 +91,7 @@ angular.module('market').controller('productCardController', function ($scope, $
             }
         }).then(function (response) {
             $scope.commentsPage = response.data;
+            $scope.length = $scope.commentsPage.content.length
             $scope.generatePagesList($scope.commentsPage.totalPages);
             $scope.getEstimation();
         });
@@ -85,7 +105,7 @@ angular.module('market').controller('productCardController', function ($scope, $
         $scope.pagesList = out;
     }
     $scope.getDataComment = function () {
-        $scope.comment.user = $localStorage.mstMarketUser.username;
+        $scope.comment.user = $localStorage.mstMarketUser?.username;
         $scope.comment.product = $scope.productCard.title;
 
     }
@@ -120,7 +140,7 @@ angular.module('market').controller('productCardController', function ($scope, $
     $scope.uploadImage = function () {
         if ($scope.productImage.image) {
             URL.revokeObjectURL(element.src);
-            $http.post(contextPathImg + 'upload', $scope.productImage)
+            $http.post(contextPathImg, $scope.productImage)
                 .then(function success() {
                         alert('Удалось сохранить изображение!');
                     },

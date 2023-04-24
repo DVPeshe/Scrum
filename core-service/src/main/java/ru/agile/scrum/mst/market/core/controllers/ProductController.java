@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.agile.scrum.mst.market.api.ProductCardDto;
 import ru.agile.scrum.mst.market.api.ProductDto;
 import ru.agile.scrum.mst.market.api.StringResponse;
-import ru.agile.scrum.mst.market.core.entities.Category;
 import ru.agile.scrum.mst.market.core.entities.Product;
 import ru.agile.scrum.mst.market.core.exceptions.AppError;
 import ru.agile.scrum.mst.market.core.exceptions.ResourceNotFoundException;
@@ -25,9 +24,8 @@ import ru.agile.scrum.mst.market.core.mappers.ProductMapper;
 import ru.agile.scrum.mst.market.core.repositories.specifications.ProductsSpecifications;
 import ru.agile.scrum.mst.market.core.services.CategoryService;
 import ru.agile.scrum.mst.market.core.services.ProductService;
-
 import java.math.BigDecimal;
-import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -68,13 +66,8 @@ public class ProductController {
         return productService.findAll(page - 1, pageSize, spec).map(productMapper::mapProductToProductDto);
     }
 
-    @GetMapping("/categories")
-    public List<Category> getCategoriesProducts() {
-        return categoryService.getAllCategories();
-    }
-
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    @GetMapping("/getProduct")
+    @GetMapping("/cards")
     public Page<ProductCardDto> getProductListEdit(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "page_size", defaultValue = "5") Integer pageSize,
@@ -118,7 +111,7 @@ public class ProductController {
     )
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> createNewProducts(@RequestBody ProductCardDto productCardDto) {
         productService.createNewProduct(productCardDto);
@@ -127,17 +120,23 @@ public class ProductController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    @PostMapping("/updateProduct")
-    public ResponseEntity<?> updateDataProduct(@RequestBody ProductCardDto productCardDto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateDataProduct(@PathVariable Long id, @RequestBody ProductCardDto productCardDto) {
         productService.updateProduct(productCardDto);
         StringResponse stringResponse = new StringResponse(String.format("Продукт %s успешно обновлен", productCardDto.getTitle()));
         return ResponseEntity.ok(stringResponse);
     }
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    @PostMapping("/editVisible/{id}")
-    public void updateVisibleProduct(@PathVariable Long id, @RequestParam(name = "visible") Boolean visible) {
-        productService.updateVisible(id, visible);
+    @PutMapping("/{id}/visualize")
+    public void visualizeProduct(@PathVariable Long id ) {
+        productService.updateVisible(id, true);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    @PutMapping("/{id}/unvisualize")
+    public void unvisualizeProduct(@PathVariable Long id ) {
+        productService.updateVisible(id, false);
     }
 
     @GetMapping("/card/{id}")
@@ -146,8 +145,9 @@ public class ProductController {
                 .orElseThrow(() -> new ResourceNotFoundException("Продукт с id: " + id + " не найден")));
     }
 
-    @PutMapping("/updateImage/{id}")
-    public void updateProductImage(@PathVariable Long id, @RequestBody String imageId) {
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    @PutMapping("/{id}/images/{imageId}")
+    public void updateProductImage(@PathVariable Long id, @PathVariable String imageId) {
         productService.updateProductImage(id, imageId);
     }
 }

@@ -1,4 +1,4 @@
-package ru.agile.scrum.mst.market.comment.securityConfigs;
+package ru.agile.scrum.mst.market.image.securityConfigs;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

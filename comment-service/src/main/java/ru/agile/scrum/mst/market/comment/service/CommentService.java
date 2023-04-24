@@ -24,7 +24,7 @@ public class CommentService {
         return commentRepository.findAll(specification, PageRequest.of(page, pageSize, sort));
     }
 
-    public Comment createComment(CommentDto commentDto) {
+    public void createComment(CommentDto commentDto) {
         if (commentDto.getUser() == null) {
             throw new FieldsNotNullException("Авторизуйтесь, чтобы оставить отзыв");
         }
@@ -41,21 +41,26 @@ public class CommentService {
         comment.setDescription(commentDto.getDescription());
         comment.setEstimation(commentDto.getEstimation());
         comment.setVisible(true);
-        if (commentRepository.existsByUsernameAndProduct(commentDto.getUser(), commentDto.getProduct())) {
-            return updateComment(commentDto);
-        }
         commentRepository.save(comment);
-        return comment;
     }
 
-    public Comment updateComment(CommentDto commentDto) {
+    public void updateComment(CommentDto commentDto) {
+        if (commentDto.getUser() == null) {
+            throw new FieldsNotNullException("Авторизуйтесь, чтобы изменить отзыв");
+        }
+        if (commentDto.getProduct() == null
+                || commentDto.getDescription() == null) {
+            throw new FieldsNotNullException("Все поля формы должны быть заполнены");
+        }
+        if (commentDto.getEstimation() == null) {
+            throw new FieldsNotNullException("Поставьте оценку");
+        }
         Comment comment = commentRepository.getCommentByUsernameAndProduct(commentDto.getUser(), commentDto.getProduct());
         comment.setUsername(commentDto.getUser());
         comment.setProduct(commentDto.getProduct());
         comment.setDescription(commentDto.getDescription());
         comment.setEstimation(commentDto.getEstimation());
         commentRepository.save(comment);
-        return comment;
     }
 
 
@@ -64,7 +69,11 @@ public class CommentService {
     }
 
     public Double getEstimation(String productTitle) {
-        return round(commentRepository.getEstimation(productTitle));
+        Double estimation = commentRepository.getEstimation(productTitle);
+        if (estimation!=null){
+            return round(estimation);
+        }
+        return estimation;
     }
 
     public static double round(Double value) {
