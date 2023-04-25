@@ -113,10 +113,8 @@ public class ProductController {
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> createNewProducts(@RequestBody ProductCardDto productCardDto) {
+    public void createNewProducts(@RequestBody ProductCardDto productCardDto) {
         productService.createNewProduct(productCardDto);
-        StringResponse stringResponse = new StringResponse(String.format("Продукт %s успешно создан", productCardDto.getTitle()));
-        return ResponseEntity.ok(stringResponse);
     }
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
