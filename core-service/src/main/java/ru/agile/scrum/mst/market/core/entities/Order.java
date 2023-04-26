@@ -1,5 +1,7 @@
 package ru.agile.scrum.mst.market.core.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,6 +16,8 @@ import java.util.List;
 @Table(name = "orders")
 @NoArgsConstructor
 @Data
+@Builder
+@AllArgsConstructor
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
