@@ -194,6 +194,23 @@ angular.module('market').controller('productCardController', function ($scope, $
         return imageTypes.includes(file.type);
     }
 
+    $rootScope.suchAProductAlreadyExists = function (id) {
+        if ($localStorage.currentCartUser) {
+            for (let i = 0; i < $localStorage.currentCartUser.items.length; i++) {
+                let product = $localStorage.currentCartUser.items[i];
+                if (product.productId === id) return false;
+            }
+        }
+        return true;
+    }
+
+    $rootScope.addToCart = function (id) {
+        $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.mstMarketGuestCartId + '/add/' + id)
+            .then(function (response) {
+                $localStorage.currentCartUser = response.data;
+            });
+    }
+
     reader.onload = function () {
         $scope.productImage.image = reader.result.split(',')[1];
     }

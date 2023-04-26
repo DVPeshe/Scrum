@@ -1,4 +1,4 @@
-angular.module('market').controller('storeController', function ($scope, $http, $localStorage, $rootScope, $location, $routeParams) {
+angular.module('market').controller('storeController', function ($scope, $http, $localStorage, $rootScope, $location) {
 
     const contextPathImg = 'http://localhost:5555/image/api/v1/images/'
 
@@ -27,7 +27,7 @@ angular.module('market').controller('storeController', function ($scope, $http, 
     $rootScope.addToCart = function (id) {
         $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.mstMarketGuestCartId + '/add/' + id)
             .then(function (response) {
-                $rootScope.currentCartUser = response.data;
+                $localStorage.currentCartUser = response.data;
             });
     }
     $scope.addToFavorite = function (id) {
@@ -39,14 +39,15 @@ angular.module('market').controller('storeController', function ($scope, $http, 
 
 
     $rootScope.suchAProductAlreadyExists = function (id) {
-        if ($rootScope.currentCartUser) {
-            for (let i = 0; i < $rootScope.currentCartUser.items.length; i++) {
-                let product = $rootScope.currentCartUser.items[i];
+        if ($localStorage.currentCartUser) {
+            for (let i = 0; i < $localStorage.currentCartUser.items.length; i++) {
+                let product = $localStorage.currentCartUser.items[i];
                 if (product.productId === id) return false;
             }
         }
         return true;
     }
+
     $scope.deleteFromFavorite = function (id) {
         $http.get('http://localhost:5555/favorite/api/v1/favorite/' + $localStorage.mstMarketGuestCartId + '/delete/' + id)
             .then(function (response) {
@@ -76,9 +77,10 @@ angular.module('market').controller('storeController', function ($scope, $http, 
         $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.mstMarketGuestCartId)
             .then(function (response) {
                 $scope.cart = response.data;
-                $rootScope.currentCartUser = response.data;
+                $localStorage.currentCartUser = response.data;
             });
     };
+
     $scope.getCategories = function () {
         $http.get('http://localhost:5555/core/api/v1/categories/titles').then(function success(response) {
             $scope.categoryList = response.data.value
