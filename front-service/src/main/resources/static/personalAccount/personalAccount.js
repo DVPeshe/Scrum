@@ -41,8 +41,8 @@ angular.module('market').controller('personalAccountController', function ($scop
             console.log(response);
             $scope.upUser.password = null;
             $scope.upUser.confirmPassword = null;
-            if (response.data.value) {
-                let errors = response.data.value;
+            if (response.data.values) {
+                let errors = response.data.values;
                 let message = 'Ошибка заполнения анкеты пользователя.\n';
                 for (const error of errors) {
                     message = message + '\nПоле \'' + formLabelText[error.fieldName] + '\': ' + error.description + '.';

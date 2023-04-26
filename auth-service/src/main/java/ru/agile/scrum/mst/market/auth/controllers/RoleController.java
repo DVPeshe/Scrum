@@ -17,13 +17,13 @@ public class RoleController {
 
     @PreAuthorize("hasAuthority('ROLE_SUPERADMIN')")
     @GetMapping
-    public ListResponse getAllUserRoles() {
-        return new ListResponse(roleService.getAllRolesStr());
+    public ListResponse<String> getAllUserRoles() {
+        return new ListResponse<>(roleService.getAllRolesStr());
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @GetMapping("/titles")
-    public ListResponse getAllRoleTitles() {
-        return new ListResponse(roleService.getAllRoleTitles());
+    public ListResponse<String> getAllRoleTitles() {
+        return new ListResponse<>(roleService.getAllRoleTitles());
     }
 }

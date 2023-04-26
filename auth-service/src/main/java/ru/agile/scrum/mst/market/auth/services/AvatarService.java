@@ -22,7 +22,7 @@ public class AvatarService {
 
     public Avatar findByUsername(String username) {
         final String message = "Аватар пользователя " + username + " не найден.";
-        Avatar avatar = findById(userService.getByName(username).getId()).orElseThrow(
+        Avatar avatar = findById(userService.getUserByName(username).getId()).orElseThrow(
                 () -> new ResourceNotFoundException(message)
         );
         if (avatar.getAvatar() == null) {

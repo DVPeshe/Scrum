@@ -3,11 +3,11 @@ package ru.agile.scrum.mst.market.auth.validation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import ru.agile.scrum.mst.market.api.ListResponse;
 import ru.agile.scrum.mst.market.api.UserPersonalAccountRequest;
 import ru.agile.scrum.mst.market.api.ValidationError;
-import ru.agile.scrum.mst.market.api.ValueWrapper;
 import ru.agile.scrum.mst.market.auth.entities.User;
-import ru.agile.scrum.mst.market.auth.exceptions.UserFormValidationErrorException;
+import ru.agile.scrum.mst.market.auth.exceptions.JsonUserFormValidationErrorException;
 import ru.agile.scrum.mst.market.auth.services.UserService;
 
 import javax.annotation.PostConstruct;
@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 
 @Component
 @RequiredArgsConstructor
-public class UserUpdateFormValidationRulesEngine {
+public class JsonUserUpdateFormValidationRulesEngine {
 
     private final UserService userService;
     Validator<UserPersonalAccountRequest> validator;
@@ -85,7 +85,7 @@ public class UserUpdateFormValidationRulesEngine {
     public final void check(UserPersonalAccountRequest form) {
         List<ValidationError> errors = validator.validate(form);
         if (!errors.isEmpty()) {
-            throw new UserFormValidationErrorException(new ValueWrapper<>(errors));
+            throw new JsonUserFormValidationErrorException(new ListResponse<>(errors));
         }
     }
 

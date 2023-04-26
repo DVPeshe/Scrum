@@ -2,10 +2,10 @@ package ru.agile.scrum.mst.market.auth.validation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import ru.agile.scrum.mst.market.api.ListResponse;
 import ru.agile.scrum.mst.market.api.RegistrationUserDto;
 import ru.agile.scrum.mst.market.api.ValidationError;
-import ru.agile.scrum.mst.market.api.ValueWrapper;
-import ru.agile.scrum.mst.market.auth.exceptions.UserFormValidationErrorException;
+import ru.agile.scrum.mst.market.auth.exceptions.JsonUserFormValidationErrorException;
 import ru.agile.scrum.mst.market.auth.services.UserService;
 
 import javax.annotation.PostConstruct;
@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 
 @Component
 @RequiredArgsConstructor
-public class UserRegistrationFormValidationRulesEngine {
+public class JsonUserRegistrationFormValidationRulesEngine {
 
     private final UserService userService;
     Validator<RegistrationUserDto> validator;
@@ -122,7 +122,7 @@ public class UserRegistrationFormValidationRulesEngine {
     public final void check(RegistrationUserDto form) {
         List<ValidationError> errors = validator.validate(form);
         if (!errors.isEmpty()) {
-            throw new UserFormValidationErrorException(new ValueWrapper<>(errors));
+            throw new JsonUserFormValidationErrorException(new ListResponse<>(errors));
         }
     }
 

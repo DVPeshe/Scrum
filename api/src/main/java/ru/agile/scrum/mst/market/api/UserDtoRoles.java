@@ -10,6 +10,5 @@ import java.util.List;
 @Getter
 @Setter
 public class UserDtoRoles {
-    private String username;
     private List<String> roles;
 }

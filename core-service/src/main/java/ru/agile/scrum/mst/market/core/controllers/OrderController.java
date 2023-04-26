@@ -8,6 +8,7 @@ import ru.agile.scrum.mst.market.api.OrderDto;
 import ru.agile.scrum.mst.market.api.ValueWrapper;
 import ru.agile.scrum.mst.market.core.mappers.OrderMapper;
 import ru.agile.scrum.mst.market.core.services.OrderService;
+
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,9 +25,9 @@ public class OrderController {
     public ValueWrapper<List<OrderDto>> getUserOrders(Principal principal) {
         return new ValueWrapper<>(
                 orderService.findUserOrders(principal.getName())
-                .stream()
-                .map(orderMapper::mapOrderToOrderDto)
-                .collect(Collectors.toList()));
+                        .stream()
+                        .map(orderMapper::mapOrderToOrderDto)
+                        .collect(Collectors.toList()));
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
