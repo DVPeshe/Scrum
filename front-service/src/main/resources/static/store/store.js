@@ -1,6 +1,8 @@
 angular.module('market').controller('storeController', function ($scope, $http, $localStorage, $rootScope, $location) {
 
     const contextPathImg = 'http://localhost:5555/image/api/v1/images/'
+    $scope.imageURLs = [];
+    $scope.products = [];
 
     $scope.loadProducts = function (page = 1) {
         $http({
@@ -15,7 +17,16 @@ angular.module('market').controller('storeController', function ($scope, $http, 
             }
         }).then(function (response) {
             $scope.productsPage = response.data;
-            $scope.getImageById();
+
+            let products = response.data.content;
+            $scope.products = [];
+            for (let index = 0; index < products.length; index++) {
+                getImageById(products[index].imageId, index);
+                let product = products[index];
+                product.imageIndex = index;
+                $scope.products[index] = product;
+            }
+
             $scope.generatePagesList($scope.productsPage.totalPages);
         });
     };
@@ -94,8 +105,8 @@ angular.module('market').controller('storeController', function ($scope, $http, 
             });
     };
 
-    $scope.getImageById = function () {
-        $http.get(contextPathImg + '6426a26deadb6c2a4764b738')
+    function getImageById(id, index) {
+        $http.get(contextPathImg + id)
             .then(function success(response) {
                 console.log(response.data)
                 if (response.data) {
@@ -103,22 +114,22 @@ angular.module('market').controller('storeController', function ($scope, $http, 
                     const binaryString = window.atob(image);
                     const bytes = new Uint8Array(binaryString.length);
                     const arrayBuffer = bytes.map((byte, i) => binaryString.charCodeAt(i));
-                    $scope.image = URL.createObjectURL(new Blob([arrayBuffer], {type: 'image/*'}));
+                    $scope.imageURLs[index] = URL.createObjectURL(new Blob([arrayBuffer], {type: 'image/*'}));
                 }
             });
     }
 
-    $scope.subscribeBackToStock = function(id){
-                $http({
-                    url: 'http://localhost:5555/email/api/v1/subscription/my',
-                    method: 'POST',
-                    params: {
-                        productId: id
-                    }
-                }).then(function (response){
-                      alert('Вы получите оповещение на ваш email как только продукт снова появиться в продаже');
-                });
-        };
+    $scope.subscribeBackToStock = function (id) {
+        $http({
+            url: 'http://localhost:5555/email/api/v1/subscription/my',
+            method: 'POST',
+            params: {
+                productId: id
+            }
+        }).then(function (response) {
+            alert('Вы получите оповещение на ваш email как только продукт снова появиться в продаже');
+        });
+    };
 
     $scope.loadCart();
     $scope.loadProducts();
