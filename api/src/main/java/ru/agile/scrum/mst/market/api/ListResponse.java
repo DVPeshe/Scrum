@@ -9,6 +9,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ListResponse {
-    List<String> values;
+public class ListResponse<T> {
+    List<T> values;
 }

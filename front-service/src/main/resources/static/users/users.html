@@ -23,15 +23,16 @@
             <td>{{user.username}}</td>
             <td>{{user.rolesTitle}}</td>
             <td ng-show="!showUserManagement(user.username)">
-                <button class="btn btn-outline-danger btn-sm" ng-click="banUser(user.id, false)"
+                <button class="btn btn-outline-danger btn-sm" ng-click="banUser(user.id)"
                         ng-show="user.access">Заблокировать пользователя
                 </button>
-                <button class="btn btn-outline-success btn-sm" ng-click="banUser(user.id, true)"
+                <button class="btn btn-outline-success btn-sm" ng-click="unbanUser(user.id)"
                         ng-show="!user.access">Разблокировать пользователя
                 </button>
             <td>
             <td ng-show="!showUserManagement(user.username)">
-                <button ng-show="isVisibleEditRole()" class="btn btn-outline-primary btn-sm" ng-click="editRole(user.username, user.rolesTitle)"
+                <button ng-show="isVisibleEditRole()" class="btn btn-outline-primary btn-sm"
+                        ng-click="editRole(user.username, user.rolesTitle, user.id)"
                 >Назначить права пользователю
                 </button>
             <td>

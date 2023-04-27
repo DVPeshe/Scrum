@@ -2,21 +2,21 @@ angular.module('market').controller('roleController', function ($scope, $http, $
     const contextPathUsers = 'http://localhost:5555/auth/api/v1/users';
     const contextPathRoles = 'http://localhost:5555/auth/api/v1/roles';
     const userRole = 'покупатель';
-
+    $scope.user.roles = [];
 
     $scope.editRole = function () {
         $localStorage.lastEditUser.roles = $localStorage.checkboxRolesListModel;
-        $http.put(contextPathUsers + '/edit-role', $localStorage.lastEditUser).then(function succes(response) {
-            if (response.data.value) {
-                alert(response.data.value);
+        $scope.user.roles = $localStorage.lastEditUser.roles;
+        $http.put(contextPathUsers + '/' + $localStorage.lastEditUser.id + '/roles', $scope.user)
+            .then(function success() {
+                alert('Права пользователя изменены.');
                 $location.path('/users');
-            }
-        }, function error(response) {
-            let me = response;
-            console.log(me);
-            alert(me.data.message);
-            $location.path('/users');
-        });
+            }, function error(response) {
+                let me = response;
+                console.log(me);
+                alert(me.data.message);
+                $location.path('/users');
+            });
     }
 
     $scope.back = function () {

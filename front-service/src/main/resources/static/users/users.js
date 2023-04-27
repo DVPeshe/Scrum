@@ -5,7 +5,7 @@ angular.module('market').controller('usersController', function ($scope, $http, 
         $scope.loadUsers = function (page = 1) {
             $scope.lastClick = page;
             $http({
-                url: contextPath + '/all',
+                url: contextPath,
                 method: 'GET',
                 params: {
                     p: page,
@@ -25,19 +25,21 @@ angular.module('market').controller('usersController', function ($scope, $http, 
             $scope.pagesList = out;
         }
 
-        $scope.editRole = function (username, roles) {
-            $rootScope.editUser = {username: username, roles: roles};
+        $scope.editRole = function (username, roles, id) {
+            $rootScope.editUser = {username: username, roles: roles, id: id};
             $location.path('/editrole')
         }
 
-        $scope.banUser = function (id, flag) {
-            $http({
-                url: contextPath + '/banUser/' + id,
-                method: 'POST',
-                params: {
-                    access: flag
-                }
-            }).then(function () {
+        $scope.banUser = function (id) {
+            $http.put(contextPath + '/' + id + '/ban').then(function () {
+                $scope.loadUsers($scope.lastClick);
+            }, function errorCallback(response) {
+                alert(response.data.message);
+            });
+        }
+
+        $scope.unbanUser = function (id) {
+            $http.put(contextPath + '/' + id + '/unban').then(function () {
                 $scope.loadUsers($scope.lastClick);
             }, function errorCallback(response) {
                 alert(response.data.message);

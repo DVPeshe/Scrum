@@ -1,6 +1,6 @@
 angular.module('market').controller('registrationController', function ($scope, $rootScope, $http, $location, $localStorage) {
-    const contextPath = 'http://localhost:5555/auth/';
     const avatarContextPath = 'http://localhost:5555/auth/api/v1/avatars';
+    const userContextPath = 'http://localhost:5555/auth/api/v1/users';
     const input = document.querySelector('#image_uploads');
     const element = document.querySelector('#image');
     const reader = new FileReader();
@@ -30,7 +30,7 @@ angular.module('market').controller('registrationController', function ($scope, 
     $scope.userAvatar = {avatar: null};
 
     $scope.functionRegistration = function () {
-        $http.post(contextPath + 'register', $scope.reguser).then(function success(response) {
+        $http.post(userContextPath, $scope.reguser).then(function success(response) {
             if (response.data.token) {
                 $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
                 $localStorage.mstMarketUser = {username: $scope.reguser.username, token: response.data.token};
@@ -48,7 +48,7 @@ angular.module('market').controller('registrationController', function ($scope, 
             }
         }, function error(response) {
             console.log(response);
-            let errors = response.data.value;
+            let errors = response.data.values;
             let message = 'Ошибка заполнения формы регистрации.\n';
             for (const error of errors) {
                 message = message + '\nПоле \'' + formLabelText[error.fieldName] + '\': ' + error.description + '.';
