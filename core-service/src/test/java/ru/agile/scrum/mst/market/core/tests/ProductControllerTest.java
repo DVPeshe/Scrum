@@ -215,7 +215,11 @@ public class ProductControllerTest {
     public void updateProductImageTest() throws Exception{
         MockMultipartHttpServletRequestBuilder putMultipart = (MockMultipartHttpServletRequestBuilder)
                 MockMvcRequestBuilders.multipart("/api/v1/products/1/images/imageId")
-                        .with(rq -> { rq.setMethod("PUT"); return rq; });
+                        .with(rq -> {
+                            rq.setMethod("PUT");
+                            rq.addHeader("username", "MyName");
+                            rq.addHeader("roles", "ROLE_MANAGER");
+                            return rq; });
         mvc
                 .perform(
                         putMultipart
