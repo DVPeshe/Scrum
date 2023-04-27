@@ -18,18 +18,15 @@ angular.module('market').controller('productCardController', function ($scope, $
 
     $scope.getEstimation = function (product = $scope.productCard) {
         $http({
-            url: 'http://localhost:5555/comment/api/v1/comments/estimation',
-            method: 'GET',
-            params: {
-                product: product.title
-            }
+            url: 'http://localhost:5555/comment/api/v1/comments/estimation/'+product.title,
+            method: 'GET'
         }).then(function (response) {
-            $scope.avgEstimation = response.data;
+            $scope.avgEstimation = response.data.value;
         });
     }
 
     $scope.createComment = function () {
-        $http.post('http://localhost:5555/comment/api/v1/comments/new', $scope.comment).then(function success(response) {
+        $http.post('http://localhost:5555/comment/api/v1/comments', $scope.comment).then(function success(response) {
             alert(response.data.value);
             $scope.loadComments();
         }, function error(response) {
