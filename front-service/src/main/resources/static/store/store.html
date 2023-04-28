@@ -39,8 +39,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="p in productsPage.content">
-            <td><img id="image" ng-src="{{image}}" class="mr-3" style="width: 50px; height: auto" alt=""></td>
+        <tr ng-repeat="p in products">
+            <td><img id="image" ng-src="{{imageURLs[p.imageIndex]}}" class="mr-3" style="width: 50px; height: auto"
+                     alt=""></td>
             <td><a id="link" data-ng-click="showInfoById(p.id)" href ng-click="">{{p.title}}</a></td>
             <td>{{p.price}}</td>
             <td>{{p.categoryTitle}}</td>
@@ -75,7 +76,7 @@
                          class="bi bi-heart-fill" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
                               d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                        </svg>
+                    </svg>
                 </button>
             </td>
             </td>
