@@ -121,3 +121,5 @@ services:
       context: image-service/
     ports:
       - "8194:8194"
+    depends_on:
+      - mongo
