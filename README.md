@@ -140,5 +140,30 @@ docker cp ./images/artur.jpg scrum-postgres-1:/var/lib/postgresql/data
 
 ![получение электронного письма](https://user-images.githubusercontent.com/75074559/234512163-88ebe795-2f43-4b0b-bccc-c78a9508b7a7.png)
 
+* ### Избранное
+
+На странице каталога любой ползователь может добавить понравившийся товар в избранное
+
+![каталог избранное](https://raw.githubusercontent.com/StrayAbandoned/readme-image/main/.github/images/favorite1.png)
+
+На вкладке избранное пользователь может управлять своими товарами, находящимися в избранном: может добавлять их в корзину или удалить из избранного
+
+![избранное](https://raw.githubusercontent.com/StrayAbandoned/readme-image/main/.github/images/favorite2.png)
+
+* ### Отзывы
+
+Любой авторизованный пользователь может оставлять отзывы к товарам на странице карточки товара. Также любой пользователь может просматривать отзывы и видеть среднюю оценку товара, рассчитаную на основании оценок пользователей
+
+![отзывы](https://raw.githubusercontent.com/StrayAbandoned/readme-image/main/.github/images/comment1.png)
+
+Пользователь с правами администратора может осуществоять модерацию отзывов и удалять те отзывы, которые содержат ненорматвную лексику или не соответствуют политике сайта
+
+![удаление отзывов](https://raw.githubusercontent.com/StrayAbandoned/readme-image/main/.github/images/comment2.png)
+
+
+
+
+
+
 
 
