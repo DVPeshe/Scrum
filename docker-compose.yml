@@ -38,8 +38,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-    volumes:
-      - ./images/default:/default
     ports:
       - "27017:27017"
 
@@ -119,6 +117,8 @@ services:
     image: image-service
     build:
       context: image-service/
+    volumes:
+      - ./images/default:/default
     ports:
       - "8194:8194"
     depends_on:
