@@ -154,7 +154,7 @@ public class ProductController {
                 numberReservationProduct);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_MANAGER', 'ROLE_ADMIN')")
     @PutMapping("/{id}/images/{imageId}")
     public void updateProductImage(@PathVariable Long id, @PathVariable String imageId) {
         productService.updateProductImage(id, imageId);

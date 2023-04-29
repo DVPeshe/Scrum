@@ -26,14 +26,14 @@ public class ImageController {
 
     }
 
-    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_MANAGER', 'ROLE_ADMIN')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void uploadImage(@RequestBody ImageDto image, Principal principal) {
         imageService.uploadImage(image, principal);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_MANAGER', 'ROLE_ADMIN')")
     @DeleteMapping("/{id}/products/{product-id}")
     public void deleteImage(@PathVariable String id, @PathVariable (name = "product-id") Long productId, Principal principal) {
         imageService.deleteImage(id, productId, principal);
