@@ -33,7 +33,6 @@ import java.math.BigDecimal;
 @Tag(name = "Продукты", description = "Методы работы с продуктами")
 public class ProductController {
     private final ProductService productService;
-    private final CategoryService categoryService;
     private final ProductMapper productMapper;
     private final ProductCardMapper productCardMapper;
 
