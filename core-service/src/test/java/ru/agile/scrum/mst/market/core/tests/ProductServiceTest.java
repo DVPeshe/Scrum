@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import ru.agile.scrum.mst.market.api.ProductCardDto;
 import ru.agile.scrum.mst.market.core.entities.Category;
 import ru.agile.scrum.mst.market.core.entities.Product;
+import ru.agile.scrum.mst.market.core.integrations.CartServiceIntegration;
 import ru.agile.scrum.mst.market.core.repositories.ProductRepository;
 import ru.agile.scrum.mst.market.core.services.CategoryService;
 import ru.agile.scrum.mst.market.core.services.ProductService;
@@ -33,6 +34,8 @@ public class ProductServiceTest {
 
     @MockBean
     private CategoryService categoryService;
+    @MockBean
+    private CartServiceIntegration cartServiceIntegration;
 
     private static Page<Product> productPage;
     private static Category category;
@@ -57,6 +60,7 @@ public class ProductServiceTest {
                 .price(new BigDecimal(20))
                 .title("Milk")
                 .categoryTitle("other")
+                .quantityReservation(1)
                 .quantity(3)
                 .id(50L)
                 .visible(true)

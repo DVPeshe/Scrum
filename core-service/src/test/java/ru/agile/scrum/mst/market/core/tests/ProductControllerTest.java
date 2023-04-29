@@ -98,7 +98,8 @@ public class ProductControllerTest {
         productPage = new PageImpl<>(List.of(product));
         Specification<Product> spec = Specification.where(null);
         given(productService.findAll(0, 5, spec)).willReturn(productPage);
-        given(productCardMapper.mapProductToProductCardDto(product)).willReturn(productCardDto);
+        given(productService.getNumberReservationProduct(product.getId())).willReturn(1);
+        given(productCardMapper.mapProductToProductCardDto(product, 1)).willReturn(productCardDto);
         mvc
                 .perform(
                         get("/api/v1/products/cards")
@@ -118,7 +119,8 @@ public class ProductControllerTest {
     @Test
     public void getProductByIdTest() throws Exception{
         given(productService.findById(1L)).willReturn(Optional.of(product));
-        given(productMapper.mapProductToProductDto(product)).willReturn(productDto);
+        given(productService.getNumberReservationProduct(1L)).willReturn(1);
+        given(productMapper.mapProductToProductDto(product,1)).willReturn(productDto);
         mvc
                 .perform(
                         get("/api/v1/products/1")
@@ -200,7 +202,8 @@ public class ProductControllerTest {
     @Test
     public void getProductCardByIdTest() throws Exception{
         given(productService.findById(1L)).willReturn(Optional.of(product));
-        given(productCardMapper.mapProductToProductCardDto(product)).willReturn(productCardDto);
+        given(productService.getNumberReservationProduct(1L)).willReturn(1);
+        given(productCardMapper.mapProductToProductCardDto(product, 1)).willReturn(productCardDto);
         mvc
                 .perform(
                         get("/api/v1/products/card/1")
