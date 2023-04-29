@@ -205,6 +205,7 @@ angular.module('market').controller('productCardController', function ($scope, $
         $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.mstMarketGuestCartId + '/add/' + id)
             .then(function (response) {
                 $localStorage.currentCartUser = response.data;
+                $scope.getProductCardById();
             });
     }
 

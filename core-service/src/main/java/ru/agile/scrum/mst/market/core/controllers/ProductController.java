@@ -22,7 +22,6 @@ import ru.agile.scrum.mst.market.core.exceptions.ResourceNotFoundException;
 import ru.agile.scrum.mst.market.core.mappers.ProductCardMapper;
 import ru.agile.scrum.mst.market.core.mappers.ProductMapper;
 import ru.agile.scrum.mst.market.core.repositories.specifications.ProductsSpecifications;
-import ru.agile.scrum.mst.market.core.services.CategoryService;
 import ru.agile.scrum.mst.market.core.services.ProductService;
 import java.math.BigDecimal;
 
@@ -62,7 +61,10 @@ public class ProductController {
             spec = spec.and(ProductsSpecifications.titleCategoryLike(categoryTitle));
         }
         spec = spec.and(ProductsSpecifications.visibleLike());
-        return productService.findAll(page - 1, pageSize, spec).map(productMapper::mapProductToProductDto);
+        return productService.findAll(page - 1, pageSize, spec).map(product -> {
+            Integer numberReservationProduct = productService.getNumberReservationProduct(product.getId());
+            return productMapper.mapProductToProductDto(product, numberReservationProduct);
+        });
     }
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
@@ -79,7 +81,10 @@ public class ProductController {
         if (titlePart != null) {
             spec = spec.and(ProductsSpecifications.titleLike(titlePart));
         }
-        return productService.findAll(page - 1, pageSize, spec).map(productCardMapper::mapProductToProductCardDto);
+        return productService.findAll(page - 1, pageSize, spec).map(product -> {
+            Integer numberReservationProduct = productService.getNumberReservationProduct(product.getId());
+            return productCardMapper.mapProductToProductCardDto(product, numberReservationProduct);
+        });
     }
 
     @Operation(
@@ -97,7 +102,12 @@ public class ProductController {
     )
     @GetMapping("/{id}")
     public ProductDto getProductById(@PathVariable @Parameter(description = "Идентификатор продукта", required = true) Long id) {
-        return productMapper.mapProductToProductDto(productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Продукт с id: " + id + " не найден")));
+        Integer numberReservationProduct = productService.getNumberReservationProduct(id);
+        return productMapper
+                .mapProductToProductDto(productService
+                        .findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Продукт с id: " + id + " не найден")),
+                        numberReservationProduct);
     }
 
     @Operation(
@@ -138,8 +148,10 @@ public class ProductController {
 
     @GetMapping("/card/{id}")
     public ProductCardDto getProductCardById(@PathVariable @Parameter(description = "Идентификатор продукта", required = true) Long id) {
+        Integer numberReservationProduct = productService.getNumberReservationProduct(id);
         return productCardMapper.mapProductToProductCardDto(productService.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Продукт с id: " + id + " не найден")));
+                .orElseThrow(() -> new ResourceNotFoundException("Продукт с id: " + id + " не найден")),
+                numberReservationProduct);
     }
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")

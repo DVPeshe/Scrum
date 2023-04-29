@@ -39,6 +39,7 @@ public class OrderService {
             order.getItems().add(oi);
         });
         orderRepository.save(order);
+        productService.updateProductsStorage(cart.getItems());
         cartServiceIntegration.clearCart(username, tokenSecurity);
         return order;
     }

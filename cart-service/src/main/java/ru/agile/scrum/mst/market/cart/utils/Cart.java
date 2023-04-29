@@ -24,7 +24,13 @@ public class Cart {
                 return;
             }
         }
-        CartItem cartItem = new CartItem(p.getId(), p.getTitle(), 1, p.getPrice(), p.getPrice());
+        CartItem cartItem = CartItem.builder()
+                .productId(p.getId())
+                .productTitle(p.getTitle())
+                .quantity(1)
+                .pricePerProduct(p.getPrice())
+                .price(p.getPrice())
+                .build();
         items.add(cartItem);
         recalculate();
     }

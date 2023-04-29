@@ -31,7 +31,8 @@ public class ProductDto {
 
     @Schema(description = "Количество на складе", required = true, example = "12")
     private Integer quantity;
-
+    @Schema(description = "Зарезервировано пользователями", required = true, example = "2")
+    private Integer quantityReservation;
     @Schema(description = "ID изображения продукта", required = true, example = "6426a26deadb6c2a4764b738")
     private String imageId;
 }

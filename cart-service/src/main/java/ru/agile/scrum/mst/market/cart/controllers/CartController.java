@@ -3,6 +3,7 @@ package ru.agile.scrum.mst.market.cart.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.agile.scrum.mst.market.api.CartDto;
+import ru.agile.scrum.mst.market.api.IntegerResponse;
 import ru.agile.scrum.mst.market.api.StringResponse;
 import ru.agile.scrum.mst.market.cart.common.SelectorId;
 import ru.agile.scrum.mst.market.cart.mappers.CartMapper;
@@ -56,5 +57,10 @@ public class CartController {
                                          @PathVariable Long productId) {
         String idCart = selectorId.selectCart(username, guestCartId);
         cartService.decrementQuantity(idCart, productId);
+    }
+
+    @GetMapping("/reservation-product/{productId}")
+    public IntegerResponse getNumberReservationProduct(@PathVariable Long productId) {
+        return new IntegerResponse(cartService.getNumberReservationProduct(productId));
     }
 }

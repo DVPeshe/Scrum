@@ -45,7 +45,7 @@
             <td><a id="link" data-ng-click="showInfoById(p.id)" href ng-click="">{{p.title}}</a></td>
             <td>{{p.price}}</td>
             <td>{{p.categoryTitle}}</td>
-            <td>{{p.quantity}}</td>
+            <td>{{p.quantityReservation}}</td>
             <td>
                 <button class="btn btn-primary" ng-click="addToCart(p.id)" ng-if="p.quantity != 0"
                         ng-show="suchAProductAlreadyExists(p.id)">
