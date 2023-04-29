@@ -139,10 +139,10 @@ angular.module('market').controller('productCardController', function ($scope, $
             URL.revokeObjectURL(element.src);
             $http.post(contextPathImg, $scope.productImage)
                 .then(function success() {
-                        alert('Удалось сохранить изображение!');
+                        alert('Удалось загрузить изображение!');
                     },
                     function error(response) {
-                        alert('Не удалось сохранить изображение!');
+                        alert('Не удалось загрузить изображение!');
                         let me = response;
                         console.log(me);
                         alert(me.data.message);
@@ -154,8 +154,7 @@ angular.module('market').controller('productCardController', function ($scope, $
         if ($scope.productCard.imageId) {
             $scope.productImage.productId = productId;
             console.log($scope.productImage.productId);
-            $http.delete(contextPathImg + $scope.productCard.imageId,
-                {data: $scope.productImage, headers: {'Content-Type': 'application/json;charset=utf-8'}})
+            $http.delete(contextPathImg + $scope.productCard.imageId + '/products/' + $scope.productCard.id)
                 .then(function success() {
                         alert('Удалось удалить изображение!');
                         $scope.getProductCardById();

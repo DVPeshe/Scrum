@@ -34,8 +34,8 @@ public class ImageController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_MANAGER')")
-    @DeleteMapping("/{id}")
-    public void deleteImage(@PathVariable String id, @RequestBody ImageDto imageDto, Principal principal) {
-        imageService.deleteImage(id, imageDto.getProductId(), principal);
+    @DeleteMapping("/{id}/products/{product-id}")
+    public void deleteImage(@PathVariable String id, @PathVariable (name = "product-id") Long productId, Principal principal) {
+        imageService.deleteImage(id, productId, principal);
     }
 }
