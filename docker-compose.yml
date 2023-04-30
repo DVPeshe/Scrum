@@ -14,8 +14,7 @@ services:
       interval: 5s
       timeout: 1s
       retries: 2
-    volumes:
-      - ./memoryDocker:/var/lib/postgresql/data/
+
 
   flyway:
     image: boxfuse/flyway
@@ -39,8 +38,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-    volumes:
-      - ./images/default:/default
     ports:
       - "27017:27017"
 
@@ -102,6 +99,8 @@ services:
     image: comment-service
     build:
       context: comment-service/
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
     depends_on:
       - postgres
     ports:
@@ -118,5 +117,9 @@ services:
     image: image-service
     build:
       context: image-service/
+    volumes:
+      - ./images/default:/default
     ports:
       - "8194:8194"
+    depends_on:
+      - mongo
