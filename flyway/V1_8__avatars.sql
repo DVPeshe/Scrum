@@ -6,6 +6,14 @@ create table avatars
     updated_at timestamp default current_timestamp
 );
 
+insert into avatars (id, avatar)
+values (1, null),
+       (2, null),
+       (3, null),
+       (4, null),
+       (5, null),
+       (6, null);
+
 -- insert into avatars (id, avatar)
 -- values (1, pg_read_binary_file(current_setting('data_directory') || '/bob.jpg')::bytea),
 --        (2, pg_read_binary_file(current_setting('data_directory') || '/john.jpg')::bytea),
