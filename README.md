@@ -95,22 +95,21 @@
 ----
 
 # Запуск приложения
-* ### Запуск интернет-магазина из IntelliJ IDEA
+* ### Запуск интернет-магазина в командной строке.
 
-1. [Клонировать репозиторий.](https://github.com/DVPeshe/Scrum.git) Важно, чтобы папка локального репозитория называлась Scrum.
-2. Выполнить команды maven clean install в IntelliJ IDEA.
-3. В IntelliJ IDEA из файла docker-compose.yml запустить postgres, redis и mongo.
-4. В IntelliJ IDEA в терминале во вкладке меню Terminal скопировать изображения аватаров в докер с помощью команд:
+1. git clone https://github.com/DVPeshe/Scrum.git
+2. cd Scrum
+3. mvn clean install
+4. docker-compose up -d
+5. Открыть в браузере http://localhost:3000/market-front
 
-docker cp ./images/bob.jpg scrum-postgres-1:/var/lib/postgresql/data
+* ### Запуск интернет-магазина в IntelliJ IDEA.
 
-docker cp ./images/john.jpg scrum-postgres-1:/var/lib/postgresql/data
-
-docker cp ./images/artur.jpg scrum-postgres-1:/var/lib/postgresql/data
-
-5. В IntelliJ IDEA из файла docker-compose.yml запустить flyway.
-6. В IntelliJ IDEA во вкладке меню Services запустить все микросервисы.
-7. Открыть клиентское приложение в браузере http://localhost:3000/market-front.
+1. git clone https://github.com/DVPeshe/Scrum.git
+2. Войти в проект с помощью IntelliJ IDEA.
+3. Выполнить команды maven clean install в IntelliJ IDEA.
+4. Нажать на кнопку старта напротив services в файле docker-compose.
+5. Открыть в браузере http://localhost:3000/market-front
 
 ----
 
