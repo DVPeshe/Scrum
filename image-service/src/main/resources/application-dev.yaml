@@ -1,0 +1,7 @@
+integrations:
+  product-service:
+    url: http://localhost:8189/market-core/
+spring:
+  data:
+    mongodb:
+      host: localhost

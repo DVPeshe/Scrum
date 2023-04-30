@@ -5,13 +5,11 @@ server:
 integrations:
   product-service:
     url: http://core-service:8189/market-core/
-#    url: http://localhost:8189/market-core/
     connect-timeout: 500
     read-timeout: 10000
     write-timeout: 5000
   user-service:
     url: http://auth-service:8187/market-auth/
-    #url: http://localhost:8187/market-auth/
     connect-timeout: 500
     read-timeout: 10000
     write-timeout: 5000
@@ -31,4 +29,5 @@ spring:
             enable: true
     sender:
       email: no-reply@gmail.com
-
+  redis:
+    host: redis
