@@ -18,8 +18,8 @@ spring:
             allowedHeaders: "*"
       routes:
         - id: core-service
-          uri: http://core-service:8189
-#          uri: http://localhost:8189
+#          uri: http://core-service:8189
+          uri: http://localhost:8189
           predicates:
             - Path=/core/**
           filters:
@@ -27,8 +27,8 @@ spring:
             - PrefixPath=/market-core
             - JwtAuthFilter
         - id: cart-service
-          uri: http://cart-service:8190
-#          uri: http://localhost:8190
+#          uri: http://cart-service:8190
+          uri: http://localhost:8190
           predicates:
             - Path=/cart/**
           filters:
@@ -36,8 +36,8 @@ spring:
             - PrefixPath=/market-cart
             - JwtAuthFilter
         - id: auth-service
-          uri: http://auth-service:8187
-#          uri: http://localhost:8187
+#          uri: http://auth-service:8187
+          uri: http://localhost:8187
           predicates:
             - Path=/auth/**
           filters:
@@ -45,8 +45,8 @@ spring:
             - PrefixPath=/market-auth
             - JwtAuthFilter
         - id: favorite-service
-          uri: http://favorite-service:8192
-#          uri: http://localhost:8192
+#          uri: http://favorite-service:8192
+          uri: http://localhost:8192
           predicates:
             - Path=/favorite/**
           filters:
@@ -54,8 +54,8 @@ spring:
             - PrefixPath=/market-favorite
             - JwtAuthFilter
         - id: comment-service
-          uri: http://comment-service:8195
-#          uri: http://localhost:8195
+#          uri: http://comment-service:8195
+          uri: http://localhost:8195
           predicates:
             - Path=/comment/**
           filters:
@@ -63,8 +63,8 @@ spring:
             - PrefixPath=/market-comment
             - JwtAuthFilter
         - id: email-service
-          uri: http://email-service:8193
-#          uri: http://localhost:8193
+#          uri: http://email-service:8193
+          uri: http://localhost:8193
           predicates:
             - Path=/email/**
           filters:
@@ -72,8 +72,8 @@ spring:
             - PrefixPath=/market-email
             - JwtAuthFilter
         - id: image-service
-          uri: http://image-service:8194
-#          uri: http://localhost:8194
+#          uri: http://image-service:8194
+          uri: http://localhost:8194
           predicates:
             - Path=/image/**
           filters:

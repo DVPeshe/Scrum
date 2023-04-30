@@ -33,8 +33,8 @@ public class Migration {
         byte[] data = null;
 
         try {
-            data = Files.readAllBytes(Path.of("default/no-photo.jpeg"));                //TODO: для докера
-//            data = Files.readAllBytes(Path.of("./images/default/no-photo.jpeg"));       //для local
+//            data = Files.readAllBytes(Path.of("default/no-photo.jpeg"));                //TODO: для докера
+            data = Files.readAllBytes(Path.of("./images/default/no-photo.jpeg"));       //для local
         } catch (IOException e) {
             log.debug("Ошибка чтения файла", e);
         }
