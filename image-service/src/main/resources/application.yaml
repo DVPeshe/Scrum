@@ -17,3 +17,5 @@ integrations:
     connect-timeout: 500
     read-timeout: 10000
     write-timeout: 5000
+migration:
+  path: "default/no-photo.jpeg"

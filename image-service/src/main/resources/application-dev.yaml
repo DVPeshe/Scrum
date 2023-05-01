@@ -5,3 +5,5 @@ spring:
   data:
     mongodb:
       host: localhost
+migration:
+  path: "./images/default/no-photo.jpeg"
