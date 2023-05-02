@@ -108,8 +108,10 @@
 1. git clone https://github.com/DVPeshe/Scrum.git
 2. Войти в проект с помощью IntelliJ IDEA.
 3. Выполнить команды maven clean install в IntelliJ IDEA.
-4. Нажать на кнопку старта напротив services в файле docker-compose.
-5. Открыть в браузере http://localhost:3000/market-front
+4. В IntelliJ IDEA в файле docker-compose.yml запустить postgres, redis, mongo и flyway.
+5. В IntelliJ IDEA во вкладке Services установить для каждого микросервиса профиль dev.
+6. Запустить все микросервисы из вкладки Services в IntelliJ IDEA.
+7. Открыть в браузере http://localhost:3000/market-front
 
 ----
 
