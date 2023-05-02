@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.agile.scrum.mst.market.image.models.Image;
 import ru.agile.scrum.mst.market.image.repositories.ImageRepository;
@@ -23,6 +24,9 @@ public class Migration {
 
     private static final String DEFAULT_IMAGE_ID = "6426a26deadb6c2a4764b738";
 
+    @Value("${migration.path}")
+    private String maigratuionPathStr;
+
     @PostConstruct
     private void initialize() {
 
@@ -33,8 +37,7 @@ public class Migration {
         byte[] data = null;
 
         try {
-//            data = Files.readAllBytes(Path.of("default/no-photo.jpeg"));                //TODO: для докера
-            data = Files.readAllBytes(Path.of("./images/default/no-photo.jpeg"));       //для local
+            data = Files.readAllBytes(Path.of(maigratuionPathStr));
         } catch (IOException e) {
             log.debug("Ошибка чтения файла", e);
         }

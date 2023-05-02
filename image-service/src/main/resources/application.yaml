@@ -5,8 +5,7 @@ server:
 spring:
   data:
     mongodb:
-      host: localhost
- #     host: mongo
+      host: mongo
       port: 27017
       authentication-database: admin
       username: root
@@ -14,8 +13,9 @@ spring:
       database: images
 integrations:
   product-service:
-    #url: http://core-service:8189/market-core/
-    url: http://localhost:8189/market-core/
+    url: http://core-service:8189/market-core/
     connect-timeout: 500
     read-timeout: 10000
     write-timeout: 5000
+migration:
+  path: "default/no-photo.jpeg"
