@@ -30,15 +30,19 @@ public class RoleService {
     }
 
     public List<String> getAllRoleTitles() {
-        return roleRepository.findAll().stream().map(Role::getTitle)
-                .filter((title) -> !title.equals("генеральный директор")).toList();
+        return roleRepository.findAll().stream().filter(role -> !role.getName().equals("ROLE_SUPERADMIN"))
+                .map(Role::getTitle).toList();
     }
 
-    public Role getRoleByName(String nameRole) { return roleRepository.findByName(nameRole).orElseThrow(
-            () -> new ResourceNotFoundException("Роль " + nameRole + " не найденa.")
-    );}
+    public Role getRoleByName(String nameRole) {
+        return roleRepository.findByName(nameRole).orElseThrow(
+                () -> new ResourceNotFoundException("Роль " + nameRole + " не найденa.")
+        );
+    }
 
-    public Role getRoleByTitle(String title) {return roleRepository.findByTitle(title).orElseThrow(
-            () -> new ResourceNotFoundException("Роль " + title + " не найденa.")
-    );}
+    public Role getRoleByTitle(String title) {
+        return roleRepository.findByTitle(title).orElseThrow(
+                () -> new ResourceNotFoundException("Роль " + title + " не найденa.")
+        );
+    }
 }

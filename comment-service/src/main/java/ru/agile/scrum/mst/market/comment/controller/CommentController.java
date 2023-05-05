@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.agile.scrum.mst.market.api.CommentDto;
 import ru.agile.scrum.mst.market.api.StringResponse;
+import ru.agile.scrum.mst.market.api.ValueWrapper;
 import ru.agile.scrum.mst.market.comment.entity.Comment;
 import ru.agile.scrum.mst.market.comment.mappers.CommentMapper;
 import ru.agile.scrum.mst.market.comment.service.CommentService;
@@ -47,7 +48,7 @@ public class CommentController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PostMapping("/new")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> createComment(@RequestBody CommentDto commentDto) {
         commentService.createComment(commentDto);
@@ -71,9 +72,9 @@ public class CommentController {
         commentService.deleteById(id);
     }
 
-    @GetMapping("/estimation")
-    public Double getEstimation(@RequestParam(name = "product") @Parameter(description = "Название продукта", required = true) String productTitle) {
-        return commentService.getEstimation(productTitle);
+    @GetMapping("/estimation/{product-title}")
+    public ValueWrapper<Double> getEstimation(@PathVariable(value = "product-title", required = true) String productTitle) {
+        return new ValueWrapper<>(commentService.getEstimation(productTitle));
     }
 
 

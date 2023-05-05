@@ -8,16 +8,16 @@
                 <p>{{productCard.description}}</p></div>
         </div>
     </div>
-    <div>
+    <div ng-show="isVisibleAdmin()">
         <label for="image_uploads" class="btn btn-outline-warning btn-sm">Выбрать изображение для загрузки</label>
         <input type="file" id="image_uploads" name="image_uploads" style="opacity: 0"
                accept="image/jpg, image/jpeg, image/pjpeg, image/png">
     </div>
-    <div>
+    <div ng-show="isVisibleAdmin()">
         <button class="btn btn-outline-primary btn-sm" ng-click="uploadImage()">Загрузить</button>
         <button class="btn btn-danger btn-sm" ng-click="deleteImage(productCard.id)">Удалить</button>
     </div>
-    <h2 class="quantity">В наличии: {{productCard.quantity}} шт.</h2>
+    <h2 class="quantity">В наличии: {{productCard.quantityReservation}} шт.</h2>
     <h2 class="price">Цена: {{productCard.price}} руб.</h2>
 
 
@@ -29,7 +29,7 @@
             ng-show="suchAProductAlreadyExists(productCard.id)">
         Добавить в корзину
     </button>
-    <button class="btn btn-secondary" ng-click="addToCart(productCard.id)"
+    <button class="btn btn-secondary" ng-click=""
             ng-show="!suchAProductAlreadyExists(productCard.id)">
         Добавить в корзину
     </button>

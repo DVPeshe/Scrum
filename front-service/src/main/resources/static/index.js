@@ -55,8 +55,8 @@
                 controller: 'personalAccountController'
             })
             .when('/productCard', {
-                 templateUrl: 'productCard/productCard.html',
-                 controller: 'productCardController'
+                templateUrl: 'productCard/productCard.html',
+                controller: 'productCardController'
             })
             .when('/favorite', {
                 templateUrl: 'favorite/favorite.html',
@@ -97,7 +97,7 @@
 
 angular.module('market').controller('indexController', function ($rootScope, $scope, $http, $location, $localStorage) {
     $scope.tryToAuth = function () {
-        $http.post('http://localhost:5555/auth/authenticate', $scope.user)
+        $http.post('http://localhost:5555/auth/authentication', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
 

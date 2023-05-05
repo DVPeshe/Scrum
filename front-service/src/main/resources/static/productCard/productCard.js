@@ -18,18 +18,15 @@ angular.module('market').controller('productCardController', function ($scope, $
 
     $scope.getEstimation = function (product = $scope.productCard) {
         $http({
-            url: 'http://localhost:5555/comment/api/v1/comments/estimation',
-            method: 'GET',
-            params: {
-                product: product.title
-            }
+            url: 'http://localhost:5555/comment/api/v1/comments/estimation/'+product.title,
+            method: 'GET'
         }).then(function (response) {
-            $scope.avgEstimation = response.data;
+            $scope.avgEstimation = response.data.value;
         });
     }
 
     $scope.createComment = function () {
-        $http.post('http://localhost:5555/comment/api/v1/comments/new', $scope.comment).then(function success(response) {
+        $http.post('http://localhost:5555/comment/api/v1/comments', $scope.comment).then(function success(response) {
             alert(response.data.value);
             $scope.loadComments();
         }, function error(response) {
@@ -142,10 +139,10 @@ angular.module('market').controller('productCardController', function ($scope, $
             URL.revokeObjectURL(element.src);
             $http.post(contextPathImg, $scope.productImage)
                 .then(function success() {
-                        alert('Удалось сохранить изображение!');
+                        alert('Удалось загрузить изображение!');
                     },
                     function error(response) {
-                        alert('Не удалось сохранить изображение!');
+                        alert('Не удалось загрузить изображение!');
                         let me = response;
                         console.log(me);
                         alert(me.data.message);
@@ -157,8 +154,7 @@ angular.module('market').controller('productCardController', function ($scope, $
         if ($scope.productCard.imageId) {
             $scope.productImage.productId = productId;
             console.log($scope.productImage.productId);
-            $http.delete(contextPathImg + $scope.productCard.imageId,
-                {data: $scope.productImage, headers: {'Content-Type': 'application/json;charset=utf-8'}})
+            $http.delete(contextPathImg + $scope.productCard.imageId + '/products/' + $scope.productCard.id)
                 .then(function success() {
                         alert('Удалось удалить изображение!');
                         $scope.getProductCardById();
@@ -192,6 +188,24 @@ angular.module('market').controller('productCardController', function ($scope, $
 
     function valiImageType(file) {
         return imageTypes.includes(file.type);
+    }
+
+    $rootScope.suchAProductAlreadyExists = function (id) {
+        if ($localStorage.currentCartUser) {
+            for (let i = 0; i < $localStorage.currentCartUser.items.length; i++) {
+                let product = $localStorage.currentCartUser.items[i];
+                if (product.productId === id) return false;
+            }
+        }
+        return true;
+    }
+
+    $rootScope.addToCart = function (id) {
+        $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.mstMarketGuestCartId + '/add/' + id)
+            .then(function (response) {
+                $localStorage.currentCartUser = response.data;
+                $scope.getProductCardById();
+            });
     }
 
     reader.onload = function () {

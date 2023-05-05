@@ -7,14 +7,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.agile.scrum.mst.market.api.CartItemDto;
+import ru.agile.scrum.mst.market.api.IntegerResponse;
 import ru.agile.scrum.mst.market.api.ProductCardDto;
 import ru.agile.scrum.mst.market.core.entities.Category;
 import ru.agile.scrum.mst.market.core.entities.Product;
 import ru.agile.scrum.mst.market.core.exceptions.FieldsNotNullException;
 import ru.agile.scrum.mst.market.core.exceptions.ResourceNotFoundException;
 import ru.agile.scrum.mst.market.core.exceptions.TheProductExistsException;
+import ru.agile.scrum.mst.market.core.integrations.CartServiceIntegration;
 import ru.agile.scrum.mst.market.core.repositories.ProductRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,13 +27,11 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
 
+    private final CartServiceIntegration cartServiceIntegration;
+
     public Page<Product> findAll(int page, int pageSize, Specification<Product> specification) {
         Sort sort = Sort.by("title");
         return productRepository.findAll(specification, PageRequest.of(page, pageSize, sort));
-    }
-
-    public void deleteById(Long id) {
-        productRepository.deleteById(id);
     }
 
     @Transactional
@@ -92,5 +94,20 @@ public class ProductService {
         Product byId = productRepository.getById(id);
         byId.setImageId(imageId);
         productRepository.save(byId);
+    }
+
+    public Integer getNumberReservationProduct(Long productId) {
+        IntegerResponse numberReservationProduct = cartServiceIntegration.getNumberReservationProduct(productId);
+        return numberReservationProduct.getValue();
+    }
+    @Transactional
+    public void updateProductsStorage(List<CartItemDto> items) {
+        items.forEach(item -> {
+            Long productId = item.getProductId();
+            Product byId = productRepository.getById(productId);
+            int quantity = byId.getQuantity();
+            byId.setQuantity(quantity - item.getQuantity());
+            productRepository.save(byId);
+        });
     }
 }

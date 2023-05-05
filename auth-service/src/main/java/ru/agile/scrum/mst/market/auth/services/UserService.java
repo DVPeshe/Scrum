@@ -125,12 +125,17 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void editRole(UserDtoRoles userDtoRoles) {
-        User user = getUserByName(userDtoRoles.getUsername());
+    public void editRole(UserDtoRoles userDtoRoles, Long id) {
+        User user = getUser(id);
         List<Role> collect = userDtoRoles.getRoles().stream().map(roleService::getRoleByTitle).toList();
         user.getRoles().clear();
         user.getRoles().addAll(collect);
         userRepository.save(user);
+    }
+
+    private User getUser(Long id) {
+        return userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Пользователь с id=" + id + " не найден."));
     }
 
     public User getUserByName(String username) {
@@ -149,36 +154,35 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void updateAccessUser(Long id, Boolean flag) {
-        User user = userRepository.getById(id);
+        User user = getUser(id);
         if (user.getRoles().stream().map(Role::getName).toList().contains("ROLE_SUPERADMIN")) {
             throw new AccessForbiddenException("Данное действие недопустимо с генеральным директором.");
         }
-        if (!flag) user.getRoles().clear();
-        else {
-            Role roleUser = roleService.getRoleByName("ROLE_USER");
-            user.getRoles().add(roleUser);
+        if (flag) {
+            List<Role> roles = user.getRoles();
+            Role userRole = roleService.getRoleByName("ROLE_USER");
+            if (!roles.contains(userRole)) {
+                roles.add(userRole);
+            }
+        } else {
+            user.getRoles().clear();
         }
         user.setAccess(flag);
         userRepository.save(user);
     }
 
-    public User getByName(String name) {
-        return userRepository.findByUsername(name).orElseThrow(
-                () -> new ResourceNotFoundException("Пользователь " + name + " не найден."));
-    }
-
     public void userFilter(String name) {
-        User user = getByName(name);
+        User user = getUserByName(name);
         if (!user.getAccess()) throw new BanUserException("Вам запрещен доступ");
     }
 
     public String getUserEmailByName(String name) {
-        User user = getByName(name);
+        User user = getUserByName(name);
         return user.getEmail();
     }
 
     public String getFullNameByName(String name) {
-        return getByName(name).getFullName();
+        return getUserByName(name).getFullName();
     }
 
     @Transactional
@@ -188,7 +192,7 @@ public class UserService implements UserDetailsService {
                 .username(username)
                 .build();
         auth(jwtRequest);
-        User user = getByName(username);
+        User user = getUserByName(username);
         user.setEmail(form.getEmail());
         if (form.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(form.getPassword()));
@@ -199,7 +203,7 @@ public class UserService implements UserDetailsService {
 
     public RoleTitlesResponse getUserRoles(String username) {
         return RoleTitlesResponse.builder()
-                .roleTitles(getByName(username).getRoles().stream().map(Role::getTitle).toList())
+                .roleTitles(getUserByName(username).getRoles().stream().map(Role::getTitle).toList())
                 .build();
     }
 }

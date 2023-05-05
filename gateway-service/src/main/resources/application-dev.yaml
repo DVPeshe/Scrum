@@ -1,0 +1,60 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: core-service
+          uri: http://localhost:8189
+          predicates:
+            - Path=/core/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/market-core
+            - JwtAuthFilter
+        - id: cart-service
+          uri: http://localhost:8190
+          predicates:
+            - Path=/cart/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/market-cart
+            - JwtAuthFilter
+        - id: auth-service
+          uri: http://localhost:8187
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/market-auth
+            - JwtAuthFilter
+        - id: favorite-service
+          uri: http://localhost:8192
+          predicates:
+            - Path=/favorite/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/market-favorite
+            - JwtAuthFilter
+        - id: comment-service
+          uri: http://localhost:8195
+          predicates:
+            - Path=/comment/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/market-comment
+            - JwtAuthFilter
+        - id: email-service
+          uri: http://localhost:8193
+          predicates:
+            - Path=/email/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/market-email
+            - JwtAuthFilter
+        - id: image-service
+          uri: http://localhost:8194
+          predicates:
+            - Path=/image/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/market-image
+            - JwtAuthFilter

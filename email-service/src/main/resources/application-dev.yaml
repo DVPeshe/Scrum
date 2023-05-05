@@ -1,0 +1,8 @@
+integrations:
+  product-service:
+    url: http://localhost:8189/market-core/
+  user-service:
+    url: http://localhost:8187/market-auth/
+spring:
+  redis:
+    host: localhost

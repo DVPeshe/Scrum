@@ -1,6 +1,7 @@
 package ru.agile.scrum.mst.market.auth.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.agile.scrum.mst.market.api.AvatarPersonalAccount;
@@ -27,7 +28,8 @@ public class AvatarController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @PutMapping("/my")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateUserAvatar(@RequestBody AvatarPersonalAccount avatar, Principal principal) {
-        avatarService.update(avatarMapper.map(avatar, userService.getByName(principal.getName())));
+        avatarService.update(avatarMapper.map(avatar, userService.getUserByName(principal.getName())));
     }
 }

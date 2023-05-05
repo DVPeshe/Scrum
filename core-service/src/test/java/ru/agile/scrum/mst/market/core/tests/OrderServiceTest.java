@@ -18,7 +18,6 @@ import ru.agile.scrum.mst.market.core.integrations.CartServiceIntegration;
 import ru.agile.scrum.mst.market.core.repositories.OrderRepository;
 import ru.agile.scrum.mst.market.core.services.OrderService;
 import ru.agile.scrum.mst.market.core.services.ProductService;
-
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -41,7 +40,7 @@ public class OrderServiceTest {
     private OrderRepository orderRepository;
 
     @Test
-    public void createOrderTest() {
+    public void createNewOrderTest() {
         CartItemDto cartItemDto = CartItemDto.builder()
                 .productTitle("Juice")
                 .pricePerProduct(new BigDecimal(120))
@@ -90,4 +89,20 @@ public class OrderServiceTest {
         Assertions.assertEquals(order.getTotalPrice(), new BigDecimal(240));
         Mockito.verify(orderRepository, Mockito.times(1)).save(ArgumentMatchers.any());
     }
+
+    @Test
+    public void clearUserOrdersTest() {
+        String username = "Bob";
+        orderService.deleteOrders(username);
+        Mockito.verify(orderRepository, Mockito.times(1)).findAllByUsername(ArgumentMatchers.any());
+        Mockito.verify(orderRepository, Mockito.times(1)).deleteAll(ArgumentMatchers.any());
+    }
+
+    @Test
+    public void getUserOrdersTest() {
+        String username = "Bob";
+        orderService.findUserOrders(username);
+        Mockito.verify(orderRepository, Mockito.times(1)).findAllByUsername(ArgumentMatchers.any());
+    }
+
 }

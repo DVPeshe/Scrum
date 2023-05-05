@@ -1,6 +1,8 @@
-angular.module('market').controller('storeController', function ($scope, $http, $localStorage, $rootScope, $location, $routeParams) {
+angular.module('market').controller('storeController', function ($scope, $http, $localStorage, $rootScope, $location) {
 
     const contextPathImg = 'http://localhost:5555/image/api/v1/images/'
+    $scope.imageURLs = [];
+    $scope.products = [];
 
     $scope.loadProducts = function (page = 1) {
         $http({
@@ -15,7 +17,16 @@ angular.module('market').controller('storeController', function ($scope, $http, 
             }
         }).then(function (response) {
             $scope.productsPage = response.data;
-            $scope.getImageById();
+
+            let products = response.data.content;
+            $scope.products = [];
+            for (let index = 0; index < products.length; index++) {
+                getImageById(products[index].imageId, index);
+                let product = products[index];
+                product.imageIndex = index;
+                $scope.products[index] = product;
+            }
+
             $scope.generatePagesList($scope.productsPage.totalPages);
         });
     };
@@ -27,7 +38,8 @@ angular.module('market').controller('storeController', function ($scope, $http, 
     $rootScope.addToCart = function (id) {
         $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.mstMarketGuestCartId + '/add/' + id)
             .then(function (response) {
-                $rootScope.currentCartUser = response.data;
+                $localStorage.currentCartUser = response.data;
+                $scope.loadProducts();
             });
     }
     $scope.addToFavorite = function (id) {
@@ -39,14 +51,15 @@ angular.module('market').controller('storeController', function ($scope, $http, 
 
 
     $rootScope.suchAProductAlreadyExists = function (id) {
-        if ($rootScope.currentCartUser) {
-            for (let i = 0; i < $rootScope.currentCartUser.items.length; i++) {
-                let product = $rootScope.currentCartUser.items[i];
+        if ($localStorage.currentCartUser) {
+            for (let i = 0; i < $localStorage.currentCartUser.items.length; i++) {
+                let product = $localStorage.currentCartUser.items[i];
                 if (product.productId === id) return false;
             }
         }
         return true;
     }
+
     $scope.deleteFromFavorite = function (id) {
         $http.get('http://localhost:5555/favorite/api/v1/favorite/' + $localStorage.mstMarketGuestCartId + '/delete/' + id)
             .then(function (response) {
@@ -76,9 +89,10 @@ angular.module('market').controller('storeController', function ($scope, $http, 
         $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.mstMarketGuestCartId)
             .then(function (response) {
                 $scope.cart = response.data;
-                $rootScope.currentCartUser = response.data;
+                $localStorage.currentCartUser = response.data;
             });
     };
+
     $scope.getCategories = function () {
         $http.get('http://localhost:5555/core/api/v1/categories/titles').then(function success(response) {
             $scope.categoryList = response.data.value
@@ -92,8 +106,8 @@ angular.module('market').controller('storeController', function ($scope, $http, 
             });
     };
 
-    $scope.getImageById = function () {
-        $http.get(contextPathImg + '6426a26deadb6c2a4764b738')
+    function getImageById(id, index) {
+        $http.get(contextPathImg + id)
             .then(function success(response) {
                 console.log(response.data)
                 if (response.data) {
@@ -101,22 +115,22 @@ angular.module('market').controller('storeController', function ($scope, $http, 
                     const binaryString = window.atob(image);
                     const bytes = new Uint8Array(binaryString.length);
                     const arrayBuffer = bytes.map((byte, i) => binaryString.charCodeAt(i));
-                    $scope.image = URL.createObjectURL(new Blob([arrayBuffer], {type: 'image/*'}));
+                    $scope.imageURLs[index] = URL.createObjectURL(new Blob([arrayBuffer], {type: 'image/*'}));
                 }
             });
     }
 
-    $scope.subscribeBackToStock = function(id){
-                $http({
-                    url: 'http://localhost:5555/email/api/v1/subscription/my',
-                    method: 'POST',
-                    params: {
-                        productId: id
-                    }
-                }).then(function (response){
-                      alert('Вы получите оповещение на ваш email как только продукт снова появиться в продаже');
-                });
-        };
+    $scope.subscribeBackToStock = function (id) {
+        $http({
+            url: 'http://localhost:5555/email/api/v1/subscription/my',
+            method: 'POST',
+            params: {
+                productId: id
+            }
+        }).then(function (response) {
+            alert('Вы получите оповещение на ваш email как только продукт снова появиться в продаже');
+        });
+    };
 
     $scope.loadCart();
     $scope.loadProducts();
