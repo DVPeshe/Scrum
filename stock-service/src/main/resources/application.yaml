@@ -1,0 +1,11 @@
+server:
+  port: 8196
+  servlet:
+    context-path: /market-stock
+integrations:
+  product-service:
+#    url: http://core-service:8189/market-core/
+    url: http://localhost:8189/market-core/
+    connect-timeout: 500
+    read-timeout: 10000
+    write-timeout: 5000

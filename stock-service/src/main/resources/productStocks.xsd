@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://www.flamexander.com/spring/ws/productStocks"
+        targetNamespace="http://www.flamexander.com/spring/ws/productStocks" elementFormDefault="qualified">
+
+    <xs:element name="updateProductStocksDBRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="productStocks" maxOccurs="unbounded" type="tns:productStock"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="updateProductStocksDBResponse">
+        <xs:complexType>
+            <xs:sequence/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="productStock">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="quantity" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

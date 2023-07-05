@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.agile.scrum.mst.market.api.CartItemDto;
 import ru.agile.scrum.mst.market.api.IntegerResponse;
 import ru.agile.scrum.mst.market.api.ProductCardDto;
+import ru.agile.scrum.mst.market.api.ProductStockDto;
 import ru.agile.scrum.mst.market.core.entities.Category;
 import ru.agile.scrum.mst.market.core.entities.Product;
 import ru.agile.scrum.mst.market.core.exceptions.FieldsNotNullException;
@@ -53,6 +54,15 @@ public class ProductService {
         }
         if (productCardDto.getDescription() != null) {
             product.setDescription(productCardDto.getDescription());
+        }
+        productRepository.save(product);
+    }
+
+    @Transactional
+    public void updateProductStock(ProductStockDto productStockDto) {
+        Product product = productRepository.getById(productStockDto.getId());
+        if (productStockDto.getQuantity() != null) {
+            product.setQuantity(productStockDto.getQuantity());
         }
         productRepository.save(product);
     }
